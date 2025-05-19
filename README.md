@@ -4,7 +4,13 @@ Bienvenido al repositorio del **Trabajo Práctico N°1** de Programación Bajo N
 Aquí encontrarás la implementación de una **lista doblemente enlazada** en C, junto con todas las funciones necesarias para manipularla.
 
 ---
+## 👨‍💻 Integrantes
 
+- 🦸‍♂️ **Agustin Menechino**
+- 🦸‍♂️ **Gonzalo Hernandez**
+- 🦸‍♂️ **Laureano Brocos**
+
+---
 ## 📋 Consignas
 
 ### 1. Definir una estructura Nodo que contenga:
