@@ -160,7 +160,7 @@ nodeDL *findNode(int date, doubleLinkedList *lista)
     }
     return NULL;
 }
-int main()
+void main()
 {
     doubleLinkedList lista = {NULL, NULL, 0};
     int opc = 0;
