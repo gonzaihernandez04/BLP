@@ -1,13 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct nodeDL {
+typedef struct nodeDL
+{
     int date;
     struct nodeDL *next;
     struct nodeDL *prev;
 } nodeDL;
 
-typedef struct {
+typedef struct
+{
     nodeDL *head;
     nodeDL *tail;
     int size;
@@ -17,7 +19,8 @@ typedef struct {
 nodeDL *newNode(int date)
 {
     nodeDL *nd = (nodeDL *)malloc(sizeof(nodeDL));
-    if (nd == NULL) return NULL;
+    if (nd == NULL)
+        return NULL;
     nd->date = date;
     nd->next = NULL;
     nd->prev = NULL;
@@ -61,20 +64,32 @@ void append(doubleLinkedList *lista, int date)
 }
 
 // Imprimir la lista
-void printList(doubleLinkedList *lista){
+void printList(doubleLinkedList *lista)
+{
     nodeDL *node = lista->head;
     printf("Lista: ");
-    while (node != NULL) {
-        printf("%d ", node->date);
+    while (node != NULL)
+    {
+        if (node->next != NULL)
+        {
+            printf("%d->", node->date);
+        }
+        else
+        {
+            printf("%d", node->date);
+        }
+
         node = node->next;
     }
     printf("\n");
 }
 
 // Limpiar la lista
-void clear(doubleLinkedList *lista){
+void clear(doubleLinkedList *lista)
+{
     nodeDL *current = lista->head;
-    while (current != NULL) {
+    while (current != NULL)
+    {
         nodeDL *next = current->next;
         free(current);
         current = next;
@@ -84,15 +99,126 @@ void clear(doubleLinkedList *lista){
     lista->size = 0;
 }
 
-int main(){
+// Borrar nodo de la lista
+void deleteNode(int date, doubleLinkedList *lista)
+{
+
+    nodeDL *node = lista->head;
+    if (lista->size > 0) // Verificamos que la lista o el dato no esten vacios
+    {
+        while (node != NULL) // Mientras  llegue a la cola y el siguiente a el sea nulo
+        {
+
+            if (node->date == date)
+            {
+                if (node->prev != NULL)
+                {
+                    node->prev->next = node->next;
+                }
+                else
+                {
+                    lista->head = node->next; // Es el primer nodo
+                }
+                if (node->next != NULL)
+                {
+                
+                node->next->prev = node->prev;
+                }else
+                {
+                    lista->tail = node->prev; // Es el último nodo
+                }
+
+                free(node); //libero memoria en nodo ya que encontro el valor y lo elimino
+                lista->size--;
+                return;
+            }
+        
+                   node = node->next;
+        }
+    }
+        printf("Nodo con valor %d no encontrado.\n", date);
+
+}
+
+nodeDL *findNode(int date, doubleLinkedList *lista)
+{
+    nodeDL *node = lista->head;
+    if (lista->size > 0)
+    {
+ 
+
+        while (node!=NULL)
+        {
+            if (node->date == date)
+            {
+                return node;
+            }
+            
+              node = node->next;
+               
+        }
+    }
+    return NULL;
+}
+int main()
+{
     doubleLinkedList lista = {NULL, NULL, 0};
+    int opc = 0;
+    int data;
+    int flag = 0;
+    int inicioFinal;
+    while (flag == 0)
+    {
+        printf("\nIngrese una opcion entre las posibles: 1-Agregar 2-Eliminar 3-Buscar 4-Imprimir 5-Salir: ");
+        scanf("%d", &opc);
 
-    prepend(&lista, 10);
-    prepend(&lista, 20);
-    prepend(&lista, 30);
+        switch (opc)
+        {
+        case 1:
 
-    printList(&lista); // Debería mostrar: Lista: 30 20 10
+            printf("Ingrese el valor del nodo: ");
+            scanf("%d", &data);
+            printf("Donde desea agregar? 1- Inicio 2- Final: ");
+            scanf("%d", &inicioFinal);
+            if (inicioFinal == 1)
+            {
+                prepend(&lista, data);
+                data = 0;
+                break;
+            }
+            else
+            {
+                append(&lista, data);
+                data = 0;
+                break;
+            }
 
-    clear(&lista);
-    return 0;
+            printf("Valor ingresado con exito");
+
+        case 2:
+
+            printf("Ingrese el valor del nodo a eliminar: ");
+            scanf("%d", &data);
+            deleteNode(data, &lista);
+            printf("Valor eliminado con exito");
+            data = 0;
+            break;
+
+        case 3:
+            printf("Ingrese el valor del nodo para buscar en la lista: ");
+            scanf("%d", &data);
+            nodeDL *nodoBuscado;
+            nodoBuscado = findNode(data, &lista);
+            printf("El valor del nodo encontrado: %d ", nodoBuscado->date);
+            break;
+
+        case 4:
+            printList(&lista);
+            break;
+
+        default:
+            printf("Muchas gracias por usar este programa! Lo esperamos pronto");
+            flag = 1;
+        }
+    }
 }
