@@ -9,6 +9,7 @@ Aquí encontrarás la implementación de una **lista doblemente enlazada** en C,
 - 🦸‍♂️ **Agustin Menechino**
 - 🦸‍♂️ **Gonzalo Hernandez**
 - 🦸‍♂️ **Laureano Brocos**
+- 🦸‍♂️ **Ivan Dominguez**
 
 ---
 ## 📋 Consignas
