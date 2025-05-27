@@ -1,17 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//Estructura del Node Double Linked
 typedef struct nodeDL
 {
-    int date;
-    struct nodeDL *next;
-    struct nodeDL *prev;
+    int date; //Dato del nodo
+    struct nodeDL *next; //Siguiente al Nodo
+    struct nodeDL *prev; //Previo al Nodo
 } nodeDL;
 
+//Estructura de Double Linked List
 typedef struct
 {
-    nodeDL *head;
-    nodeDL *tail;
+    nodeDL *head; //Cabeza de la lista
+    nodeDL *tail; //Cola de la lista
     int size;
 } doubleLinkedList;
 
@@ -21,7 +23,7 @@ nodeDL *newNode(int date)
     nodeDL *nd = (nodeDL *)malloc(sizeof(nodeDL));
     if (nd == NULL)
         return NULL;
-    nd->date = date;
+    nd->date = date; 
     nd->next = NULL;
     nd->prev = NULL;
     return nd;
@@ -31,7 +33,7 @@ nodeDL *newNode(int date)
 void prepend(doubleLinkedList *lista, int date)
 {
     nodeDL *nodeNew = newNode(date);
-    if (lista->size == 0)
+    if (lista->size == 0) //Lista vacia
     {
         lista->head = nodeNew;
         lista->tail = nodeNew;
@@ -49,14 +51,14 @@ void prepend(doubleLinkedList *lista, int date)
 void append(doubleLinkedList *lista, int date)
 {
     nodeDL *nodeNew = newNode(date);
-    if (lista->size == 0)
+    if (lista->size == 0) //Si esta vacia, el nodo ingresado va ser la cabeza y cola.
     {
         lista->head = nodeNew;
         lista->tail = nodeNew;
     }
     else
     {
-        nodeNew->prev = lista->tail;
+        nodeNew->prev = lista->tail; 
         lista->tail->next = nodeNew;
         lista->tail = nodeNew;
     }
@@ -67,18 +69,18 @@ void append(doubleLinkedList *lista, int date)
 void printList(doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
-    if (node != NULL)
+    if (node != NULL) 
     {
         printf("Lista: ");
         while (node != NULL)
         {
             if (node->next != NULL)
             {
-                printf("%d->", node->date);
+                printf("[%d]->", node->date);
             }
             else
             {
-                printf("%d", node->date);
+                printf("[%d]", node->date);
             }
 
             node = node->next;
@@ -95,12 +97,12 @@ void printList(doubleLinkedList *lista)
 void clear(doubleLinkedList *lista)
 {
     nodeDL *current = lista->head;
-    while (current != NULL)
+    while (current != NULL) //Mientras que el actual no sea null 
     {
-        nodeDL *next = current->next;
-        free(current);
+        nodeDL *next = current->next; //Guardamos el nodo siguiente
+        free(current); //Liberamos el nodo 
         current = NULL;
-        current = next;
+        current = next; //Guardamos el siguiente como el actual
     }
     lista->head = NULL;
     lista->tail = NULL;
@@ -154,7 +156,7 @@ void deleteNode(int date, doubleLinkedList *lista)
 nodeDL *findNode(int date, doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
-    if (lista->size > 0)
+    if (lista->size > 0) //Verificamos que existe una lista
     {
 
         while (node != NULL)
