@@ -233,7 +233,7 @@ int size(doubleLinkedList *lista)
         while (node != NULL)
         {
             char nombreEstudianteMayus[45];
-            strcpy(nombreEstudianteMayus, node->estudiante->nombre);
+            strcpy(nombreEstudianteMayus, node->estudiante->nombre); // copia de nombre de estudiante para no modificar registro original
             upperCase(nombreEstudianteMayus);
 
             if (strcmp(nombreEstudianteMayus, nombreUpper) == 0)
