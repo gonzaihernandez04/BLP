@@ -1,7 +1,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include "Utilities/utilidades.h"
+
 
 typedef struct Materia{
     char nombreMateria[55];
@@ -205,5 +206,45 @@ nodeDL *findNode(Estudiante *estudiante, doubleLinkedList *lista)
 }
 
 
-   
+int size(doubleLinkedList *lista)
+{
+    return lista->size;
+}
+
+
+
+// Funcion para conv
+
+
+
+/// Find node by name
+
+   nodeDL *findNodeByName(doubleLinkedList *lista,char nombre[45])
+{
+    nodeDL *node = lista->head;
+    char nombreUpper[45];
+    strcpy(nombreUpper, nombre); // Copia el nombre a una variable temporal para no modificar el original
+
+    upperCase(nombreUpper); // Convierte el nombre a mayúsculas
+
+    if (lista->size > 0)
+    {
+
+        while (node != NULL)
+        {
+            char nombreEstudianteMayus[45];
+            strcpy(nombreEstudianteMayus, node->estudiante->nombre);
+            upperCase(nombreEstudianteMayus);
+
+            if (strcmp(nombreEstudianteMayus, nombreUpper) == 0)
+            {
+                return node;
+            }
+
+            node = node->next;
+        }
+    }
+    return NULL;
+}
+
 
