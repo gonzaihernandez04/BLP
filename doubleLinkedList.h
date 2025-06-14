@@ -1,34 +1,34 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-#include "Utilities/utilidades.h"
+#include <string.h>
 
-
-typedef struct Materia{
+typedef struct Materia
+{
     char nombreMateria[55];
     int inscripto;
-    int aprobada; //Indica si aprobo la materia
+    int aprobada; // Indica si aprobo la materia
     int firstTest;
     int secondTest;
 
 } Materia;
 
-typedef struct Estudiante{
+typedef struct Estudiante
+{
     char nombre[45];
     char nacimiento[10];
     int dni;
     int legajo;
-    Materia materias [48]; //Hasta 48 materias. POR DEFAULT
+    Materia materias[48]; // Hasta 48 materias.
+    int cantMaterias ;
 
 } Estudiante;
 
-
-
-Materia *newMateria(char nombreMateria[55]){
+Materia *newMateria(char nombreMateria[55])
+{
     Materia *materia = (Materia *)malloc(sizeof(Materia));
-    strcpy(materia->nombreMateria, nombreMateria); //  Copia segura de string
-      materia->inscripto = 0;
-    materia->aprobada = 0;
+    strcpy(materia->nombreMateria, nombreMateria); // Copia segura de string
+    materia->inscripto = 0;                        // Booleano
+    materia->aprobada = 0;                         // Booleano
     materia->firstTest = 0;
     materia->secondTest = 0;
     return materia;
@@ -115,7 +115,6 @@ void printList(doubleLinkedList *lista)
             }
 
             node = node->next;
-            
         }
     }
     else
@@ -144,7 +143,6 @@ void clear(doubleLinkedList *lista)
 // Borrar nodo de la lista
 void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
 {
-
     nodeDL *node = lista->head;
     if (lista->size > 0) // Verificamos que la lista o el dato no esten vacios
     {
@@ -168,7 +166,7 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
                 }
                 else
                 {
-                    lista->tail = node->prev; // Es el último nodo
+                    lista->tail = node->prev; // Es el Ãºltimo nodo
                 }
 
                 free(node); // libero memoria en nodo ya que encontro el valor y lo elimino
@@ -184,59 +182,14 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
     printf("Nodo con valor %d no encontrado.\n", estudiante);
 }
 
-nodeDL *findNode(Estudiante *estudiante, doubleLinkedList *lista)
+nodeDL *findEstudiante(char estudiante[55], doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
     if (lista->size > 0)
     {
-
         while (node != NULL)
         {
-            if (node->estudiante == estudiante)
-            {
-                printf("El valor del nodo encontrado: %d ", node->estudiante);
-                return node;
-            }
-
-            node = node->next;
-        }
-    }
-    printf("Valor del nodo no encontrado");
-    return NULL;
-}
-
-
-int size(doubleLinkedList *lista)
-{
-    return lista->size;
-}
-
-
-
-// Funcion para conv
-
-
-
-/// Find node by name
-
-   nodeDL *findNodeByName(doubleLinkedList *lista,char nombre[45])
-{
-    nodeDL *node = lista->head;
-    char nombreUpper[45];
-    strcpy(nombreUpper, nombre); // Copia el nombre a una variable temporal para no modificar el original
-
-    upperCase(nombreUpper); // Convierte el nombre a mayúsculas
-
-    if (lista->size > 0)
-    {
-
-        while (node != NULL)
-        {
-            char nombreEstudianteMayus[45];
-            strcpy(nombreEstudianteMayus, node->estudiante->nombre); // copia de nombre de estudiante para no modificar registro original
-            upperCase(nombreEstudianteMayus);
-
-            if (strcmp(nombreEstudianteMayus, nombreUpper) == 0)
+            if (strcmp(node->estudiante->nombre, estudiante) == 0)
             {
                 return node;
             }
@@ -244,7 +197,116 @@ int size(doubleLinkedList *lista)
             node = node->next;
         }
     }
+    printf("\n-Estudiante no encontrado\n");
     return NULL;
 }
 
+// Funcion para buscar si la materia ingresada existe en el plan
+int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
+{
+    for (int i = 0; i < cantMaterias; i++)
+    {
+        if (strcmp(materias[i]->nombreMateria, nombreMateria) == 0)
+        {
+            return i; // Devuelve el índice si la encuentra
+        }
+    }
+    return -1; // No se encontró la materia
+}
 
+void agregarMateria(Estudiante *estudiante, Materia *materia)
+{
+    if (estudiante->cantMaterias < 48)
+    {
+        estudiante->materias[estudiante->cantMaterias] = *materia;
+        estudiante->cantMaterias++;
+    }
+    else
+    {
+        printf("No se pueden agregar más materias.\n");
+    }
+}
+
+void eliminarMateria(Estudiante *estudiante, char materia[55])
+{
+    if (estudiante == NULL) {
+        printf("Error: puntero estudiante es NULL.\n");
+        return;
+    }
+
+    int indice = -1;
+    for (int i = 0; i < estudiante->cantMaterias; i++) {
+    printf("Materia %d: %s\n", i, estudiante->materias[i].nombreMateria);
+}
+    for (int i = 0; i < estudiante->cantMaterias-1; i++) // Busco la posicion de la materia a borrar
+    {
+        printf("cantMaterias: %d\n", estudiante->cantMaterias);
+        if (strcmp(estudiante->materias[i].nombreMateria, materia) == 0)
+        {
+            indice = i;
+            break;
+        }
+    }
+    if (indice != -1)
+    {
+        for (int i = indice; i < estudiante->cantMaterias - 1; i++)
+        {
+            estudiante->materias[i] = estudiante->materias[i + 1]; // Sobreescribe con la siguiente
+        }
+        estudiante->cantMaterias--;
+        printf("\n-Materia eliminada con éxito.\n");
+        return;
+    }
+    else
+    {
+        printf("\n-Materia no encontrada.\n");
+        return;
+    }
+}
+
+void mostrarMaterias(nodeDL *nodoEstudiante)
+{
+    for (int i = 0; i < nodoEstudiante->estudiante->cantMaterias; i++)
+    {
+        if (i != nodoEstudiante->estudiante->cantMaterias - 1)
+        {
+            printf("\n[%s]->", nodoEstudiante->estudiante->materias[i].nombreMateria);
+        }
+        else
+        {
+            printf("[%s]\n", nodoEstudiante->estudiante->materias[i].nombreMateria);
+        }
+    }
+}
+
+void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMaterias, Materia *materias[])
+{
+    int encontrado = findMateria(nombreMateria, cantMaterias, materias);
+    if (encontrado != -1)
+    {  
+        // Verificar si ya está anotado
+        for (int i = 0; i < nodoEstudiante->estudiante->cantMaterias; i++)
+        {
+            if (strcmp(nodoEstudiante->estudiante->materias[i].nombreMateria, nombreMateria) == 0)
+            {
+                if (nodoEstudiante->estudiante->materias[i].inscripto == 0)
+                {
+                    agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
+                    
+                }
+                else
+                {
+                    printf("Ya estás anotado en esa materia.\n");
+                }
+                return; // Salir después de encontrar la materia
+            }
+        }
+        // Si no está anotado, agregar la materia
+        agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
+        printf("\n-Materia agregada con éxito.\n");
+    }
+    else
+    {
+        printf("Materia no encontrada en el plan.\n");
+    }
+}
