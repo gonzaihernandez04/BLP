@@ -11,6 +11,7 @@
 
 ///  //////////////////////////////// CARGAR MATERIAS //////////////////////////////////////
 char *nombres[] = {"Algebra1", "Algebra2", "AyP1", "AyP2", "AyP3", "Base-Datos", "Historia", "Matematica-Discreta", "Disenio-Logico"};
+
 // Defino una constante para la cantidad de materias para sumar materias nuevas sin modificar el codigo
 #define CANT_MATERIAS (sizeof(nombres) / sizeof(nombres[0]))
 doubleLinkedList lista = {NULL, NULL, 0};
@@ -38,42 +39,93 @@ int main()
 
     int opc = 0;
     int flag = 0;
-
+    int eleccion = 0;
     while (flag == 0)
     {
-        printf("\n 1-Cargar Estudiante\n 2-Seleccionar Estudiante\n 3-Mostrar Lista\n 4-Ver materias del plan\n 5-Salir\n ");
+
+        printf("\nQue desea hacer? 1- Estudiantes 2- Materias  3- Salir: \n ");
+
         scanf("%d", &opc);
         switch (opc)
         {
+
         case 1:
-            cargarEstudiante();
-            break;
-        case 2:
-            char estudiante[55];
-            printf("-Ingrese el nombre del estudiante: ");
-            scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
-            nodeDL *alumno = findEstudiante(estudiante, &lista);
-            if (alumno != NULL)
+        {
+            printf("\n 1- Cargar Estudiante\n 2- Eliminar Estudiante\n 3- Buscar Estudiante\n 4- Imprimir Lista de Estudiantes\n 5- Inscribir a materia\n 6- Menu\n");
+            scanf("%d", &eleccion);
+
+            if (eleccion == 1)
             {
-                seleccionarEstudiante(alumno, &lista);
+                cargarEstudiante();
+            }
+            if(eleccion == 2){
+                int dni;
+                printf("-Ingrese el DNI del estudiante: ");
+                scanf("%d", &dni); // No uso &, porque estudiante ya es un puntero al primer elemento
+                nodeDL *alumno = findByDNI(dni, &lista);
+                if (alumno != NULL)
+                {
+                    deleteNode(alumno->estudiante, &lista);
+                }
+            }
+
+
+              if (eleccion == 3)
+            {
+                char estudiante[55];
+                printf("-Ingrese el nombre del estudiante: ");
+                scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
+                nodeDL *alumno = findEstudiante(estudiante, &lista);
+                if (alumno != NULL)
+                {
+                    seleccionarEstudiante(alumno, &lista);
+                }
+             
+            }
+
+            if (eleccion == 4)
+            {
+                printList(&lista);
+            }
+          
+
+            break;
+        }
+        case 2:
+        {
+
+            printf("\n1- Cargar Materia\n2- Modificar Materia \n3- Eliminar Materia\n4- Imprimir Lista de Materias\n5- Volver al menu principal\n");
+            scanf("%d", &eleccion);
+            
+            if(eleccion == 1){
+                printf("Carga materias");
+            }
+            if(eleccion == 2)
+            {
+                printf("Modificar materias");
+            }
+            if(eleccion == 3){
+                printf("Eliminar materias");
+            }
+            if (eleccion == 4)
+            {
+                printMaterias();
             }
             break;
+        }
+     
+
+        
+
         case 3:
-            printList(&lista);
-
-            break;
-
-        case 4:
-            printMaterias();
-
-            break;
-        case 5:
-            opc = 0;
+          opc = 0;
             clear(&lista);   // Limpia la lista de estudiantes al salir del programa
             clearMaterias(); // Limpia las materias de memoria al salir del programaaa
             printf("\nMuchas gracias por usar este programa! Lo esperamos pronto.\n");
             flag = 1;
             break;
+
+          
 
         default:
             printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n\n");
@@ -97,28 +149,37 @@ void cargarEstudiante()
 
     printf("-Ingrese el nombre del estudiante: ");
     scanf("%s", estudiante->nombre);
-     printf("Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ");
-     scanf("%s", estudiante->nacimiento);
+    printf("Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ");
+    scanf("%s", estudiante->nacimiento);
 
-     fechaEsValida = validarFecha(estudiante->nacimiento);
+    
 
-     if (fechaEsValida == 0)
-     {
-         printf("Fecha de nacimiento invalida. Por favor, ingrese una fecha en formato DD/MM/AAAA.\n");
-         free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
-         return;
-     }
+    fechaEsValida = validarFecha(estudiante->nacimiento);
 
-     printf("Ingrese el DNI del estudiante: ");
-     scanf("%d", &estudiante->dni);
-     if (estudiante->dni < 10000000 || estudiante->dni > 99999999)
-     {
-         printf("DNI invalido. Debe tener 8 digitos.\n");
-         free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
-         return;
-     }
-     printf("Ingrese el Legajo del estudiante: ");
-     scanf("%d", &estudiante->legajo);
+    if (fechaEsValida == 0)
+    {
+        printf("Fecha de nacimiento invalida. Por favor, ingrese una fecha en formato DD/MM/AAAA.\n");
+        free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
+        return;
+    }
+
+    printf("Ingrese el DNI del estudiante: ");
+    scanf("%d", &estudiante->dni);
+    if (estudiante->dni < 10000000 || estudiante->dni > 99999999)
+    {
+        printf("DNI invalido. Debe tener 8 digitos.\n");
+        free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
+        return;
+    }
+
+
+    nodeDL *alumno = findByDNI(estudiante->dni, &lista);
+    if (alumno != NULL)
+    {
+        return;
+    }
+    printf("Ingrese el Legajo del estudiante: ");
+    scanf("%d", &estudiante->legajo);
 
     append(&lista, estudiante);
     printf("\n-Estudiante cargado con exito\n");
@@ -212,18 +273,22 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
         switch (opc)
         {
         case 1:
+        {
             char nombreMateria[55];
             printf("-Ingrese el nombre de la materia: ");
             scanf("%s", nombreMateria);
             anortarseMateria(nodoEstudiante, nombreMateria, CANT_MATERIAS, materias);
             break;
+        }
 
         case 2:
+        {
             char nombre[55];
             printf("-Ingrese el nombre de la materia:");
             scanf("%s", nombre);
             eliminarMateria(nodoEstudiante->estudiante, nombre);
             break;
+        }
 
         case 3:
             break;

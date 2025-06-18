@@ -1,6 +1,9 @@
+#define UTILIDADES_H
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "Utilities/utilidades.h"
 
 typedef struct Materia
 {
@@ -107,11 +110,12 @@ void printList(doubleLinkedList *lista)
         {
             if (node->next != NULL)
             {
-                printf("%s->", node->estudiante->nombre);
+               printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre,node->estudiante->dni);
+
             }
             else
             {
-                printf("%s\n", node->estudiante->nombre);
+                printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre,node->estudiante->dni);
             }
 
             node = node->next;
@@ -149,7 +153,7 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
         while (node != NULL) // Mientras  llegue a la cola y el siguiente a el sea nulo
         {
 
-            if (node->estudiante == estudiante)
+            if (node->estudiante->dni == estudiante->dni) // Comparamos el dni del estudiante con el nodo actual
             {
                 if (node->prev != NULL)
                 {
@@ -197,16 +201,38 @@ nodeDL *findEstudiante(char estudiante[55], doubleLinkedList *lista)
             node = node->next;
         }
     }
-    printf("\n-Estudiante no encontrado\n");
+   
     return NULL;
 }
+
+
+//Buscar estudiante por DNI
+nodeDL *findByDNI(int dni, doubleLinkedList *lista)
+{
+    nodeDL *node = lista->head;
+    if (lista->size > 0)
+    {
+        while (node != NULL)
+        {
+            if (node->estudiante->dni == dni )
+            {
+                return node;
+            }
+
+            node = node->next;
+        }
+    }
+   
+    return NULL;
+}
+
 
 // Funcion para buscar si la materia ingresada existe en el plan
 int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
 {
     for (int i = 0; i < cantMaterias; i++)
     {
-        if (strcmp(materias[i]->nombreMateria, nombreMateria) == 0)
+        if (strcmp(toupper(materias[i]->nombreMateria), toupper(nombreMateria)) == 0)
         {
             return i; // Devuelve el índice si la encuentra
         }
