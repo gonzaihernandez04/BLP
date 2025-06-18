@@ -297,7 +297,7 @@ void eliminarMateria(Estudiante *estudiante, char materia[55])
     for (int i = 0; i < estudiante->cantMaterias; i++) {
     printf("Materia %d: %s\n", i, estudiante->materias[i].nombreMateria);
 }
-    for (int i = 0; i < estudiante->cantMaterias-1; i++) // Busco la posicion de la materia a borrar
+    for (int i = 0; i < estudiante->cantMaterias; i++) // Busco la posicion de la materia a borrar
     {
         printf("cantMaterias: %d\n", estudiante->cantMaterias);
         if (strcmp(estudiante->materias[i].nombreMateria, materia) == 0)
@@ -308,12 +308,12 @@ void eliminarMateria(Estudiante *estudiante, char materia[55])
     }
     if (indice != -1)
     {
-        for (int i = indice; i < estudiante->cantMaterias - 1; i++)
+        for (int i = indice; i < estudiante->cantMaterias; i++)
         {
             estudiante->materias[i] = estudiante->materias[i + 1]; // Sobreescribe con la siguiente
         }
         estudiante->cantMaterias--;
-        printf("\n-Materia eliminada con éxito.\n");
+        printf("\n-Materia eliminada con exito.\n");
         return;
     }
     else
@@ -341,6 +341,7 @@ void mostrarMaterias(nodeDL *nodoEstudiante)
 void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMaterias, Materia *materias[])
 {
     int encontrado = findMateria(nombreMateria, cantMaterias, materias);
+  
     if (encontrado != -1)
     {  
         // Verificar si ya está anotado
@@ -361,6 +362,7 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
             }
         }
         // Si no está anotado, agregar la materia
+        
         agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
         printf("\n-Materia agregada con éxito.\n");
     }

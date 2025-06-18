@@ -46,7 +46,7 @@ int main()
         estudiante->dni = 12345678;
         estudiante->legajo = 1234;
         append(&lista, estudiante); // Agrega un estudiante de prueba a la lista
-        
+
     int opc = 0;
     int flag = 0;
     int eleccion = 0;
@@ -320,6 +320,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             char nombre[55];
             printf("-Ingrese el nombre de la materia:");
             scanf("%s", nombre);
+            
             eliminarMateria(nodoEstudiante->estudiante, nombre);
             break;
         }
