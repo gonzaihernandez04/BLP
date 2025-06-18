@@ -227,19 +227,52 @@ nodeDL *findByDNI(int dni, doubleLinkedList *lista)
 }
 
 
-// Funcion para buscar si la materia ingresada existe en el plan
+//Buscar estudiante por Legajo
+nodeDL *findByLegajo(int legajo, doubleLinkedList *lista)
+{
+    nodeDL *node = lista->head;
+    if (lista->size > 0)
+    {
+        while (node != NULL)
+        {
+            if (node->estudiante->legajo == legajo )
+            {
+                return node;
+            }
+
+            node = node->next;
+        }
+    }
+   
+    return NULL;
+}
+
+
+
+//////////////////// FUNCIONES PARA MATERIAS ///////////////////////
+
 int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
 {
+    char nombreMateriaMayus[55];
+    //Creo copia de nombre de materia para no afectar la original
+    strcpy(nombreMateriaMayus, nombreMateria);
+    upperCase(nombreMateriaMayus); // Convierte a mayúsculas la materia ingresada
+
+    char mayusNamePuntero[55];
     for (int i = 0; i < cantMaterias; i++)
     {
-        if (strcmp(toupper(materias[i]->nombreMateria), toupper(nombreMateria)) == 0)
+        //Copia de nombre materia del array de puntero para no modificar la original
+        strcpy(mayusNamePuntero, materias[i]->nombreMateria);
+        upperCase(mayusNamePuntero); // Convierte a mayúsculas el nombre de la materia del plan
+
+        if (strcmp(mayusNamePuntero, nombreMateriaMayus) == 0)
         {
             return i; // Devuelve el índice si la encuentra
         }
     }
+    printf("No se encontro la materia\n");
     return -1; // No se encontró la materia
 }
-
 void agregarMateria(Estudiante *estudiante, Materia *materia)
 {
     if (estudiante->cantMaterias < 48)

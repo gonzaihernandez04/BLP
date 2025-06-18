@@ -37,6 +37,16 @@ int main()
     // Carga la materia de todas las carreras
     cargarMaterias();
 
+
+
+        Estudiante *estudiante = malloc(sizeof(Estudiante));
+        estudiante->cantMaterias = 0;
+        strcpy(estudiante->nombre, "Juan Perez");
+        strcpy(estudiante->nacimiento, "01/01/2000");
+        estudiante->dni = 12345678;
+        estudiante->legajo = 1234;
+        append(&lista, estudiante); // Agrega un estudiante de prueba a la lista
+        
     int opc = 0;
     int flag = 0;
     int eleccion = 0;
@@ -51,7 +61,7 @@ int main()
 
         case 1:
         {
-            printf("\n 1- Cargar Estudiante\n 2- Eliminar Estudiante\n 3- Buscar Estudiante\n 4- Imprimir Lista de Estudiantes\n 5- Inscribir a materia\n 6- Menu\n");
+            printf("\n 1- Cargar Estudiante\n 2- Eliminar Estudiante\n 3- Buscar Estudiante\n 4- Imprimir Lista de Estudiantes\n 5- Seleccionar Estudiante\n 6- Menu\n");
             scanf("%d", &eleccion);
 
             if (eleccion == 1)
@@ -69,15 +79,33 @@ int main()
                 }
             }
 
-
-              if (eleccion == 3)
-            {
-                char estudiante[55];
+            if(eleccion == 3){
+                 char estudiante[55];
                 printf("-Ingrese el nombre del estudiante: ");
                 scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
                 nodeDL *alumno = findEstudiante(estudiante, &lista);
                 if (alumno != NULL)
                 {
+                    printf("\n-Estudiante encontrado: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
+                }
+                else
+                {
+                    printf("\n-Estudiante no encontrado.\n");
+                }
+            }
+
+
+              if (eleccion == 5)
+            {
+                int legajo;
+                printf("-Ingrese el legajo del estudiante: ");
+                scanf("%d", &legajo); // No uso &, porque estudiante ya es un puntero al primer elemento
+                nodeDL *alumno = findByLegajo(legajo, &lista);
+
+
+                if (alumno != NULL)
+                {
+                    printf("\nUsted va a afectar al siguiente estudiante: Nombre: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
                     seleccionarEstudiante(alumno, &lista);
                 }
              
@@ -87,6 +115,8 @@ int main()
             {
                 printList(&lista);
             }
+
+        
           
 
             break;
@@ -110,6 +140,10 @@ int main()
             if (eleccion == 4)
             {
                 printMaterias();
+            }
+            if(eleccion == 5)
+            {
+                opc = 0; // Vuelve al menu principal
             }
             break;
         }
