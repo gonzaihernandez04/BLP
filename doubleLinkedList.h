@@ -2,9 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
 #include "Utilities/utilidades.h"
+#define CANT_ESTUDIANTES 10
 
+//////////////////// ESTRUCTURA ///////////////////////
 typedef struct Materia
 {
     char nombreMateria[55];
@@ -22,7 +25,7 @@ typedef struct Estudiante
     int dni;
     int legajo;
     Materia materias[48]; // Hasta 48 materias.
-    int cantMaterias ;
+    int cantMaterias;
 
 } Estudiante;
 
@@ -51,6 +54,14 @@ typedef struct
     int size;
 } doubleLinkedList;
 
+char *nombres[] = {"Algebra1", "Algebra2", "AyP1", "AyP2", "AyP3", "Base-Datos", "Historia", "Matematica-Discreta", "Disenio-Logico"};
+
+// Defino una constante para la cantidad de materias para sumar materias nuevas sin modificar el codigo
+#define CANT_MATERIAS (sizeof(nombres) / sizeof(nombres[0]))
+doubleLinkedList lista = {NULL, NULL, 0};
+Materia *materias[CANT_MATERIAS];
+
+//////////////////// FUNCIONES PARA NODE ///////////////////////
 // Crear nuevo nodo
 nodeDL *newNode(Estudiante *estudiante)
 {
@@ -110,12 +121,11 @@ void printList(doubleLinkedList *lista)
         {
             if (node->next != NULL)
             {
-               printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre,node->estudiante->dni);
-
+                printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre, node->estudiante->dni);
             }
             else
             {
-                printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre,node->estudiante->dni);
+                printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre, node->estudiante->dni);
             }
 
             node = node->next;
@@ -186,6 +196,7 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
     printf("Nodo con valor %d no encontrado.\n", estudiante);
 }
 
+//////////////////// FUNCIONES PARA ESTUDIANTE ///////////////////////
 nodeDL *findEstudiante(char estudiante[55], doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
@@ -201,12 +212,11 @@ nodeDL *findEstudiante(char estudiante[55], doubleLinkedList *lista)
             node = node->next;
         }
     }
-   
+
     return NULL;
 }
 
-
-//Buscar estudiante por DNI
+// Buscar estudiante por DNI
 nodeDL *findByDNI(int dni, doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
@@ -214,7 +224,7 @@ nodeDL *findByDNI(int dni, doubleLinkedList *lista)
     {
         while (node != NULL)
         {
-            if (node->estudiante->dni == dni )
+            if (node->estudiante->dni == dni)
             {
                 return node;
             }
@@ -222,12 +232,11 @@ nodeDL *findByDNI(int dni, doubleLinkedList *lista)
             node = node->next;
         }
     }
-   
+
     return NULL;
 }
 
-
-//Buscar estudiante por Legajo
+// Buscar estudiante por Legajo
 nodeDL *findByLegajo(int legajo, doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
@@ -235,7 +244,7 @@ nodeDL *findByLegajo(int legajo, doubleLinkedList *lista)
     {
         while (node != NULL)
         {
-            if (node->estudiante->legajo == legajo )
+            if (node->estudiante->legajo == legajo)
             {
                 return node;
             }
@@ -243,25 +252,136 @@ nodeDL *findByLegajo(int legajo, doubleLinkedList *lista)
             node = node->next;
         }
     }
-   
+
     return NULL;
 }
 
+void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
+{
+    int opc = 0;
+    int flag = 0;
 
+    while (flag == 0)
+    {
+        printf(" \n 1-Anotarse a Materia\n 2-Abandonar Materia\n 3-Rendir Parciales\n 4-Materias anotadas\n 5-Salir\n");
+        scanf("%d", &opc);
+
+        switch (opc)
+        {
+        case 1:
+        {
+            char nombreMateria[55];
+            printf("-Ingrese el nombre de la materia: ");
+            scanf("%s", nombreMateria);
+            anortarseMateria(nodoEstudiante, nombreMateria, CANT_MATERIAS, materias);
+
+            break;
+        }
+        case 2:
+        {
+            char nombre[55];
+            printf("-Ingrese el nombre de la materia:");
+            scanf("%s", nombre);
+            eliminarMateria(nodoEstudiante->estudiante, nombre);
+
+            break;
+        }
+        case 3:
+        {
+            char nombre[55];
+            printf("-Ingrese el nombre de la materia:");
+            scanf("%s", nombre);
+            rendirMateria(nodoEstudiante, nombre);
+
+            break;
+        }
+        case 4:
+            mostrarMaterias(nodoEstudiante);
+
+            break;
+        case 5:
+            flag = 1;
+            break;
+        default:
+            printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n\n");
+            break;
+        }
+    }
+}
+
+void cargarEstudiante()
+{
+    int fechaEsValida = 0;
+    Estudiante *estudiante = malloc(sizeof(Estudiante));
+    estudiante->cantMaterias = 0;
+    if (estudiante == NULL)
+    {
+        printf("Error al reservar memoria para el estudiante.\n");
+        return;
+    }
+
+    printf("-Ingrese el nombre del estudiante: ");
+    scanf("%s", estudiante->nombre);
+    printf("Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ");
+    scanf("%s", estudiante->nacimiento);
+
+    fechaEsValida = validarFecha(estudiante->nacimiento);
+
+    if (fechaEsValida == 0)
+    {
+        printf("Fecha de nacimiento invalida. Por favor, ingrese una fecha en formato DD/MM/AAAA.\n");
+        free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
+        return;
+    }
+
+    printf("Ingrese el DNI del estudiante: ");
+    scanf("%d", &estudiante->dni);
+    if (estudiante->dni < 10000000 || estudiante->dni > 99999999)
+    {
+        printf("DNI invalido. Debe tener 8 digitos.\n");
+        free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
+        return;
+    }
+
+    nodeDL *alumno = findByDNI(estudiante->dni, &lista);
+    if (alumno != NULL)
+    {
+        return;
+    }
+    printf("Ingrese el Legajo del estudiante: ");
+    scanf("%d", &estudiante->legajo);
+
+    append(&lista, estudiante);
+    printf("\n-Estudiante cargado con exito\n");
+}
 
 //////////////////// FUNCIONES PARA MATERIAS ///////////////////////
 
+void cargarMaterias()
+{
+    for (int i = 0; i < CANT_MATERIAS; i++)
+    {
+        materias[i] = malloc(sizeof(Materia)); // Reserva memoria para cada materia
+        strcpy(materias[i]->nombreMateria, nombres[i]);
+        materias[i]->inscripto = 0;
+        materias[i]->aprobada = 0;
+        materias[i]->firstTest = 0;
+        materias[i]->secondTest = 0;
+    }
+}
+
+// Funcion para buscar materias ingresando un string | Cant de materias | Arreglo de Materia
 int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
 {
     char nombreMateriaMayus[55];
-    //Creo copia de nombre de materia para no afectar la original
+    // Creo copia de nombre de materia para no afectar la original
     strcpy(nombreMateriaMayus, nombreMateria);
     upperCase(nombreMateriaMayus); // Convierte a mayúsculas la materia ingresada
 
     char mayusNamePuntero[55];
     for (int i = 0; i < cantMaterias; i++)
     {
-        //Copia de nombre materia del array de puntero para no modificar la original
+        // Copia de nombre materia del array de puntero para no modificar la original
         strcpy(mayusNamePuntero, materias[i]->nombreMateria);
         upperCase(mayusNamePuntero); // Convierte a mayúsculas el nombre de la materia del plan
 
@@ -273,6 +393,30 @@ int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
     printf("No se encontro la materia\n");
     return -1; // No se encontró la materia
 }
+
+// Busca en arreglo de structs Materia (para materias del estudiante)
+int findMateriaAlumno(char nombreMateria[55], int cantMaterias, Materia materias[])
+{
+    char nombreMateriaMayus[55];
+    strcpy(nombreMateriaMayus, nombreMateria);
+    upperCase(nombreMateriaMayus);
+
+    char mayusNamePuntero[55];
+    for (int i = 0; i < cantMaterias; i++)
+    {
+        strcpy(mayusNamePuntero, materias[i].nombreMateria);
+        upperCase(mayusNamePuntero);
+
+        if (strcmp(mayusNamePuntero, nombreMateriaMayus) == 0)
+        {
+            return i;
+        }
+    }
+    printf("No se encontro la materia\n");
+    return -1;
+}
+
+// Funcion para agregar materia en un alumno ingresando un alumno tipo Estudiante | Una materia tipo Materia
 void agregarMateria(Estudiante *estudiante, Materia *materia)
 {
     if (estudiante->cantMaterias < 48)
@@ -286,23 +430,21 @@ void agregarMateria(Estudiante *estudiante, Materia *materia)
     }
 }
 
+// Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
 void eliminarMateria(Estudiante *estudiante, char materia[55])
 {
-    if (estudiante == NULL) {
+    if (estudiante == NULL)
+    {
         printf("Error: puntero estudiante es NULL.\n");
         return;
     }
 
     int indice = -1;
-    for (int i = 0; i < estudiante->cantMaterias; i++) {
-    printf("Materia %d: %s\n", i, estudiante->materias[i].nombreMateria);
-}
-    for (int i = 0; i < estudiante->cantMaterias; i++) // Busco la posicion de la materia a borrar
+    for (int i = 0; i < estudiante->cantMaterias; i++) // Recorre la cantidad de materias anotadas del alumno
     {
-        printf("cantMaterias: %d\n", estudiante->cantMaterias);
         if (strcmp(estudiante->materias[i].nombreMateria, materia) == 0)
         {
-            indice = i;
+            indice = i; // Guarda el indice de la materia
             break;
         }
     }
@@ -323,6 +465,28 @@ void eliminarMateria(Estudiante *estudiante, char materia[55])
     }
 }
 
+// Funcion para mostrar Materias del plan de estudio
+void printMaterias()
+{
+    printf("\nMaterias del plan de estudio:\n");
+    printf("\n-------------------------------\n");
+
+    for (int i = 0; i < CANT_MATERIAS; i++)
+    {
+        printf("%s\n", materias[i]->nombreMateria);
+    }
+    printf("\n-------------------------------\n");
+}
+
+clearMaterias()
+{
+    for (int i = 0; i < CANT_MATERIAS; i++)
+    {
+        free(materias[i]); // Libera la memoria para cada materia
+    }
+}
+
+// Funcion para mostrar materias de un alumno
 void mostrarMaterias(nodeDL *nodoEstudiante)
 {
     for (int i = 0; i < nodoEstudiante->estudiante->cantMaterias; i++)
@@ -338,12 +502,13 @@ void mostrarMaterias(nodeDL *nodoEstudiante)
     }
 }
 
+// Funcion para anotar un alumno a una materia
 void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMaterias, Materia *materias[])
 {
     int encontrado = findMateria(nombreMateria, cantMaterias, materias);
-  
+
     if (encontrado != -1)
-    {  
+    {
         // Verificar si ya está anotado
         for (int i = 0; i < nodoEstudiante->estudiante->cantMaterias; i++)
         {
@@ -352,7 +517,6 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
                 if (nodoEstudiante->estudiante->materias[i].inscripto == 0)
                 {
                     agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
-                    
                 }
                 else
                 {
@@ -362,7 +526,7 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
             }
         }
         // Si no está anotado, agregar la materia
-        
+
         agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
         printf("\n-Materia agregada con éxito.\n");
     }
@@ -370,4 +534,178 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
     {
         printf("Materia no encontrada en el plan.\n");
     }
+}
+
+// Funcion para rendir primer parcial ingresando un alumno | Nombre de materia a rendir
+void rendirFirst(nodeDL *nodoEstudiante, char materia[55])
+{
+    int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
+    int indice = findMateriaAlumno(materia, cantMaterias, nodoEstudiante->estudiante->materias);
+
+    if (indice != -1)
+    {
+        float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
+        nodoEstudiante->estudiante->materias[indice].firstTest = valor;
+        printf("\nAprobaste con: %.1f\n", valor); // Al valor le pedimos que muestre solo 1 decimal
+        return;
+    }
+    else
+    {
+        printf("\n-Materia no encontrada.\n");
+        return;
+    }
+}
+
+// Funcion para rendir segundo parcial ingresando un alumno | Nombre de materia a rendir
+void rendirSecond(nodeDL *nodoEstudiante, char materia[55])
+{
+    int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
+    int indice = findMateriaAlumno(materia, cantMaterias, nodoEstudiante->estudiante->materias);
+
+    if (indice != -1)
+    {
+        float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
+        nodoEstudiante->estudiante->materias[indice].secondTest = valor;
+        printf("\nAprobaste con: %.1f\n", valor);
+        return;
+    }
+    else
+    {
+        printf("\n-Materia no encontrada.\n");
+        return;
+    }
+}
+
+// Funcion para rendir final ingresando un alumno | Nombre de materia a rendir
+void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
+{
+    int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
+    int indice = findMateria(materia, cantMaterias, nodoEstudiante->estudiante->materias);
+
+    if (indice != -1)
+    {
+        float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
+        float primerParcial = nodoEstudiante->estudiante->materias[indice].firstTest;
+        float segundoParcial = nodoEstudiante->estudiante->materias[indice].secondTest;
+
+        float promedio = (primerParcial + segundoParcial) / 2; // Promedio de primer y segundo parcial
+
+        if (promedio >= 4)
+        {
+
+            if (valor >= 4)
+            {
+                printf("\n-Felicidades Papa, aprobaste con: %1.f\n", valor);
+                return;
+            }
+            else
+            {
+                printf("\n-Final desaprobado con: %1.f\n", valor);
+                return;
+            }
+        }
+        else
+        {
+            printf("\n-No tenes aprobada la cursada: %1.f\n", valor);
+            return;
+        }
+    }
+    else
+    {
+        printf("\n-Materia no encontrada.\n");
+        return;
+    }
+}
+
+// Funcion para rendir primer,segundo parcial y final ingresando un estudiante | Materia a rendir
+void rendirMateria(nodeDL *nodoEstudiante, char materia[55])
+{
+    int opc = 0;
+    int flag = 0;
+    printf("\n1-Rendir First\n2-Rendir Second\n3-Rendir Final\n4-Salir\n");
+    scanf("%d", &opc);
+    while (flag == 0)
+    {
+        switch (opc)
+        {
+        case 1:
+        {
+            rendirFirst(nodoEstudiante, materia);
+            flag = 1;
+            break;
+        }
+        case 2:
+        {
+            rendirSecond(nodoEstudiante, materia);
+            flag = 1;
+            break;
+        }
+        case 3:
+        {
+            rendirFinal(nodoEstudiante, materia);
+            flag = 1;
+            break;
+        }
+        case 4:
+        {
+            flag = 1;
+            break;
+        }
+        default:
+            printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n");
+            break;
+        }
+    }
+}
+
+// No valida por años biciestos
+int validarFecha(char *fecha)
+{
+    char copia[11];
+    strcpy(copia, fecha); // strtok modifica la cadena original, por eso copiamos
+
+    // Usamos strtok como un split
+    char *diaStr = strtok(copia, "/");
+    char *mesStr = strtok(NULL, "/");
+    char *anioStr = strtok(NULL, "/");
+
+    if (diaStr == NULL || mesStr == NULL || anioStr == NULL)
+    {
+        return 0; // Formato inválido
+    }
+    // Convertimos las cadenas a enteros
+    int dia = atoi(diaStr);
+    int mes = atoi(mesStr);
+    int anio = atoi(anioStr);
+
+    if (anio < 1900 || anio > 2100)
+    {
+        return 0; // Año fuera de rango
+    }
+    if (mes < 1 || mes > 12)
+    {
+        return 0; // Mes fuera de rango
+    }
+    if (dia < 1 || dia > 31)
+    {
+        return 0; // Día fuera de rango
+    }
+
+    if ((obtenerAnioActual() - anio) < 18)
+    {
+        printf("El estudiante debe ser mayor de edad.\n");
+        return 0; // El estudiante debe ser mayor de edad
+    }
+    return 1; // Placeholder, siempre retorna válido
+}
+
+// Usa libreria time.h para obtener el año actual
+int obtenerAnioActual()
+{
+    time_t t = time(NULL);              // Obtiene el tiempo actual
+    struct tm *tm_info = localtime(&t); // Lo convierte a estructura local
+
+    int anio = tm_info->tm_year + 1900; // Año desde 1900 Porque tm_year representa el número de años desde 1900, entonces: se debe sumar 1900
+
+    return anio; // Retorna el año actual
 }
