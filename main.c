@@ -98,17 +98,15 @@ int main()
             printf("\n1- Cargar Materia\n2- Modificar Materia \n3- Eliminar Materia\n4- Imprimir Lista de Materias\n5- Volver al menu principal\n");
             scanf("%d", &eleccion);
 
-            if (eleccion == 1)
-            {
-                printf("Carga materias");
-            }
+           
             if (eleccion == 2)
             {
-                printf("Modificar materias");
-            }
-            if (eleccion == 3)
-            {
-                printf("Eliminar materias");
+                char nombreMateria[55];
+                printMaterias();
+                printf("-Ingrese el nombre de la materia a modificar: ");
+                scanf("%s", nombreMateria);
+              
+                modificarMateria(nombreMateria);
             }
             if (eleccion == 4)
             {

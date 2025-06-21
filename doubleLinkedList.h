@@ -588,6 +588,8 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
         float primerParcial = nodoEstudiante->estudiante->materias[indice].firstTest;
         float segundoParcial = nodoEstudiante->estudiante->materias[indice].secondTest;
 
+
+        // FUNCION PROMEDIO
         float promedio = (primerParcial + segundoParcial) / 2; // Promedio de primer y segundo parcial
 
         if (promedio >= 4)
@@ -709,3 +711,26 @@ int obtenerAnioActual()
 
     return anio; // Retorna el año actual
 }
+
+
+// FUNCIONES MATERIAS
+
+
+void modificarMateria(char nombreMateria[55])
+{
+    int indice = findMateria(nombreMateria, CANT_MATERIAS, materias);
+    if (indice != -1)
+    {
+        printf("\nIngrese el nuevo nombre de la materia: ");
+        char nuevoNombre[55];
+        scanf("%s", nuevoNombre);
+        strcpy(materias[indice]->nombreMateria, nuevoNombre);
+        printf("\nMateria modificada con exito.\n");
+    }
+    else
+    {
+        printf("\nMateria no encontrada.\n");
+    }
+}
+
+
