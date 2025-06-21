@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-
 int main()
 {
     // Carga la materia de todas las carreras
@@ -57,17 +56,62 @@ int main()
 
             if (eleccion == 3)
             {
-                char estudiante[55];
-                printf("-Ingrese el nombre del estudiante: ");
-                scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
-                nodeDL *alumno = findEstudiante(estudiante, &lista);
-                if (alumno != NULL)
+                printf("\n- Desea buscar por: 1- Nombre 2- Rango de edad");
+                scanf("%d", &eleccion);
+
+                if (eleccion == 1)
                 {
-                    printf("\n-Estudiante encontrado: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
-                }
-                else
-                {
-                    printf("\n-Estudiante no encontrado.\n");
+                    char estudiante[55];
+                    printf("-Ingrese el nombre del estudiante: ");
+                    scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
+                    nodeDL *alumno = findEstudiante(estudiante, &lista);
+                    if (alumno != NULL)
+                    {
+                        printf("\n-Estudiante encontrado: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
+                    }
+                    else
+                    {
+                        printf("\n-Estudiante no encontrado.\n");
+                    }
+                }else{
+
+                    if (lista.size == 0)
+                    {
+                        printf("\n-No hay estudiantes cargados.\n");
+                        return;
+                    }
+                    int edadMin, edadMax;
+                    printf("-Ingrese la edad minima: ");
+                    scanf("%d", &edadMin);
+                    printf("-Ingrese la edad maxima: ");
+                    scanf("%d", &edadMax);
+
+                    nodeDL *node = lista.head;
+                    int encontrado = 1;
+                    
+
+                    int i = 0;
+                    printf("Listado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
+                    while(i != lista.size){
+                        int anioNacimiento = returnAnioEdad(node->estudiante->nacimiento); // Retorno el año de nacimiento del estudiante en entero
+                       int edad = obtenerAnioActual() - anioNacimiento; // calculo la edad del estudiante
+                        // Verifico si la edad del estudiante esta dentro del rango especificado
+
+                        if (edad >= edadMin && edad <= edadMax)
+                        {
+                            printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
+                        }else{
+                            encontrado =0 ;
+                        }
+                        node = node->next;
+                        i++;
+
+                        
+                    }
+                    if(encontrado == 0){
+                        printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
+                    }
+                   
                 }
             }
 
@@ -98,14 +142,13 @@ int main()
             printf("\n1- Cargar Materia\n2- Modificar Materia \n3- Eliminar Materia\n4- Imprimir Lista de Materias\n5- Volver al menu principal\n");
             scanf("%d", &eleccion);
 
-           
             if (eleccion == 2)
             {
                 char nombreMateria[55];
                 printMaterias();
                 printf("-Ingrese el nombre de la materia a modificar: ");
                 scanf("%s", nombreMateria);
-              
+
                 modificarMateria(nombreMateria);
             }
             if (eleccion == 4)

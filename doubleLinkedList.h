@@ -346,11 +346,20 @@ void cargarEstudiante()
     nodeDL *alumno = findByDNI(estudiante->dni, &lista);
     if (alumno != NULL)
     {
+                free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
+
         return;
     }
     printf("Ingrese el Legajo del estudiante: ");
     scanf("%d", &estudiante->legajo);
+    nodeDL *alumno2 = findByLegajo(estudiante->legajo, &lista);
 
+    if (alumno2 != NULL)
+    {
+        printf("Ya existe un estudiante con el mismo Legajo.\n");
+        free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal
+        return;
+    }
     append(&lista, estudiante);
     printf("\n-Estudiante cargado con exito\n");
 }
@@ -666,7 +675,7 @@ int validarFecha(char *fecha)
     char copia[11];
     strcpy(copia, fecha); // strtok modifica la cadena original, por eso copiamos
 
-    // Usamos strtok como un split
+    // Usamos strtok como un split( parte basado en un delimitador )
     char *diaStr = strtok(copia, "/");
     char *mesStr = strtok(NULL, "/");
     char *anioStr = strtok(NULL, "/");
@@ -699,6 +708,19 @@ int validarFecha(char *fecha)
         return 0; // El estudiante debe ser mayor de edad
     }
     return 1; // Placeholder, siempre retorna válido
+}
+
+int returnAnioEdad(char *fecha){
+ char copia[11];
+    strcpy(copia, fecha); // strtok modifica la cadena original, por eso copiamos
+
+    // Usamos strtok como un split( parte basado en un delimitador )
+    char *diaStr = strtok(copia, "/");
+    char *mesStr = strtok(NULL, "/");
+    char *anioStr = strtok(NULL, "/");
+    int anio = atoi(anioStr);
+    return anio; // Retorna el año de la fecha ingresada
+
 }
 
 // Usa libreria time.h para obtener el año actual
