@@ -1,34 +1,6 @@
 #define UTILIDADES_H
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
-
-#include "Utilities/utilidades.h"
-#define CANT_ESTUDIANTES 10
-
-//////////////////// ESTRUCTURA ///////////////////////
-typedef struct Materia
-{
-    char nombreMateria[55];
-    int inscripto;
-    int aprobada; // Indica si aprobo la materia
-    int firstTest;
-    int secondTest;
-
-} Materia;
-
-typedef struct Estudiante
-{
-    char nombre[45];
-    char nacimiento[10];
-    int dni;
-    int legajo;
-    Materia materias[48]; // Hasta 48 materias.
-    int cantMaterias;
-
-} Estudiante;
-
+#define STRUCTS_H
+#include "Utilities/structs.h"
 Materia *newMateria(char nombreMateria[55])
 {
     Materia *materia = (Materia *)malloc(sizeof(Materia));
@@ -40,28 +12,13 @@ Materia *newMateria(char nombreMateria[55])
     return materia;
 }
 
-typedef struct nodeDL
-{
-    Estudiante *estudiante;
-    struct nodeDL *next;
-    struct nodeDL *prev;
-} nodeDL;
 
-typedef struct
-{
-    nodeDL *head;
-    nodeDL *tail;
-    int size;
-} doubleLinkedList;
-
-char *nombres[] = {"Algebra1", "Algebra2", "AyP1", "AyP2", "AyP3", "Base-Datos", "Historia", "Matematica-Discreta", "Disenio-Logico"};
 
 // Defino una constante para la cantidad de materias para sumar materias nuevas sin modificar el codigo
-#define CANT_MATERIAS (sizeof(nombres) / sizeof(nombres[0]))
 doubleLinkedList lista = {NULL, NULL, 0};
 Materia *materias[CANT_MATERIAS];
 
-//////////////////// FUNCIONES PARA NODE ///////////////////////
+//////////////////// FUNCIONES PARA NODE y LISTA ///////////////////////
 // Crear nuevo nodo
 nodeDL *newNode(Estudiante *estudiante)
 {
@@ -196,6 +153,17 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
     printf("Nodo con valor %d no encontrado.\n", estudiante);
 }
 
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
 //////////////////// FUNCIONES PARA ESTUDIANTE ///////////////////////
 nodeDL *findEstudiante(char estudiante[55], doubleLinkedList *lista)
 {
@@ -263,7 +231,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
 
     while (flag == 0)
     {
-        printf(" \n 1-Anotarse a Materia\n 2-Abandonar Materia\n 3-Rendir Parciales\n 4-Materias anotadas\n 5-Salir\n");
+        printf(" \n 1-Anotarse a Materia\n 2-Abandonar Materia\n 3-Rendir Parciales\n 4-Materias anotadas\n 5 -Salir\n");
         scanf("%d", &opc);
 
         switch (opc)
@@ -299,6 +267,8 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             mostrarMaterias(nodoEstudiante);
 
             break;
+
+   
         case 5:
             flag = 1;
             break;
@@ -354,7 +324,7 @@ void cargarEstudiante()
     scanf("%d", &estudiante->legajo);
     nodeDL *alumno2 = findByLegajo(estudiante->legajo, &lista);
 
-    if (alumno2 != NULL)
+    if (alumno != NULL)
     {
         printf("Ya existe un estudiante con el mismo Legajo.\n");
         free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal
@@ -526,6 +496,7 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
                 if (nodoEstudiante->estudiante->materias[i].inscripto == 0)
                 {
                     agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
+                    nodoEstudiante->estudiante->materias[i].inscripto = 1; // Marca como inscripto
                 }
                 else
                 {
@@ -537,6 +508,8 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
         // Si no está anotado, agregar la materia
 
         agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
+       
+
         printf("\n-Materia agregada con éxito.\n");
     }
     else
@@ -606,6 +579,8 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
 
             if (valor >= 4)
             {
+                nodoEstudiante->estudiante->materias[indice].finalTest = valor; // Asigna el valor al final
+                nodoEstudiante->estudiante->materias[indice].aprobada = 1; // Marca la materia como aprobada
                 printf("\n-Felicidades Papa, aprobaste con: %1.f\n", valor);
                 return;
             }
@@ -723,18 +698,6 @@ int returnAnioEdad(char *fecha){
 
 }
 
-// Usa libreria time.h para obtener el año actual
-int obtenerAnioActual()
-{
-    time_t t = time(NULL);              // Obtiene el tiempo actual
-    struct tm *tm_info = localtime(&t); // Lo convierte a estructura local
-
-    int anio = tm_info->tm_year + 1900; // Año desde 1900 Porque tm_year representa el número de años desde 1900, entonces: se debe sumar 1900
-
-    return anio; // Retorna el año actual
-}
-
-
 // FUNCIONES MATERIAS
 
 
@@ -755,4 +718,38 @@ void modificarMateria(char nombreMateria[55])
     }
 }
 
+
+void printPromedios(){
+    float promedioAlumno = 0;
+    float sumaFinales = 0;
+    nodeDL *node = lista.head;
+    int i =0;
+    if(lista.size == 0){
+        printf("\n-No hay estudiantes cargados.\n");
+        return;
+    }
+
+    while(i != lista.size){
+        promedioAlumno = 0;
+        for (int i = 0; i < node->estudiante->cantMaterias; i++)
+        {
+            if (node->estudiante->materias[i].aprobada == 1)
+            {
+                 sumaFinales += node->estudiante->materias[i].finalTest;
+            }
+        }
+        promedioAlumno = sumaFinales / node->estudiante->cantMaterias; // Promedio de las materias aprobadas
+        
+        printf("Nombre: %s, Promedio: %.2f\n", node->estudiante->nombre, promedioAlumno);
+
+        sumaFinales = 0; // Reinicio la suma para el siguiente alumno
+        promedioAlumno =0;
+        if(node->next != NULL){
+            node = node->next;
+        }
+   
+        i++;
+    }
+
+}
 

@@ -3,6 +3,8 @@
         "*.embeddedhtml": "html",
         "utilidades": "cpp",
         "stdlib.h": "c",
-        "doublelinkedlist.h": "c"
+        "doublelinkedlist.h": "c",
+        "utilidades.h": "c",
+        "string.h": "c"
     }
 }

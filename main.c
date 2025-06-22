@@ -1,25 +1,19 @@
 #ifndef DOUBLE_LINKED_LIST_H
 #define DOUBLE_LINKED_LIST_H
-
 #include "doubleLinkedList.h"
 
-#include <stdio.h>
-#include <stdlib.h>
+
 
 int main()
 {
     // Carga la materia de todas las carreras
     cargarMaterias();
+
     // Inicializa la semilla para la función rand()1
     srand(time(NULL));
 
-    Estudiante *estudiante = malloc(sizeof(Estudiante));
-    estudiante->cantMaterias = 0;
-    strcpy(estudiante->nombre, "Juan Perez");
-    strcpy(estudiante->nacimiento, "01/01/2000");
-    estudiante->dni = 12345678;
-    estudiante->legajo = 1234;
-    append(&lista, estudiante); // Agrega un estudiante de prueba a la lista
+
+
 
     int opc = 0;
     int flag = 0;
@@ -35,7 +29,7 @@ int main()
 
         case 1:
         {
-            printf("\n 1- Cargar Estudiante\n 2- Eliminar Estudiante\n 3- Buscar Estudiante\n 4- Imprimir Lista de Estudiantes\n 5- Seleccionar Estudiante\n 6- Menu\n");
+            printf("\n 1- Cargar Estudiante\n 2- Eliminar Estudiante\n 3- Buscar Estudiante\n 4- Imprimir Lista de Estudiantes\n 5- Seleccionar Estudiante \n6- Lista de promedios \n7- Menu\n");
             scanf("%d", &eleccion);
 
             if (eleccion == 1)
@@ -134,15 +128,20 @@ int main()
                 printList(&lista);
             }
 
+            if(eleccion == 6){
+                printf("\n-Lista de promedios de estudiantes:\n");
+                printPromedios(&lista);
+            }
+
             break;
         }
         case 2:
         {
 
-            printf("\n1- Cargar Materia\n2- Modificar Materia \n3- Eliminar Materia\n4- Imprimir Lista de Materias\n5- Volver al menu principal\n");
+            printf("\n1- Modificar Materia \n2- Imprimir Lista de Materias\n3- Volver al menu principal\n");
             scanf("%d", &eleccion);
 
-            if (eleccion == 2)
+            if (eleccion == 1)
             {
                 char nombreMateria[55];
                 printMaterias();
@@ -151,11 +150,11 @@ int main()
 
                 modificarMateria(nombreMateria);
             }
-            if (eleccion == 4)
+            if (eleccion == 2)
             {
                 printMaterias();
             }
-            if (eleccion == 5)
+            if (eleccion == 3)
             {
                 opc = 0; // Vuelve al menu principal
             }
