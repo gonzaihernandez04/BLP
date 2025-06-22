@@ -562,7 +562,7 @@ void rendirSecond(nodeDL *nodoEstudiante, char materia[55])
 void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
 {
     int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
-    int indice = findMateria(materia, cantMaterias, nodoEstudiante->estudiante->materias);
+    int indice = findMateriaAlumno(materia, cantMaterias, nodoEstudiante->estudiante->materias);
 
     if (indice != -1)
     {
@@ -719,17 +719,17 @@ void modificarMateria(char nombreMateria[55])
 }
 
 
-void printPromedios(){
+void printPromedios(doubleLinkedList *lista){
     float promedioAlumno = 0;
     float sumaFinales = 0;
-    nodeDL *node = lista.head;
+    nodeDL *node = lista->head;
     int i =0;
-    if(lista.size == 0){
+    if(lista->size == 0){
         printf("\n-No hay estudiantes cargados.\n");
         return;
     }
 
-    while(i != lista.size){
+    while(i != lista->size){
         promedioAlumno = 0;
         for (int i = 0; i < node->estudiante->cantMaterias; i++)
         {
@@ -740,7 +740,7 @@ void printPromedios(){
         }
         promedioAlumno = sumaFinales / node->estudiante->cantMaterias; // Promedio de las materias aprobadas
         
-        printf("Nombre: %s, Promedio: %.2f\n", node->estudiante->nombre, promedioAlumno);
+        printf("Nombre: %s, Promedio: %.1f\n", node->estudiante->nombre, promedioAlumno);
 
         sumaFinales = 0; // Reinicio la suma para el siguiente alumno
         promedioAlumno =0;

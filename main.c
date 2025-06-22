@@ -2,8 +2,6 @@
 #define DOUBLE_LINKED_LIST_H
 #include "doubleLinkedList.h"
 
-
-
 int main()
 {
     // Carga la materia de todas las carreras
@@ -11,9 +9,78 @@ int main()
 
     // Inicializa la semilla para la función rand()1
     srand(time(NULL));
+    Estudiante *e1 = malloc(sizeof(Estudiante));
+    strcpy(e1->nombre, "Ana Gomez");
+    strcpy(e1->nacimiento, "15/05/1999");
+    e1->dni = 11111111;
+    e1->legajo = 1001;
+    e1->cantMaterias = 0;
 
+    agregarMateria(e1, materias[0]); // Algebra1
+    agregarMateria(e1, materias[1]); // Algebra2
+    e1->materias[0].firstTest = 7.5;
+    e1->materias[0].secondTest = 8.0;
+    e1->materias[0].finalTest = 0;
+    e1->materias[0].aprobada = 1;
+    e1->materias[1].firstTest = 6.0;
+    e1->materias[1].secondTest = 7.0;
+    e1->materias[1].finalTest = 0;
+    e1->materias[1].aprobada = 1;
+    append(&lista, e1);
 
+    // Estudiante 2
+    Estudiante *e2 = malloc(sizeof(Estudiante));
+    strcpy(e2->nombre, "Bruno Lopez");
+    strcpy(e2->nacimiento, "10/10/2000");
+    e2->dni = 22222222;
+    e2->legajo = 1002;
+    e2->cantMaterias = 0;
 
+    agregarMateria(e2, materias[2]); // AyP1
+    agregarMateria(e2, materias[3]); // AyP2
+    e2->materias[0].firstTest = 8.5;
+    e2->materias[0].secondTest = 9.0;
+    e2->materias[0].aprobada = 1;
+    e2->materias[1].firstTest = 7.0;
+    e2->materias[1].secondTest = 8.0;
+    e2->materias[1].aprobada = 1;
+    append(&lista, e2);
+
+    // Estudiante 3
+    Estudiante *e3 = malloc(sizeof(Estudiante));
+    strcpy(e3->nombre, "Carla Martinez");
+    strcpy(e3->nacimiento, "22/03/1998");
+    e3->dni = 33333333;
+    e3->legajo = 1003;
+    e3->cantMaterias = 0;
+
+    agregarMateria(e3, materias[4]); // AyP3
+    agregarMateria(e3, materias[5]); // Base-Datos
+    e3->materias[0].firstTest = 6.5;
+    e3->materias[0].secondTest = 8.0;
+    e3->materias[0].aprobada = 1;
+    e3->materias[1].firstTest = 7.0;
+    e3->materias[1].secondTest = 9.0;
+    e3->materias[1].aprobada = 1;
+    append(&lista, e3);
+
+    // Estudiante 4
+    Estudiante *e4 = malloc(sizeof(Estudiante));
+    strcpy(e4->nombre, "Diego Fernández");
+    strcpy(e4->nacimiento, "30/09/1997");
+    e4->dni = 44444444;
+    e4->legajo = 1004;
+    e4->cantMaterias = 0;
+
+    agregarMateria(e4, materias[6]); // Historia
+    agregarMateria(e4, materias[7]); // Matematica Discreta
+    e4->materias[0].firstTest = 9.0;
+    e4->materias[0].secondTest = 9.5;
+    e4->materias[0].aprobada = 1;
+    e4->materias[1].firstTest = 8.0;
+    e4->materias[1].secondTest = 8.5;
+    e4->materias[1].aprobada = 1;
+    append(&lista, e4);
 
     int opc = 0;
     int flag = 0;
@@ -67,7 +134,9 @@ int main()
                     {
                         printf("\n-Estudiante no encontrado.\n");
                     }
-                }else{
+                }
+                else
+                {
 
                     if (lista.size == 0)
                     {
@@ -82,30 +151,30 @@ int main()
 
                     nodeDL *node = lista.head;
                     int encontrado = 1;
-                    
 
                     int i = 0;
                     printf("Listado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
-                    while(i != lista.size){
+                    while (i != lista.size)
+                    {
                         int anioNacimiento = returnAnioEdad(node->estudiante->nacimiento); // Retorno el año de nacimiento del estudiante en entero
-                       int edad = obtenerAnioActual() - anioNacimiento; // calculo la edad del estudiante
+                        int edad = obtenerAnioActual() - anioNacimiento;                   // calculo la edad del estudiante
                         // Verifico si la edad del estudiante esta dentro del rango especificado
 
                         if (edad >= edadMin && edad <= edadMax)
                         {
                             printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
-                        }else{
-                            encontrado =0 ;
+                        }
+                        else
+                        {
+                            encontrado = 0;
                         }
                         node = node->next;
                         i++;
-
-                        
                     }
-                    if(encontrado == 0){
+                    if (encontrado == 0)
+                    {
                         printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
                     }
-                   
                 }
             }
 
@@ -128,7 +197,8 @@ int main()
                 printList(&lista);
             }
 
-            if(eleccion == 6){
+            if (eleccion == 6)
+            {
                 printf("\n-Lista de promedios de estudiantes:\n");
                 printPromedios(&lista);
             }
