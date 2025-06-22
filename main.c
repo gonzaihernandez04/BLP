@@ -107,13 +107,18 @@ int main()
 
             if (eleccion == 3)
             {
-                printf("\n- Desea buscar por: 1- Nombre 2- Rango de edad");
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+
+                printf("\nBuscar estudiantes\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+                printf("---------------------\n");
+                printf("\nDesea buscar por:\n 1- NOMBRE\n 2- RANGO DE EDAD\n");
                 eleccion = getch() - '0';
 
                 if (eleccion == 1)
                 {
                     char estudiante[55];
-                    printf("-Ingrese el nombre del estudiante: ");
+                    printf("Ingrese el nombre del estudiante: ");
                     scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
                     nodeDL *alumno = findEstudiante(estudiante, &lista);
                     if (alumno != NULL)
@@ -143,7 +148,12 @@ int main()
                     int encontrado = 1;
 
                     int i = 0;
-                    printf("Listado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
+
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                    printf("\nListado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
+                    SetConsoleTextAttribute(hConsole, saved_attributes);
+
+                    printf("\n----------------------------------------------------------------------------------\n");
                     while (i != lista.size)
                     {
                         int anioNacimiento = returnAnioEdad(node->estudiante->nacimiento); // Retorno el año de nacimiento del estudiante en entero
@@ -153,6 +163,7 @@ int main()
                         if (edad >= edadMin && edad <= edadMax)
                         {
                             printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
+                            encontrado = 1;
                         }
                         else
                         {
@@ -161,17 +172,22 @@ int main()
                         node = node->next;
                         i++;
                     }
+
+                    printf("\n----------------------------------------------------------------------------------\n");
+
                     if (encontrado == 0)
                     {
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+
                         printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
                     }
                 }
             }
 
-
             if (eleccion == 4)
             {
-                                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
                 printf("\nLISTA DE ESTUDIANTES\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
@@ -192,8 +208,6 @@ int main()
                     seleccionarEstudiante(alumno, &lista);
                 }
             }
-
-            
 
             if (eleccion == 6)
             {

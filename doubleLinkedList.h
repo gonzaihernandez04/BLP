@@ -322,6 +322,7 @@ void cargarEstudiante()
 
     if (alumno != NULL)
     {
+        
         printf("Ya existe un estudiante con el mismo Legajo.\n");
         free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal
         return;
