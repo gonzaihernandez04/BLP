@@ -1,7 +1,7 @@
-# 💻 Trabajo Práctico N°1 - Programación Bajo Nivel
+# 💻 Trabajo Práctico Final - Programación Bajo Nivel
 
-Bienvenido al repositorio del **Trabajo Práctico N°1** de Programación Bajo Nivel.  
-Aquí encontrarás la implementación de una **lista doblemente enlazada** en C, junto con todas las funciones necesarias para manipularla.
+Bienvenido al repositorio del **Trabajo Práctico Final** de Programación Bajo Nivel.  
+Aquí encontrarás la implementación de un **sistema de estudiantes** en C, junto con todas las funciones necesarias para manipularla.
 
 ---
 ## 👨‍💻 Integrantes
@@ -14,46 +14,29 @@ Aquí encontrarás la implementación de una **lista doblemente enlazada** en C,
 ---
 ## 📋 Consignas
 
-### 1. Definir una estructura Nodo que contenga:
-- Un campo `int dato` para almacenar el valor del nodo.
-- Un puntero al siguiente nodo.
+## Desarrollar un sistema de estudiantes en C. Que debe permitir:
+- Dar de alta, modificar, eliminar y listar estudiantes
+- Buscar estudiantes por nombre
+- Buscar estudiantes por rango de edad
+
+#### Además cada estudiante puede anotarse en N materias.
+- Dar de alta, modificar, eliminar y listar materias
+- Anotarse en una materia
+- Rendir una materia
+---
+
+## Aclaraciones
+
+1. El sistema debe poder soportar un gran listado de estudiantes y materias. Utilizar estructuras de datos para almacenar los listados. Decidir si se utiliza ordenamiento de los datos.
+
+2. El diseño del sistema y los modelos es libre. Utilizar la creatividad para que el manejo del sistema sea lo más práctico posible.
+
+3. Si los requerimientos planteados son cumplidos, el ejercicio está aprobado (nota 4). Puede pasar que en situaciones en la que la cantidad de datos sea muy grande, el sistema sea inmanejable. En ese caso, detallar las limitaciones de la solución propuesta (si las limitaciones son reconocidas no se considera desaprobado el punto).
 
 ---
 
-### 2. Funciones obligatorias
+### Puntos extras realizados:
 
-```c
-// Crea un nodo nuevo con un dato dado.
-Nodo* crearNodo(int dato);
-
-// Inserta un nodo al comienzo de la lista.
-void insertarAlInicio(Nodo** cabeza, int dato);
-
-// Inserta un nodo al final de la lista.
-void insertarAlFinal(Nodo** cabeza, int dato);
-
-// Elimina el primer nodo que contenga el dato especificado.
-void eliminarNodo(Nodo** cabeza, int dato);
-
-// Devuelve un puntero al nodo que contiene el dato (o NULL si no se encuentra).
-Nodo* buscarNodo(Nodo* cabeza, int dato);
-
-// Imprime todos los elementos de la lista.
-void imprimirLista(Nodo* cabeza);
-
-// Libera toda la memoria utilizada por la lista.
-void liberarLista(Nodo** cabeza);
-```
-
----
-
-### 3. Programa principal
-
-- Implementa un **menú interactivo** para probar las funciones anteriores:  
-  ➤ Agregar  
-  ➤ Eliminar  
-  ➤ Buscar  
-  ➤ Imprimir  
-  ➤ Salir
-
-
+  ➤ Calcular Promedios  
+  ➤ Test Unitarios
+  ➤ Archivo de configuración general donde se especifican las variables del sistema

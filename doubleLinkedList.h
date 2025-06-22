@@ -1,6 +1,6 @@
 #define UTILIDADES_H
 #define STRUCTS_H
-#include "Utilities/structs.h"
+#include "Utilities/utilidades.h"
 Materia *newMateria(char nombreMateria[55])
 {
     Materia *materia = (Materia *)malloc(sizeof(Materia));
@@ -11,12 +11,6 @@ Materia *newMateria(char nombreMateria[55])
     materia->secondTest = 0;
     return materia;
 }
-
-
-
-// Defino una constante para la cantidad de materias para sumar materias nuevas sin modificar el codigo
-doubleLinkedList lista = {NULL, NULL, 0};
-Materia *materias[CANT_MATERIAS];
 
 //////////////////// FUNCIONES PARA NODE y LISTA ///////////////////////
 // Crear nuevo nodo
@@ -73,12 +67,12 @@ void printList(doubleLinkedList *lista)
     nodeDL *node = lista->head;
     if (node != NULL)
     {
-        printf("Lista: ");
+    
         while (node != NULL)
         {
             if (node->next != NULL)
             {
-                printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre, node->estudiante->dni);
+                printf("Nombre y apellido: %s, DNI: %d\n", node->estudiante->nombre, node->estudiante->dni);
             }
             else
             {
@@ -281,6 +275,8 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
 
 void cargarEstudiante()
 {
+
+    
     int fechaEsValida = 0;
     Estudiante *estudiante = malloc(sizeof(Estudiante));
     estudiante->cantMaterias = 0;
@@ -290,7 +286,7 @@ void cargarEstudiante()
         return;
     }
 
-    printf("-Ingrese el nombre del estudiante: ");
+    printf("Ingrese el nombre del estudiante: ");
     scanf("%s", estudiante->nombre);
     printf("Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ");
     scanf("%s", estudiante->nacimiento);
@@ -331,23 +327,14 @@ void cargarEstudiante()
         return;
     }
     append(&lista, estudiante);
-    printf("\n-Estudiante cargado con exito\n");
+    printf("\nEspere por favor...\n");
+    Sleep(500); // Espera 1000 milisegundos = 1 segundo
+    printf("\nEstudiante cargado con exito\n");
 }
 
 //////////////////// FUNCIONES PARA MATERIAS ///////////////////////
 
-void cargarMaterias()
-{
-    for (int i = 0; i < CANT_MATERIAS; i++)
-    {
-        materias[i] = malloc(sizeof(Materia)); // Reserva memoria para cada materia
-        strcpy(materias[i]->nombreMateria, nombres[i]);
-        materias[i]->inscripto = 0;
-        materias[i]->aprobada = 0;
-        materias[i]->firstTest = 0;
-        materias[i]->secondTest = 0;
-    }
-}
+
 
 // Funcion para buscar materias ingresando un string | Cant de materias | Arreglo de Materia
 int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
@@ -644,59 +631,7 @@ void rendirMateria(nodeDL *nodoEstudiante, char materia[55])
     }
 }
 
-// No valida por años biciestos
-int validarFecha(char *fecha)
-{
-    char copia[11];
-    strcpy(copia, fecha); // strtok modifica la cadena original, por eso copiamos
 
-    // Usamos strtok como un split( parte basado en un delimitador )
-    char *diaStr = strtok(copia, "/");
-    char *mesStr = strtok(NULL, "/");
-    char *anioStr = strtok(NULL, "/");
-
-    if (diaStr == NULL || mesStr == NULL || anioStr == NULL)
-    {
-        return 0; // Formato inválido
-    }
-    // Convertimos las cadenas a enteros
-    int dia = atoi(diaStr);
-    int mes = atoi(mesStr);
-    int anio = atoi(anioStr);
-
-    if (anio < 1900 || anio > 2100)
-    {
-        return 0; // Año fuera de rango
-    }
-    if (mes < 1 || mes > 12)
-    {
-        return 0; // Mes fuera de rango
-    }
-    if (dia < 1 || dia > 31)
-    {
-        return 0; // Día fuera de rango
-    }
-
-    if ((obtenerAnioActual() - anio) < 18)
-    {
-        printf("El estudiante debe ser mayor de edad.\n");
-        return 0; // El estudiante debe ser mayor de edad
-    }
-    return 1; // Placeholder, siempre retorna válido
-}
-
-int returnAnioEdad(char *fecha){
- char copia[11];
-    strcpy(copia, fecha); // strtok modifica la cadena original, por eso copiamos
-
-    // Usamos strtok como un split( parte basado en un delimitador )
-    char *diaStr = strtok(copia, "/");
-    char *mesStr = strtok(NULL, "/");
-    char *anioStr = strtok(NULL, "/");
-    int anio = atoi(anioStr);
-    return anio; // Retorna el año de la fecha ingresada
-
-}
 
 // FUNCIONES MATERIAS
 

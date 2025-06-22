@@ -46,7 +46,30 @@ void testFindByDNI()
 
     
 }
+// Buscar por nombre
+void testFindByNombre(){
+    doubleLinkedList lista = {NULL, NULL, 0};
+    Estudiante *estudiante1 = malloc(sizeof(Estudiante));
+    Estudiante *estudiante2 = malloc(sizeof(Estudiante));
+    Estudiante *estudiante3 = malloc(sizeof(Estudiante));
 
+    strcpy(estudiante1->nombre, "Ana Gomez");
+    estudiante1->dni = 87654321;
+    append(&lista, estudiante1);
+
+    strcpy(estudiante2->nombre, "Gonzalo Gomez");
+    estudiante2->dni = 42345678;
+    append(&lista, estudiante2);
+
+    strcpy(estudiante3->nombre, "Maria Lopez");
+    estudiante3->dni = 12345678;
+    append(&lista, estudiante3);
+
+    // Busca el nombre Especifico
+    nodeDL *foundNode = findEstudiante("Ana Gomez", &lista);
+    assert(foundNode != NULL);
+    assert(strcmp(foundNode->estudiante->nombre, "Ana Gomez") == 0);
+}
 int main()
 {
     testCargarEstudiante();

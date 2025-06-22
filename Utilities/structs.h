@@ -1,5 +1,4 @@
-#define UTILIDADES_H
-#include "utilidades.h"
+
 
 
 //////////////////// ESTRUCTURA ///////////////////////

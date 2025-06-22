@@ -5,6 +5,8 @@
         "stdlib.h": "c",
         "doublelinkedlist.h": "c",
         "utilidades.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "ctype.h": "c",
+        "stdio.h": "c"
     }
 }
