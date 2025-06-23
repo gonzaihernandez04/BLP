@@ -18,6 +18,7 @@ int main()
     printf("\n-----------------------------------------------------------\n");
     SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\nESPERE UN MOMENTO POR FAVOR...\n\n");
+    printf("\n-----------------------------------------------------------\n");
     SetConsoleTextAttribute(hConsole, saved_attributes);
 
     Sleep(2000); // Espera 2000 milisegundos = 2 segundos
@@ -219,17 +220,27 @@ int main()
         }
         case 2:
         {
+            printf("\nElija una opcion\n");
+            printf("------------------\n");
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf(" 1- Modificar Materia\n");
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf(" 2- Imprimir Lista de Materias\n");
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+            printf(" 3- Volver al menu principal\n");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
 
-            printf("\n1- Modificar Materia \n2- Imprimir Lista de Materias\n3- Volver al menu principal\n");
-            scanf("%d", &eleccion);
+            eleccion = getch() - '0';
 
             if (eleccion == 1)
             {
 
                 char nombreMateria[55];
                 printMaterias();
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                 printf("\n-Ingrese el nombre de la materia a modificar: ");
                 scanf("%s", nombreMateria);
+                SetConsoleTextAttribute(hConsole, saved_attributes);
 
                 modificarMateria(nombreMateria);
             }

@@ -7,8 +7,7 @@
 #define STRUCTS_H
 #include "structs.h"
 #include <windows.h>
-#include <conio.h>  
-
+#include <conio.h>
 
 #define CANT_ESTUDIANTES 10
 
@@ -17,26 +16,24 @@
 
 char *nombres[] = {"Algebra1", "Algebra2", "AyP1", "AyP2", "AyP3", "Base-Datos", "Historia", "Matematica-Discreta", "Disenio-Logico"};
 
-
 // Guardar color original
-    CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
-    WORD saved_attributes;
+CONSOLE_SCREEN_BUFFER_INFO consoleInfo;
+WORD saved_attributes;
 
 // Defino una constante para la cantidad de materias para sumar materias nuevas sin modificar el codigo
 doubleLinkedList lista = {NULL, NULL, 0};
 Materia *materias[CANT_MATERIAS];
 
-
 char *upperCase(char *cadena)
 {
 
     // \0 indica caracter nulo(final de la cadena)
-    for (int i = 0; cadena[i] != '\0'; i++) {
-        cadena[i] = toupper((unsigned char)cadena[i]); //Unsigned char para evitar problemas con caracteres negativos( ejemplo la ñ o caracteres acentuados) y que no crashee.
+    for (int i = 0; cadena[i] != '\0'; i++)
+    {
+        cadena[i] = toupper((unsigned char)cadena[i]); // Unsigned char para evitar problemas con caracteres negativos( ejemplo la ñ o caracteres acentuados) y que no crashee.
     }
     return cadena;
 }
-
 
 // Usa libreria time.h para obtener el año actual
 int obtenerAnioActual()
@@ -90,8 +87,9 @@ int validarFecha(char *fecha)
     return 1; // Placeholder, siempre retorna válido
 }
 
-int returnAnioEdad(char *fecha){
- char copia[11];
+int returnAnioEdad(char *fecha)
+{
+    char copia[11];
     strcpy(copia, fecha); // strtok modifica la cadena original, por eso copiamos
 
     // Usamos strtok como un split( parte basado en un delimitador )
@@ -100,12 +98,11 @@ int returnAnioEdad(char *fecha){
     char *anioStr = strtok(NULL, "/");
     int anio = atoi(anioStr);
     return anio; // Retorna el año de la fecha ingresada
-
 }
 
-
-void cargarEstudiantesPrueba(){
-      Estudiante *e1 = malloc(sizeof(Estudiante));
+void cargarEstudiantesPrueba()
+{
+    Estudiante *e1 = malloc(sizeof(Estudiante));
     strcpy(e1->nombre, "Ana Gomez");
     strcpy(e1->nacimiento, "15/05/1999");
     e1->dni = 11111111;
@@ -179,7 +176,6 @@ void cargarEstudiantesPrueba(){
     append(&lista, e4);
 }
 
-
 void cargarMaterias()
 {
     for (int i = 0; i < CANT_MATERIAS; i++)
@@ -197,10 +193,10 @@ void inicializarFuncionRand()
     srand(time(NULL)); // Inicializa la semilla para generar números aleatorios
 }
 
-
-// Configuracion para consola
-HANDLE cargarSetWindowsAPI(){
-      HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+// Configuracion para consola, carga libreria de windowns para personalizar terminal
+HANDLE cargarSetWindowsAPI()
+{
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //Obtiene variable para personalizacion de consola
     GetConsoleScreenBufferInfo(hConsole, &consoleInfo);
     saved_attributes = consoleInfo.wAttributes;
     return hConsole; // Retorna el handle del console
