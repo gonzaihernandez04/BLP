@@ -1,6 +1,3 @@
-
-
-
 //////////////////// ESTRUCTURA ///////////////////////
 typedef struct Materia
 {

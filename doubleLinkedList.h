@@ -67,7 +67,7 @@ void printList(doubleLinkedList *lista)
     nodeDL *node = lista->head;
     if (node != NULL)
     {
-    
+
         while (node != NULL)
         {
             if (node->next != NULL)
@@ -102,7 +102,6 @@ void clear(doubleLinkedList *lista)
     lista->head = NULL;
     lista->tail = NULL;
     lista->size = 0;
-    printf("La lista se vacio");
 }
 
 // Borrar nodo de la lista
@@ -146,15 +145,6 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
     }
     printf("Nodo con valor %d no encontrado.\n", estudiante);
 }
-
-
-
-
-
-
-
-
-
 
 ////////////////////////////////////////////////////////////////////////////////////
 
@@ -225,7 +215,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
 
     while (flag == 0)
     {
-        printf(" \n 1-Anotarse a Materia\n 2-Abandonar Materia\n 3-Rendir Parciales\n 4-Materias anotadas\n 5 -Salir\n");
+        printf(" \n 1-Anotarse a Materia\n 2-Abandonar Materia\n 3-Rendir Parciales\n 4-Modificar alumno\n 5-Materias anotadas\n 6-Salir\n");
         scanf("%d", &opc);
 
         switch (opc)
@@ -258,14 +248,23 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             break;
         }
         case 4:
+        {
+            modificarAlumno(nodoEstudiante);
+            break;
+        }
+
+        case 5:
+        {
             mostrarMaterias(nodoEstudiante);
 
             break;
+        }
 
-   
-        case 5:
+        case 6:
+        {
             flag = 1;
             break;
+        }
         default:
             printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n\n");
             break;
@@ -273,10 +272,70 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
     }
 }
 
+void modificarAlumno(nodeDL *alumno)
+{
+    int opc = 0;
+    if (alumno != NULL)
+    {
+        HANDLE hConsole = cargarSetWindowsAPI();
+        printf("\nElija una opcion\n");
+        printf("------------------\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        printf(" 1- Modificar Nombre\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        printf(" 2- Modificar DNI\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        printf(" 3- Modificar Legajo\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
+        opc = getch() - '0';
+        switch (opc)
+        {
+        case 1:
+        {
+            char nuevoNombre[55];
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf(" Ingrese el nuevo nombre: \n");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
+            scanf("%s", &nuevoNombre);
+            strcpy(alumno->estudiante->nombre, nuevoNombre);
+            break;
+        }
+        case 2:
+        {
+            int nuevoDNI;
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf(" Ingrese el nuevo DNI: \n");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
+            scanf("%d", &nuevoDNI);
+            alumno->estudiante->dni = nuevoDNI;
+            break;
+        }
+        case 3:
+        {
+            int nuevoLegajo;
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf(" Ingrese el nuevo legajo: \n");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
+            scanf("%d", &nuevoLegajo);
+            alumno->estudiante->legajo = nuevoLegajo;
+            break;
+        }
+        default:
+        {
+            printf("Opcion invalida");
+            break;
+        }
+        }
+    }
+    else
+    {
+        printf("\nAlumno no encontrado.\n");
+    }
+}
+
 void cargarEstudiante()
 {
 
-    
     int fechaEsValida = 0;
     Estudiante *estudiante = malloc(sizeof(Estudiante));
     estudiante->cantMaterias = 0;
@@ -312,7 +371,7 @@ void cargarEstudiante()
     nodeDL *alumno = findByDNI(estudiante->dni, &lista);
     if (alumno != NULL)
     {
-                free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
+        free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal un dato.
 
         return;
     }
@@ -322,7 +381,7 @@ void cargarEstudiante()
 
     if (alumno != NULL)
     {
-        
+
         printf("Ya existe un estudiante con el mismo Legajo.\n");
         free(estudiante); // libero toda la memoria reservada para el estudiante ya que ingreso mal
         return;
@@ -334,8 +393,6 @@ void cargarEstudiante()
 }
 
 //////////////////// FUNCIONES PARA MATERIAS ///////////////////////
-
-
 
 // Funcion para buscar materias ingresando un string | Cant de materias | Arreglo de Materia
 int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
@@ -496,7 +553,6 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
         // Si no está anotado, agregar la materia
 
         agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
-       
 
         printf("\n-Materia agregada con éxito.\n");
     }
@@ -516,7 +572,15 @@ void rendirFirst(nodeDL *nodoEstudiante, char materia[55])
     {
         float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
         nodoEstudiante->estudiante->materias[indice].firstTest = valor;
-        printf("\nAprobaste con: %.1f\n", valor); // Al valor le pedimos que muestre solo 1 decimal
+        if (valor < 4)
+        {
+
+            printf("\nDesaprobaste con: %.1f\n", valor);
+        }
+        else
+        {
+            printf("\nAprobaste con: %.1f\n", valor); // Al valor le pedimos que muestre solo 1 decimal
+        }
         return;
     }
     else
@@ -536,7 +600,14 @@ void rendirSecond(nodeDL *nodoEstudiante, char materia[55])
     {
         float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
         nodoEstudiante->estudiante->materias[indice].secondTest = valor;
-        printf("\nAprobaste con: %.1f\n", valor);
+        if (valor < 4)
+        {
+            printf("\nDesaprobaste con: %.1f\n", valor);
+        }
+        else
+        {
+            printf("\nAprobaste con: %.1f\n", valor); // Al valor le pedimos que muestre solo 1 decimal
+        }
         return;
     }
     else
@@ -558,30 +629,29 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
         float primerParcial = nodoEstudiante->estudiante->materias[indice].firstTest;
         float segundoParcial = nodoEstudiante->estudiante->materias[indice].secondTest;
 
-
         // FUNCION PROMEDIO
         float promedio = (primerParcial + segundoParcial) / 2; // Promedio de primer y segundo parcial
 
-        if (promedio >= 4)
+        if (promedio < 4)
         {
-
-            if (valor >= 4)
+            printf("\n-No tenes aprobada la cursada: %.1f\n", valor);
+            return;
+        }
+        else
+        {
+            if (valor < 4)
             {
-                nodoEstudiante->estudiante->materias[indice].finalTest = valor; // Asigna el valor al final
-                nodoEstudiante->estudiante->materias[indice].aprobada = 1; // Marca la materia como aprobada
-                printf("\n-Felicidades Papa, aprobaste con: %1.f\n", valor);
+                printf("\n-Final desaprobado con: %.1f\n", valor);
                 return;
             }
             else
             {
-                printf("\n-Final desaprobado con: %1.f\n", valor);
+
+                nodoEstudiante->estudiante->materias[indice].finalTest = valor; // Asigna el valor al final
+                nodoEstudiante->estudiante->materias[indice].aprobada = 1;      // Marca la materia como aprobada
+                printf("\n-Felicidades Papa, aprobaste con: %.1f\n", valor);
                 return;
             }
-        }
-        else
-        {
-            printf("\n-No tenes aprobada la cursada: %1.f\n", valor);
-            return;
         }
     }
     else
@@ -632,19 +702,13 @@ void rendirMateria(nodeDL *nodoEstudiante, char materia[55])
     }
 }
 
-
-
 // FUNCIONES MATERIAS
 
-
-void modificarMateria(char nombreMateria[55])
+void modificarMateria(char nombreMateria[55], char nuevoNombre[55])
 {
     int indice = findMateria(nombreMateria, CANT_MATERIAS, materias);
     if (indice != -1)
     {
-        printf("\nIngrese el nuevo nombre de la materia: ");
-        char nuevoNombre[55];
-        scanf("%s", nuevoNombre);
         strcpy(materias[indice]->nombreMateria, nuevoNombre);
         printf("\nMateria modificada con exito.\n");
     }
@@ -654,38 +718,70 @@ void modificarMateria(char nombreMateria[55])
     }
 }
 
-
-void printPromedios(doubleLinkedList *lista){
+void printPromedios(doubleLinkedList *lista)
+{
     float promedioAlumno = 0;
     float sumaFinales = 0;
     nodeDL *node = lista->head;
-    int i =0;
-    if(lista->size == 0){
+    int i = 0;
+    if (lista->size == 0)
+    {
         printf("\n-No hay estudiantes cargados.\n");
         return;
     }
 
-    while(i != lista->size){
+    while (i != lista->size)
+    {
         promedioAlumno = 0;
         for (int i = 0; i < node->estudiante->cantMaterias; i++)
         {
             if (node->estudiante->materias[i].aprobada == 1)
             {
-                 sumaFinales += node->estudiante->materias[i].finalTest;
+                sumaFinales += node->estudiante->materias[i].finalTest;
             }
         }
         promedioAlumno = sumaFinales / node->estudiante->cantMaterias; // Promedio de las materias aprobadas
-        
         printf("Nombre: %s, Promedio: %.1f\n", node->estudiante->nombre, promedioAlumno);
 
         sumaFinales = 0; // Reinicio la suma para el siguiente alumno
-        promedioAlumno =0;
-        if(node->next != NULL){
+        promedioAlumno = 0;
+        if (node->next != NULL)
+        {
             node = node->next;
         }
-   
+
+        i++;
+    }
+}
+
+doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEdad)
+{
+    int encontrados = 0;
+    nodeDL *node = lista.head; // Usas la variable global 'lista'
+    int i = 0;
+    while (i != lista.size)
+    {
+        int anioNacimiento = returnAnioEdad(node->estudiante->nacimiento);
+        int edad = obtenerAnioActual() - anioNacimiento;
+
+        if (edad >= edadMin && edad <= edadMax)
+        {
+            printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
+            encontrados++;
+            append(listaEncontradosEdad, node->estudiante);
+        }
+
+        node = node->next;
         i++;
     }
 
-}
+    printf("\n----------------------------------------------------------------------------------\n");
 
+    if (encontrados == 0)
+    {
+        printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
+        return NULL;
+    }
+
+    return listaEncontradosEdad;
+}

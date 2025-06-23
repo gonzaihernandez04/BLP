@@ -121,10 +121,13 @@ int main()
                     char estudiante[55];
                     printf("Ingrese el nombre del estudiante: ");
                     scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
+
+                    doubleLinkedList *listaEncontradosNombre;
                     nodeDL *alumno = findEstudiante(estudiante, &lista);
                     if (alumno != NULL)
                     {
                         printf("\n-Estudiante encontrado: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
+                        append(&listaEncontradosNombre, alumno->estudiante); // Agrego el estudiante encontrado a la lista de encontrados
                     }
                     else
                     {
@@ -132,57 +135,32 @@ int main()
                     }
                 }
                 else
-                {
+                { // TODO ESTO SE CAMBIO
 
                     if (lista.size == 0)
                     {
                         printf("\n-No hay estudiantes cargados.\n");
                         return;
                     }
+                    doubleLinkedList *listaEncontradosEdad;
+
                     int edadMin, edadMax;
                     printf("-Ingrese la edad minima: ");
                     scanf("%d", &edadMin);
                     printf("-Ingrese la edad maxima: ");
                     scanf("%d", &edadMax);
 
-                    nodeDL *node = lista.head;
-                    int encontrado = 1;
-
-                    int i = 0;
 
                     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                     printf("\nListado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
                     SetConsoleTextAttribute(hConsole, saved_attributes);
 
                     printf("\n----------------------------------------------------------------------------------\n");
-                    while (i != lista.size)
-                    {
-                        int anioNacimiento = returnAnioEdad(node->estudiante->nacimiento); // Retorno el año de nacimiento del estudiante en entero
-                        int edad = obtenerAnioActual() - anioNacimiento;                   // calculo la edad del estudiante
-                        // Verifico si la edad del estudiante esta dentro del rango especificado
 
-                        if (edad >= edadMin && edad <= edadMax)
-                        {
-                            printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
-                            encontrado = 1;
-                        }
-                        else
-                        {
-                            encontrado = 0;
-                        }
-                        node = node->next;
-                        i++;
-                    }
 
-                    printf("\n----------------------------------------------------------------------------------\n");
+                    findByRange(edadMin, edadMax, &listaEncontradosEdad);
+                    clear(&listaEncontradosEdad);
 
-                    if (encontrado == 0)
-                    {
-                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-
-                        printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
-                        SetConsoleTextAttribute(hConsole, saved_attributes);
-                    }
                 }
             }
 
@@ -234,15 +212,16 @@ int main()
 
             if (eleccion == 1)
             {
-
                 char nombreMateria[55];
                 printMaterias();
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                 printf("\n-Ingrese el nombre de la materia a modificar: ");
                 scanf("%s", nombreMateria);
                 SetConsoleTextAttribute(hConsole, saved_attributes);
-
-                modificarMateria(nombreMateria);
+                printf("\nIngrese el nuevo nombre de la materia: ");
+                char nuevoNombre[55];
+                scanf("%s", nuevoNombre);
+                modificarMateria(nombreMateria, nuevoNombre);
             }
             if (eleccion == 2)
             {

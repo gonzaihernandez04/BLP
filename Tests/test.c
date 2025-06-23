@@ -17,6 +17,8 @@ void testCargarEstudiante()
     assert(lista.size == 1);
     assert(strcmp(lista.head->estudiante->nombre, "Juan Perez") == 0);
     assert(lista.head->estudiante->dni == 12345678);
+    free(estudiante); // Limpio memoria general
+    clear(&lista); // Limpio memoria general
 
 }
 
@@ -44,6 +46,11 @@ void testFindByDNI()
     assert(foundNode != NULL);
     assert(strcmp(foundNode->estudiante->nombre, "Ana Gomez") == 0);
 
+    free(estudiante1);// Limpio memoria general
+    free(estudiante2);// Limpio memoria general
+    free(estudiante3);// Limpio memoria general
+    clear(&lista); // Limpio memoria general
+
     
 }
 // Buscar por nombre
@@ -69,12 +76,63 @@ void testFindByNombre(){
     nodeDL *foundNode = findEstudiante("Ana Gomez", &lista);
     assert(foundNode != NULL);
     assert(strcmp(foundNode->estudiante->nombre, "Ana Gomez") == 0);
+
+    free(estudiante1);
+    free(estudiante2);
+    free(estudiante3);
+    clear(&lista); // Limpio memoria general
 }
+
+
+void testModificarMateria(){
+    cargarMaterias();
+    char nombreMateria[55] = "AyP1";
+    char nombreMateriaModificado[55] = "Algoritmos_Programacion_1";
+    modificarMateria(nombreMateria,nombreMateriaModificado);
+    assert(strcmp(materias[2]->nombreMateria, nombreMateriaModificado) == 0);
+}
+
+void testEliminarEstudiante(){
+     doubleLinkedList lista = {NULL, NULL, 0};
+    Estudiante *estudiante1 = malloc(sizeof(Estudiante));
+    Estudiante *estudiante2 = malloc(sizeof(Estudiante));
+
+    strcpy(estudiante1->nombre, "Ana Gomez");
+    estudiante1->dni = 87654321;
+    append(&lista, estudiante1);
+
+    strcpy(estudiante2->nombre, "Gonzalo Gomez");
+    estudiante2->dni = 42345678;
+    append(&lista, estudiante2);
+
+    deleteNode(estudiante1, &lista);
+    assert(lista.size == 1);
+    clear(&lista); // Limpia la lista para evitar fugas de memoria
+    free(estudiante1);// Limpio memoria general
+    free(estudiante2);// Limpio memoria general
+}
+
+void testBuscarRangoEdad(){
+    doubleLinkedList listaEncontrados = {NULL, NULL, 0};
+    cargarEstudiantesPrueba();
+    cargarMaterias();
+    int edadMin = 20;
+    int edadMax = 30;
+    findByRange(edadMin, edadMax, &listaEncontrados);
+    assert(listaEncontrados.size == 4); // Verifica que se hayan encontrado estudiantes en el rango de edad
+
+}
+
+
 int main()
 {
     testCargarEstudiante();
     testFindByDNI();
+    testFindByNombre();
+    testModificarMateria();
+    testEliminarEstudiante();
+    testBuscarRangoEdad();
     // Agrega aquí más tests si tienes
-    printf("Todos los tests pasaron correctamente.\n");
+    printf("\nTodos los tests pasaron correctamente.\n");
     return 0;
 }

@@ -136,6 +136,7 @@ void cargarEstudiantesPrueba()
     e2->materias[0].aprobada = 1;
     e2->materias[1].firstTest = 7.0;
     e2->materias[1].secondTest = 8.0;
+    e2->materias[1].finalTest = 8.0;
     e2->materias[1].aprobada = 1;
     append(&lista, e2);
 
@@ -154,6 +155,7 @@ void cargarEstudiantesPrueba()
     e3->materias[0].aprobada = 1;
     e3->materias[1].firstTest = 7.0;
     e3->materias[1].secondTest = 9.0;
+    e3->materias[1].finalTest = 9.0;
     e3->materias[1].aprobada = 1;
     append(&lista, e3);
 
@@ -172,6 +174,7 @@ void cargarEstudiantesPrueba()
     e4->materias[0].aprobada = 1;
     e4->materias[1].firstTest = 8.0;
     e4->materias[1].secondTest = 8.5;
+    e4->materias[1].finalTest = 9.0;
     e4->materias[1].aprobada = 1;
     append(&lista, e4);
 }
