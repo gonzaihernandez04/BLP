@@ -24,6 +24,7 @@ Aquí encontrarás la implementación de un **sistema de estudiantes** en C, jun
 - Anotarse en una materia
 - Rendir una materia
 ---
+Grabar un video de máximo 10 minutos (puede ser menos) mostrando el funcionamiento del sistema y los puntos implementados. En esta oportunidad no es necesario enfocarse tanto en el código, ya que se puede ver en el repositorio. Concéntrese en presentar el proyecto funcionando.
 
 ## Aclaraciones
 

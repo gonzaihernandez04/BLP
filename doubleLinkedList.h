@@ -72,11 +72,11 @@ void printList(doubleLinkedList *lista)
         {
             if (node->next != NULL)
             {
-                printf("Nombre y apellido: %s, DNI: %d\n", node->estudiante->nombre, node->estudiante->dni);
+                printf("Nombre y apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo);
             }
             else
             {
-                printf("Nombre: %s, DNI: %d\n", node->estudiante->nombre, node->estudiante->dni);
+                printf("Nombre y apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo);
             }
 
             node = node->next;
@@ -215,48 +215,83 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
 
     while (flag == 0)
     {
-        printf(" \n 1-Anotarse a Materia\n 2-Abandonar Materia\n 3-Rendir Parciales\n 4-Modificar alumno\n 5-Materias anotadas\n 6-Salir\n");
-        scanf("%d", &opc);
-
+        HANDLE hConsole = cargarSetWindowsAPI();
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        printf("\nElija una opcion\n");
+        printf("------------------\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        printf(" 1-Anotarse a una Materia\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        printf(" 2-Abandonar Materia\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        printf(" 3-Rendir Parciales\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+        printf(" 4-Modificar alumno\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        printf(" 5-Materias anotadas\n");
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        printf(" 6-Salir\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
+        
+        opc = getch() - '0';
         switch (opc)
         {
         case 1:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+            printf(" \nAnotarse a una Materia\n");
+            printf("----------------------\n");
             char nombreMateria[55];
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("-Ingrese el nombre de la materia: ");
             scanf("%s", nombreMateria);
-            anortarseMateria(nodoEstudiante, nombreMateria, CANT_MATERIAS, materias);
-
+            anotarseMateria(nodoEstudiante, nombreMateria, CANT_MATERIAS, materias);
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
         case 2:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf("\nAbandonar una Materia\n");
+            printf("----------------------\n");
             char nombre[55];
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("-Ingrese el nombre de la materia:");
             scanf("%s", nombre);
             eliminarMateria(nodoEstudiante->estudiante, nombre);
-
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
         case 3:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+            printf("\nRendir Parciales\n");
+            printf("----------------------\n");
             char nombre[55];
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("-Ingrese el nombre de la materia:");
             scanf("%s", nombre);
             rendirMateria(nodoEstudiante, nombre);
-
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
         case 4:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\nModificar alumno\n");
+            printf("----------------------\n");
             modificarAlumno(nodoEstudiante);
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
 
         case 5:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            printf("\nMaterias anotadas\n");
+            printf("----------------------\n");
             mostrarMaterias(nodoEstudiante);
-
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
 
@@ -266,7 +301,9 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             break;
         }
         default:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n\n");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
     }
@@ -274,10 +311,11 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
 
 void modificarAlumno(nodeDL *alumno)
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int opc = 0;
     if (alumno != NULL)
     {
-        HANDLE hConsole = cargarSetWindowsAPI();
+       
         printf("\nElija una opcion\n");
         printf("------------------\n");
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
@@ -293,7 +331,7 @@ void modificarAlumno(nodeDL *alumno)
         case 1:
         {
             char nuevoNombre[55];
-            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
             printf(" Ingrese el nuevo nombre: \n");
             SetConsoleTextAttribute(hConsole, saved_attributes);
             scanf("%s", &nuevoNombre);
@@ -303,7 +341,7 @@ void modificarAlumno(nodeDL *alumno)
         case 2:
         {
             int nuevoDNI;
-            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
             printf(" Ingrese el nuevo DNI: \n");
             SetConsoleTextAttribute(hConsole, saved_attributes);
             scanf("%d", &nuevoDNI);
@@ -313,7 +351,7 @@ void modificarAlumno(nodeDL *alumno)
         case 3:
         {
             int nuevoLegajo;
-            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
             printf(" Ingrese el nuevo legajo: \n");
             SetConsoleTextAttribute(hConsole, saved_attributes);
             scanf("%d", &nuevoLegajo);
@@ -322,20 +360,24 @@ void modificarAlumno(nodeDL *alumno)
         }
         default:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
             printf("Opcion invalida");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
         }
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("\nAlumno no encontrado.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
     }
 }
 
 void cargarEstudiante()
 {
-
+    HANDLE hConsole = cargarSetWindowsAPI();
     int fechaEsValida = 0;
     Estudiante *estudiante = malloc(sizeof(Estudiante));
     estudiante->cantMaterias = 0;
@@ -344,12 +386,12 @@ void cargarEstudiante()
         printf("Error al reservar memoria para el estudiante.\n");
         return;
     }
-
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("Ingrese el nombre del estudiante: ");
     scanf("%s", estudiante->nombre);
     printf("Ingrese la fecha de nacimiento del estudiante (DD/MM/AAAA): ");
     scanf("%s", estudiante->nacimiento);
-
+    
     fechaEsValida = validarFecha(estudiante->nacimiento);
 
     if (fechaEsValida == 0)
@@ -390,13 +432,15 @@ void cargarEstudiante()
     printf("\nEspere por favor...\n");
     Sleep(500); // Espera 1000 milisegundos = 1 segundo
     printf("\nEstudiante cargado con exito\n");
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
 //////////////////// FUNCIONES PARA MATERIAS ///////////////////////
 
 // Funcion para buscar materias ingresando un string | Cant de materias | Arreglo de Materia
-int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
+int findMateria(char nombreMateria[55], int cantMaterias, Materia materias[])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     char nombreMateriaMayus[55];
     // Creo copia de nombre de materia para no afectar la original
     strcpy(nombreMateriaMayus, nombreMateria);
@@ -406,7 +450,7 @@ int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
     for (int i = 0; i < cantMaterias; i++)
     {
         // Copia de nombre materia del array de puntero para no modificar la original
-        strcpy(mayusNamePuntero, materias[i]->nombreMateria);
+        strcpy(mayusNamePuntero, materias[i].nombreMateria);
         upperCase(mayusNamePuntero); // Convierte a mayúsculas el nombre de la materia del plan
 
         if (strcmp(mayusNamePuntero, nombreMateriaMayus) == 0)
@@ -414,13 +458,16 @@ int findMateria(char nombreMateria[55], int cantMaterias, Materia *materias[])
             return i; // Devuelve el índice si la encuentra
         }
     }
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
     printf("No se encontro la materia\n");
+    SetConsoleTextAttribute(hConsole, saved_attributes);
     return -1; // No se encontró la materia
 }
 
 // Busca en arreglo de structs Materia (para materias del estudiante)
 int findMateriaAlumno(char nombreMateria[55], int cantMaterias, Materia materias[])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     char nombreMateriaMayus[55];
     strcpy(nombreMateriaMayus, nombreMateria);
     upperCase(nombreMateriaMayus);
@@ -436,27 +483,33 @@ int findMateriaAlumno(char nombreMateria[55], int cantMaterias, Materia materias
             return i;
         }
     }
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
     printf("No se encontro la materia\n");
+    SetConsoleTextAttribute(hConsole, saved_attributes);
     return -1;
 }
 
 // Funcion para agregar materia en un alumno ingresando un alumno tipo Estudiante | Una materia tipo Materia
-void agregarMateria(Estudiante *estudiante, Materia *materia)
+void agregarMateria(Estudiante *estudiante, Materia materia)
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     if (estudiante->cantMaterias < 48)
     {
-        estudiante->materias[estudiante->cantMaterias] = *materia;
+        estudiante->materias[estudiante->cantMaterias] = materia;
         estudiante->cantMaterias++;
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("No se pueden agregar más materias.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
     }
 }
 
 // Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
 void eliminarMateria(Estudiante *estudiante, char materia[55])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     if (estudiante == NULL)
     {
         printf("Error: puntero estudiante es NULL.\n");
@@ -479,34 +532,43 @@ void eliminarMateria(Estudiante *estudiante, char materia[55])
             estudiante->materias[i] = estudiante->materias[i + 1]; // Sobreescribe con la siguiente
         }
         estudiante->cantMaterias--;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
         printf("\n-Materia eliminada con exito.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
         return;
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("\n-Materia no encontrada.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
         return;
     }
 }
 
 // Funcion para mostrar Materias del plan de estudio
-void printMaterias()
+void printMaterias(Materia materias[])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
     printf("\nMaterias del plan de estudio:\n");
     printf("\n-------------------------------\n");
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 
-    for (int i = 0; i < CANT_MATERIAS; i++)
+    for (int i = 0; i < cantidadMaterias; i++)
     {
-        printf("%s\n", materias[i]->nombreMateria);
+        printf("%d. %s\n", i+1,materias[i].nombreMateria);
     }
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
     printf("\n-------------------------------\n");
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
-clearMaterias()
+clearMaterias(Materia materias[])
 {
     for (int i = 0; i < CANT_MATERIAS; i++)
     {
-        free(materias[i]); // Libera la memoria para cada materia
+        free(&materias[i]); // Libera la memoria para cada materia
     }
 }
 
@@ -527,8 +589,9 @@ void mostrarMaterias(nodeDL *nodoEstudiante)
 }
 
 // Funcion para anotar un alumno a una materia
-void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMaterias, Materia *materias[])
+void anotarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMaterias, Materia materias[])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int encontrado = findMateria(nombreMateria, cantMaterias, materias);
 
     if (encontrado != -1)
@@ -545,7 +608,9 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
                 }
                 else
                 {
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
                     printf("Ya estás anotado en esa materia.\n");
+                    
                 }
                 return; // Salir después de encontrar la materia
             }
@@ -553,18 +618,21 @@ void anortarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMa
         // Si no está anotado, agregar la materia
 
         agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
-
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         printf("\n-Materia agregada con éxito.\n");
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("Materia no encontrada en el plan.\n");
     }
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
 // Funcion para rendir primer parcial ingresando un alumno | Nombre de materia a rendir
 void rendirFirst(nodeDL *nodoEstudiante, char materia[55])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
     int indice = findMateriaAlumno(materia, cantMaterias, nodoEstudiante->estudiante->materias);
 
@@ -574,25 +642,30 @@ void rendirFirst(nodeDL *nodoEstudiante, char materia[55])
         nodoEstudiante->estudiante->materias[indice].firstTest = valor;
         if (valor < 4)
         {
-
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf("\nDesaprobaste con: %.1f\n", valor);
+            
         }
         else
-        {
+        {   
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
             printf("\nAprobaste con: %.1f\n", valor); // Al valor le pedimos que muestre solo 1 decimal
         }
         return;
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("\n-Materia no encontrada.\n");
         return;
     }
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
 // Funcion para rendir segundo parcial ingresando un alumno | Nombre de materia a rendir
 void rendirSecond(nodeDL *nodoEstudiante, char materia[55])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
     int indice = findMateriaAlumno(materia, cantMaterias, nodoEstudiante->estudiante->materias);
 
@@ -602,24 +675,29 @@ void rendirSecond(nodeDL *nodoEstudiante, char materia[55])
         nodoEstudiante->estudiante->materias[indice].secondTest = valor;
         if (valor < 4)
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf("\nDesaprobaste con: %.1f\n", valor);
         }
         else
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
             printf("\nAprobaste con: %.1f\n", valor); // Al valor le pedimos que muestre solo 1 decimal
         }
         return;
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("\n-Materia no encontrada.\n");
         return;
     }
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
 // Funcion para rendir final ingresando un alumno | Nombre de materia a rendir
 void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int cantMaterias = nodoEstudiante->estudiante->cantMaterias;
     int indice = findMateriaAlumno(materia, cantMaterias, nodoEstudiante->estudiante->materias);
 
@@ -634,6 +712,7 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
 
         if (promedio < 4)
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf("\n-No tenes aprobada la cursada: %.1f\n", valor);
             return;
         }
@@ -641,6 +720,7 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
         {
             if (valor < 4)
             {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
                 printf("\n-Final desaprobado con: %.1f\n", valor);
                 return;
             }
@@ -649,43 +729,67 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
 
                 nodoEstudiante->estudiante->materias[indice].finalTest = valor; // Asigna el valor al final
                 nodoEstudiante->estudiante->materias[indice].aprobada = 1;      // Marca la materia como aprobada
-                printf("\n-Felicidades Papa, aprobaste con: %.1f\n", valor);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                printf("\n-Felicidades aprobaste, tu nota es: %.1f\n", valor);
                 return;
             }
         }
     }
     else
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE| FOREGROUND_INTENSITY);
         printf("\n-Materia no encontrada.\n");
         return;
     }
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
 // Funcion para rendir primer,segundo parcial y final ingresando un estudiante | Materia a rendir
 void rendirMateria(nodeDL *nodoEstudiante, char materia[55])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int opc = 0;
     int flag = 0;
-    printf("\n1-Rendir First\n2-Rendir Second\n3-Rendir Final\n4-Salir\n");
-    scanf("%d", &opc);
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    printf("\nElija una opcion\n");
+    printf("------------------\n");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+    printf("1-Rendir First\n");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    printf("2-Rendir Second\n");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    printf("3-Rendir Final\n");
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED  | FOREGROUND_INTENSITY);
+    printf("4-Salir\n");
+    SetConsoleTextAttribute(hConsole, saved_attributes);
+    opc = getch() - '0';
     while (flag == 0)
     {
         switch (opc)
         {
         case 1:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\nPrimer Parcial\n");
+            printf("------------------\n");
             rendirFirst(nodoEstudiante, materia);
             flag = 1;
             break;
         }
         case 2:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\nSegundo Parcial\n");
+            printf("------------------\n");
             rendirSecond(nodoEstudiante, materia);
             flag = 1;
             break;
         }
         case 3:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\nEvaluación Final\n");
+            printf("------------------\n");
             rendirFinal(nodoEstudiante, materia);
             flag = 1;
             break;
@@ -696,37 +800,47 @@ void rendirMateria(nodeDL *nodoEstudiante, char materia[55])
             break;
         }
         default:
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n");
             break;
         }
     }
+     SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
 // FUNCIONES MATERIAS
 
-void modificarMateria(char nombreMateria[55], char nuevoNombre[55])
+void modificarMateria(char nombreMateria[55], char nuevoNombre[55],Materia materias[])
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int indice = findMateria(nombreMateria, CANT_MATERIAS, materias);
     if (indice != -1)
     {
-        strcpy(materias[indice]->nombreMateria, nuevoNombre);
+        strcpy(materias[indice].nombreMateria, nuevoNombre);
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         printf("\nMateria modificada con exito.\n");
     }
     else
     {
         printf("\nMateria no encontrada.\n");
     }
+    SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
+   
+   
 void printPromedios(doubleLinkedList *lista)
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     float promedioAlumno = 0;
     float sumaFinales = 0;
     nodeDL *node = lista->head;
     int i = 0;
     if (lista->size == 0)
     {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         printf("\n-No hay estudiantes cargados.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
         return;
     }
 
@@ -741,8 +855,9 @@ void printPromedios(doubleLinkedList *lista)
             }
         }
         promedioAlumno = sumaFinales / node->estudiante->cantMaterias; // Promedio de las materias aprobadas
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         printf("Nombre: %s, Promedio: %.1f\n", node->estudiante->nombre, promedioAlumno);
-
+        SetConsoleTextAttribute(hConsole, saved_attributes);
         sumaFinales = 0; // Reinicio la suma para el siguiente alumno
         promedioAlumno = 0;
         if (node->next != NULL)
@@ -756,6 +871,7 @@ void printPromedios(doubleLinkedList *lista)
 
 doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEdad)
 {
+    HANDLE hConsole = cargarSetWindowsAPI();
     int encontrados = 0;
     nodeDL *node = lista.head; // Usas la variable global 'lista'
     int i = 0;
@@ -766,7 +882,9 @@ doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaE
 
         if (edad >= edadMin && edad <= edadMax)
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             encontrados++;
             append(listaEncontradosEdad, node->estudiante);
         }
@@ -774,12 +892,13 @@ doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaE
         node = node->next;
         i++;
     }
-
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\n----------------------------------------------------------------------------------\n");
 
     if (encontrados == 0)
     {
         printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
         return NULL;
     }
 

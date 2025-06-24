@@ -22,7 +22,8 @@ WORD saved_attributes;
 
 // Defino una constante para la cantidad de materias para sumar materias nuevas sin modificar el codigo
 doubleLinkedList lista = {NULL, NULL, 0};
-Materia *materias[CANT_MATERIAS];
+Materia *materias = NULL;
+int cantidadMaterias = 9;
 
 char *upperCase(char *cadena)
 {
@@ -100,7 +101,7 @@ int returnAnioEdad(char *fecha)
     return anio; // Retorna el año de la fecha ingresada
 }
 
-void cargarEstudiantesPrueba()
+void cargarEstudiantesPrueba(Materia materias[])
 {
     Estudiante *e1 = malloc(sizeof(Estudiante));
     strcpy(e1->nombre, "Ana Gomez");
@@ -113,11 +114,10 @@ void cargarEstudiantesPrueba()
     agregarMateria(e1, materias[1]); // Algebra2
     e1->materias[0].firstTest = 7.5;
     e1->materias[0].secondTest = 8.0;
-    e1->materias[0].finalTest = 0;
     e1->materias[0].aprobada = 1;
     e1->materias[1].firstTest = 6.0;
     e1->materias[1].secondTest = 7.0;
-    e1->materias[1].finalTest = 0;
+    e1->materias[1].finalTest = 4;
     e1->materias[1].aprobada = 1;
     append(&lista, e1);
 
@@ -177,18 +177,131 @@ void cargarEstudiantesPrueba()
     e4->materias[1].finalTest = 9.0;
     e4->materias[1].aprobada = 1;
     append(&lista, e4);
+    
+    // Estudiante 5
+     Estudiante *e5 = malloc(sizeof(Estudiante));
+    strcpy(e5->nombre, "Juan Perez");
+    strcpy(e5->nacimiento, "15/08/2000");
+    e5->dni = 55555555;
+    e5->legajo = 1005;
+    e5->cantMaterias = 0;
+
+    agregarMateria(e5, materias[6]); // Historia
+    agregarMateria(e5, materias[7]); // Matematica Discreta
+    e5->materias[0].firstTest = 7.0;
+    e5->materias[0].secondTest = 4.0;
+    e5->materias[0].aprobada = 1;
+    e5->materias[1].firstTest = 6.0;
+    e5->materias[1].secondTest = 7.0;
+    e5->materias[1].finalTest = 3;
+    e5->materias[1].aprobada = 0;
+    append(&lista, e5);
+
+    // Estudiante 6
+     Estudiante *e1 = malloc(sizeof(Estudiante));
+    strcpy(e1->nombre, "Jose Hernandez");
+    strcpy(e1->nacimiento, "06/06/1999");
+    e1->dni = 66666666;
+    e1->legajo = 1006;
+    e1->cantMaterias = 0;
+
+    agregarMateria(e1, materias[3]); // AyP2
+    agregarMateria(e1, materias[2]); // AyP1
+    e1->materias[0].firstTest = 4.5;
+    e1->materias[0].secondTest = 6.0;
+    e1->materias[0].aprobada = 1;
+    e1->materias[1].firstTest = 6.0;
+    e1->materias[1].secondTest = 7.0;
+    e1->materias[1].finalTest = 5;
+    e1->materias[1].aprobada = 1;
+    append(&lista, e1);
+
+    // Estudiante 7
+     Estudiante *e1 = malloc(sizeof(Estudiante));
+    strcpy(e1->nombre, "Florencia Cruz");
+    strcpy(e1->nacimiento, "05/01/2004");
+    e1->dni = 7777777;
+    e1->legajo = 1007;
+    e1->cantMaterias = 0;
+
+    agregarMateria(e1, materias[4]); // AyP3
+    agregarMateria(e1, materias[1]); // Algebra2
+    e1->materias[0].firstTest = 2.0;
+    e1->materias[0].secondTest = 2.0;
+    e1->materias[0].aprobada = 0;
+    e1->materias[1].firstTest = 6.0;
+    e1->materias[1].secondTest = 7.0;
+    e1->materias[1].finalTest = 8;
+    e1->materias[1].aprobada = 1;
+    append(&lista, e1);
+
+    // Estudiante 8
+     Estudiante *e1 = malloc(sizeof(Estudiante));
+    strcpy(e1->nombre, "Cristina Wayne");
+    strcpy(e1->nacimiento, "15/08/2001");
+    e1->dni = 88888888;
+    e1->legajo = 1008;
+    e1->cantMaterias = 0;
+
+    agregarMateria(e1, materias[0]); // Algebra1
+    agregarMateria(e1, materias[4]); // AyP3
+    e1->materias[0].firstTest = 7.0;
+    e1->materias[0].secondTest = 4.0;
+    e1->materias[0].aprobada = 1;
+    e1->materias[1].firstTest = 6.0;
+    e1->materias[1].secondTest = 7.0;
+    e1->materias[1].finalTest = 9.0;
+    e1->materias[1].aprobada = 1;
+    append(&lista, e1);
+
+    // Estudiante 9
+     Estudiante *e1 = malloc(sizeof(Estudiante));
+    strcpy(e1->nombre, "Federico Ferro");
+    strcpy(e1->nacimiento, "01/02/2003");
+    e1->dni = 99999999;
+    e1->legajo = 1009;
+    e1->cantMaterias = 0;
+
+    agregarMateria(e1, materias[5]); // Base-Datos
+    agregarMateria(e1, materias[7]); // Matematica Discreta
+    e1->materias[0].firstTest = 7.5;
+    e1->materias[0].secondTest = 8.0;
+    e1->materias[0].aprobada = 1;
+    e1->materias[1].firstTest = 6.0;
+    e1->materias[1].secondTest = 7.0;
+    e1->materias[1].finalTest = 0;
+    e1->materias[1].aprobada = 1;
+    append(&lista, e1);
+
+    //estudiante 10
+     Estudiante *e1 = malloc(sizeof(Estudiante));
+    strcpy(e1->nombre, "Tobias Kent");
+    strcpy(e1->nacimiento, "12/09/1990");
+    e1->dni = 10101010;
+    e1->legajo = 10010;
+    e1->cantMaterias = 0;
+
+    agregarMateria(e1, materias[0]); // Algebra1
+    agregarMateria(e1, materias[1]); // Algebra2
+    e1->materias[0].firstTest = 7.0;
+    e1->materias[0].secondTest = 8.5;
+    e1->materias[0].aprobada = 1;
+    e1->materias[1].firstTest = 6.5;
+    e1->materias[1].secondTest = 7.5;
+    e1->materias[1].finalTest = 5.5;
+    e1->materias[1].aprobada = 1;
+    append(&lista, e1);
 }
 
-void cargarMaterias()
+void cargarMaterias(Materia materias[])
 {
     for (int i = 0; i < CANT_MATERIAS; i++)
     {
-        materias[i] = malloc(sizeof(Materia)); // Reserva memoria para cada materia
-        strcpy(materias[i]->nombreMateria, nombres[i]);
-        materias[i]->inscripto = 0;
-        materias[i]->aprobada = 0;
-        materias[i]->firstTest = 0;
-        materias[i]->secondTest = 0;
+        strcpy(materias[i].nombreMateria, nombres[i]);
+        materias[i].inscripto = 0;
+        materias[i].aprobada = 0;
+        materias[i].firstTest = 0;
+        materias[i].secondTest = 0;
     }
 }
 void inicializarFuncionRand()
@@ -204,3 +317,40 @@ HANDLE cargarSetWindowsAPI()
     saved_attributes = consoleInfo.wAttributes;
     return hConsole; // Retorna el handle del console
 }
+
+
+//void cargarEstudiantesPruebaMasivo(int cantidad)
+//{
+//    for (int i = 0; i < cantidad; i++)
+//    {
+//        Estudiante *e = malloc(sizeof(Estudiante));
+//        sprintf(e->nombre, "Estudiante%d", i + 1);
+//        sprintf(e->nacimiento, "01/01/199%d", (i % 10) + 1); // años 1991-2000
+//        e->dni = 10000000 + i;
+//        e->legajo = 2000 + i;
+//        e->cantMaterias = 0;
+//
+//        // Asignar materias de prueba
+//        for (int j = 0; j < CANT_MATERIAS && j < 3; j++) // Solo 3 materias por estudiante
+//        {
+//            agregarMateria(e, materias[j]);
+//            e->materias[j].firstTest = 6 + (i % 5);
+//            e->materias[j].secondTest = 7 + (i % 3);
+//            e->materias[j].aprobada = 1;
+//        }
+//        append(&lista, e);
+//    }
+//}
+//
+//void cargarMateriasMasivo()
+//{
+//    for (int i = 0; i < CANT_MATERIAS; i++)
+//    {
+//        materias[i] = malloc(sizeof(Materia));
+//        sprintf(materias[i]->nombreMateria, "Materia%d", i + 1);
+//        materias[i]->inscripto = 0;
+//        materias[i]->aprobada = 0;
+//        materias[i]->firstTest = 0;
+//        materias[i]->secondTest = 0;
+//    }
+//}

@@ -4,11 +4,12 @@
 
 int main()
 {
+    materias = malloc(cantidadMaterias * sizeof(Materia));
 
     // Carga la materia de todas las carreras
-    cargarMaterias();
-    cargarEstudiantesPrueba(); // Carga estudiantes de prueba
-    inicializarFuncionRand();  // Inicializa la semilla para rand()
+    cargarMaterias(materias);
+    cargarEstudiantesPrueba(materias); // Carga estudiantes de prueba
+    inicializarFuncionRand();          // Inicializa la semilla para rand()
     HANDLE hConsole = cargarSetWindowsAPI();
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
@@ -83,9 +84,8 @@ int main()
             {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                 printf("\nCargar Estudiante");
-                SetConsoleTextAttribute(hConsole, saved_attributes);
-
                 printf("\n-----------------\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 cargarEstudiante();
             }
             if (eleccion == 2)
@@ -93,9 +93,8 @@ int main()
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
 
                 printf("\nEliminar estudiantes\n");
-                SetConsoleTextAttribute(hConsole, saved_attributes);
-
                 printf("--------------------\n");
+                 SetConsoleTextAttribute(hConsole, saved_attributes);
                 int dni;
                 printf("Ingrese el DNI del estudiante: ");
                 scanf("%d", &dni); // No uso &, porque estudiante ya es un puntero al primer elemento
@@ -112,13 +111,16 @@ int main()
 
                 printf("\nBuscar estudiantes\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                 printf("---------------------\n");
                 printf("\nDesea buscar por:\n 1- NOMBRE\n 2- RANGO DE EDAD\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 eleccion = getch() - '0';
 
                 if (eleccion == 1)
                 {
                     char estudiante[55];
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                     printf("Ingrese el nombre del estudiante: ");
                     scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
 
@@ -126,11 +128,13 @@ int main()
                     nodeDL *alumno = findEstudiante(estudiante, &lista);
                     if (alumno != NULL)
                     {
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                         printf("\n-Estudiante encontrado: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
                         append(&listaEncontradosNombre, alumno->estudiante); // Agrego el estudiante encontrado a la lista de encontrados
                     }
                     else
                     {
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                         printf("\n-Estudiante no encontrado.\n");
                     }
                 }
@@ -139,24 +143,25 @@ int main()
 
                     if (lista.size == 0)
                     {
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
                         printf("\n-No hay estudiantes cargados.\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
                         return;
                     }
                     doubleLinkedList *listaEncontradosEdad;
 
                     int edadMin, edadMax;
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                     printf("-Ingrese la edad minima: ");
                     scanf("%d", &edadMin);
                     printf("-Ingrese la edad maxima: ");
                     scanf("%d", &edadMax);
 
 
-                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                     printf("\nListado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
-                    SetConsoleTextAttribute(hConsole, saved_attributes);
-
                     printf("\n----------------------------------------------------------------------------------\n");
-
+                    SetConsoleTextAttribute(hConsole, saved_attributes);
 
                     findByRange(edadMin, edadMax, &listaEncontradosEdad);
                     clear(&listaEncontradosEdad);
@@ -169,14 +174,16 @@ int main()
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
                 printf("\nLISTA DE ESTUDIANTES\n");
-                SetConsoleTextAttribute(hConsole, saved_attributes);
+                
                 printf("-------------------------\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 printList(&lista);
             }
 
             if (eleccion == 5)
             {
                 int legajo;
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                 printf("-Ingrese el legajo del estudiante: ");
                 scanf("%d", &legajo); // No uso &, porque estudiante ya es un puntero al primer elemento
                 nodeDL *alumno = findByLegajo(legajo, &lista);
@@ -186,11 +193,14 @@ int main()
                     printf("\nUsted va a afectar al siguiente estudiante: Nombre: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
                     seleccionarEstudiante(alumno, &lista);
                 }
+                SetConsoleTextAttribute(hConsole, saved_attributes);
             }
 
             if (eleccion == 6)
             {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                 printf("\n-Lista de promedios de estudiantes:\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 printPromedios(&lista);
             }
 
@@ -198,36 +208,64 @@ int main()
         }
         case 2:
         {
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\nElija una opcion\n");
             printf("------------------\n");
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
             printf(" 1- Modificar Materia\n");
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
             printf(" 2- Imprimir Lista de Materias\n");
-            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-            printf(" 3- Volver al menu principal\n");
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf(" 3- Agregar Materia\n");
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf(" 4- Salir\n");
             SetConsoleTextAttribute(hConsole, saved_attributes);
-
             eleccion = getch() - '0';
 
             if (eleccion == 1)
             {
                 char nombreMateria[55];
-                printMaterias();
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                printf("\n-Ingrese el nombre de la materia a modificar: ");
+                printMaterias(materias);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                printf("\n-Ingrese el nombre de la materia a modificar(Sin espacios): ");
                 scanf("%s", nombreMateria);
+                printf("\nIngrese el nuevo nombre de la materia(Sin espacios): ");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
-                printf("\nIngrese el nuevo nombre de la materia: ");
                 char nuevoNombre[55];
                 scanf("%s", nuevoNombre);
-                modificarMateria(nombreMateria, nuevoNombre);
+                modificarMateria(nombreMateria, nuevoNombre, materias);
+
             }
             if (eleccion == 2)
             {
-                printMaterias();
+                printMaterias(materias);
             }
             if (eleccion == 3)
+            {
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                printf("\nAgregar Materia\n");
+                printf("----------------\n");
+                char nombreMateriaNueva[55];
+                int indiceMateria;
+                int opcMateria;
+                Materia materiaObtenida;
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                printf("\nIngrese el nombre de la nueva materia(Sin espacios): ");
+                scanf("%s", nombreMateriaNueva);
+                materias = realloc(materias, (cantidadMaterias + 1) * sizeof(Materia));
+                strcpy(materias[cantidadMaterias].nombreMateria, nombreMateriaNueva);
+
+                materias[cantidadMaterias].inscripto = 0;
+                materias[cantidadMaterias].aprobada = 0;
+                materias[cantidadMaterias].firstTest = 0;
+                materias[cantidadMaterias].secondTest = 0;
+                materias[cantidadMaterias].finalTest = 0;
+                cantidadMaterias++;
+                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                printf("\nMATERIA AGREGADA CON EXITO\n");
+            }
+
+            if (eleccion == 4)
             {
                 opc = 0; // Vuelve al menu principal
             }
@@ -236,16 +274,20 @@ int main()
 
         case 3:
             opc = 0;
-            clear(&lista);   // Limpia la lista de estudiantes al salir del programa
-            clearMaterias(); // Limpia las materias de memoria al salir del programaaa
+            clear(&lista);           // Limpia la lista de estudiantes al salir del programa
+            clearMaterias(materias); // Limpia las materias de memoria al salir del programaaa
+            SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\nMuchas gracias por usar este programa! Lo esperamos pronto.\n");
+            
             flag = 1;
             break;
 
         default:
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n\n");
             break;
         }
+    SetConsoleTextAttribute(hConsole, saved_attributes);
     }
     return 0;
 }
