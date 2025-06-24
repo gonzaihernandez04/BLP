@@ -198,99 +198,99 @@ void cargarEstudiantesPrueba(Materia materias[])
     append(&lista, e5);
 
     // Estudiante 6
-     Estudiante *e1 = malloc(sizeof(Estudiante));
-    strcpy(e1->nombre, "Jose Hernandez");
-    strcpy(e1->nacimiento, "06/06/1999");
-    e1->dni = 66666666;
-    e1->legajo = 1006;
-    e1->cantMaterias = 0;
+     Estudiante *e6 = malloc(sizeof(Estudiante));
+    strcpy(e6->nombre, "Jose Hernandez");
+    strcpy(e6->nacimiento, "06/06/1999");
+    e6->dni = 66666666;
+    e6->legajo = 1006;
+    e6->cantMaterias = 0;
 
-    agregarMateria(e1, materias[3]); // AyP2
-    agregarMateria(e1, materias[2]); // AyP1
-    e1->materias[0].firstTest = 4.5;
-    e1->materias[0].secondTest = 6.0;
-    e1->materias[0].aprobada = 1;
-    e1->materias[1].firstTest = 6.0;
-    e1->materias[1].secondTest = 7.0;
-    e1->materias[1].finalTest = 5;
-    e1->materias[1].aprobada = 1;
-    append(&lista, e1);
+    agregarMateria(e6, materias[3]); // AyP2
+    agregarMateria(e6, materias[2]); // AyP1
+    e6->materias[0].firstTest = 4.5;
+    e6->materias[0].secondTest = 6.0;
+    e6->materias[0].aprobada = 1;
+    e6->materias[1].firstTest = 6.0;
+    e6->materias[1].secondTest = 7.0;
+    e6->materias[1].finalTest = 5;
+    e6->materias[1].aprobada = 1;
+    append(&lista, e6);
 
     // Estudiante 7
-     Estudiante *e1 = malloc(sizeof(Estudiante));
-    strcpy(e1->nombre, "Florencia Cruz");
-    strcpy(e1->nacimiento, "05/01/2004");
-    e1->dni = 7777777;
-    e1->legajo = 1007;
-    e1->cantMaterias = 0;
+     Estudiante *e7 = malloc(sizeof(Estudiante));
+    strcpy(e7->nombre, "Florencia Cruz");
+    strcpy(e7->nacimiento, "05/01/2004");
+    e7->dni = 7777777;
+    e7->legajo = 1007;
+    e7->cantMaterias = 0;
 
-    agregarMateria(e1, materias[4]); // AyP3
-    agregarMateria(e1, materias[1]); // Algebra2
-    e1->materias[0].firstTest = 2.0;
-    e1->materias[0].secondTest = 2.0;
-    e1->materias[0].aprobada = 0;
-    e1->materias[1].firstTest = 6.0;
-    e1->materias[1].secondTest = 7.0;
-    e1->materias[1].finalTest = 8;
-    e1->materias[1].aprobada = 1;
-    append(&lista, e1);
+    agregarMateria(e7, materias[4]); // AyP3
+    agregarMateria(e7, materias[1]); // Algebra2
+    e7->materias[0].firstTest = 2.0;
+    e7->materias[0].secondTest = 2.0;
+    e7->materias[0].aprobada = 0;
+    e7->materias[1].firstTest = 6.0;
+    e7->materias[1].secondTest = 7.0;
+    e7->materias[1].finalTest = 8;
+    e7->materias[1].aprobada = 1;
+    append(&lista, e7);
 
     // Estudiante 8
-     Estudiante *e1 = malloc(sizeof(Estudiante));
-    strcpy(e1->nombre, "Cristina Wayne");
-    strcpy(e1->nacimiento, "15/08/2001");
-    e1->dni = 88888888;
-    e1->legajo = 1008;
-    e1->cantMaterias = 0;
+     Estudiante *e8 = malloc(sizeof(Estudiante));
+    strcpy(e8->nombre, "Cristina Wayne");
+    strcpy(e8->nacimiento, "15/08/2001");
+    e8->dni = 88888888;
+    e8->legajo = 1008;
+    e8->cantMaterias = 0;
 
-    agregarMateria(e1, materias[0]); // Algebra1
-    agregarMateria(e1, materias[4]); // AyP3
-    e1->materias[0].firstTest = 7.0;
-    e1->materias[0].secondTest = 4.0;
-    e1->materias[0].aprobada = 1;
-    e1->materias[1].firstTest = 6.0;
-    e1->materias[1].secondTest = 7.0;
-    e1->materias[1].finalTest = 9.0;
-    e1->materias[1].aprobada = 1;
-    append(&lista, e1);
+    agregarMateria(e8, materias[0]); // Algebra1
+    agregarMateria(e8, materias[4]); // AyP3
+    e8->materias[0].firstTest = 7.0;
+    e8->materias[0].secondTest = 4.0;
+    e8->materias[0].aprobada = 1;
+    e8->materias[1].firstTest = 6.0;
+    e8->materias[1].secondTest = 7.0;
+    e8->materias[1].finalTest = 9.0;
+    e8->materias[1].aprobada = 1;
+    append(&lista, e8);
 
     // Estudiante 9
-     Estudiante *e1 = malloc(sizeof(Estudiante));
-    strcpy(e1->nombre, "Federico Ferro");
-    strcpy(e1->nacimiento, "01/02/2003");
-    e1->dni = 99999999;
-    e1->legajo = 1009;
-    e1->cantMaterias = 0;
+     Estudiante *e9 = malloc(sizeof(Estudiante));
+    strcpy(e9->nombre, "Federico Ferro");
+    strcpy(e9->nacimiento, "01/02/2003");
+    e9->dni = 99999999;
+    e9->legajo = 1009;
+    e9->cantMaterias = 0;
 
-    agregarMateria(e1, materias[5]); // Base-Datos
-    agregarMateria(e1, materias[7]); // Matematica Discreta
-    e1->materias[0].firstTest = 7.5;
-    e1->materias[0].secondTest = 8.0;
-    e1->materias[0].aprobada = 1;
-    e1->materias[1].firstTest = 6.0;
-    e1->materias[1].secondTest = 7.0;
-    e1->materias[1].finalTest = 0;
-    e1->materias[1].aprobada = 1;
-    append(&lista, e1);
+    agregarMateria(e9, materias[5]); // Base-Datos
+    agregarMateria(e9, materias[7]); // Matematica Discreta
+    e9->materias[0].firstTest = 7.5;
+    e9->materias[0].secondTest = 8.0;
+    e9->materias[0].aprobada = 1;
+    e9->materias[1].firstTest = 6.0;
+    e9->materias[1].secondTest = 7.0;
+    e9->materias[1].finalTest = 0;
+    e9->materias[1].aprobada = 1;
+    append(&lista, e9);
 
     //estudiante 10
-     Estudiante *e1 = malloc(sizeof(Estudiante));
-    strcpy(e1->nombre, "Tobias Kent");
-    strcpy(e1->nacimiento, "12/09/1990");
-    e1->dni = 10101010;
-    e1->legajo = 10010;
-    e1->cantMaterias = 0;
+     Estudiante *e10 = malloc(sizeof(Estudiante));
+    strcpy(e10->nombre, "Tobias Kent");
+    strcpy(e10->nacimiento, "12/09/1990");
+    e10->dni = 10101010;
+    e10->legajo = 10010;
+    e10->cantMaterias = 0;
 
-    agregarMateria(e1, materias[0]); // Algebra1
-    agregarMateria(e1, materias[1]); // Algebra2
-    e1->materias[0].firstTest = 7.0;
-    e1->materias[0].secondTest = 8.5;
-    e1->materias[0].aprobada = 1;
-    e1->materias[1].firstTest = 6.5;
-    e1->materias[1].secondTest = 7.5;
-    e1->materias[1].finalTest = 5.5;
-    e1->materias[1].aprobada = 1;
-    append(&lista, e1);
+    agregarMateria(e10, materias[0]); // Algebra1
+    agregarMateria(e10, materias[1]); // Algebra2
+    e10->materias[0].firstTest = 7.0;
+    e10->materias[0].secondTest = 8.5;
+    e10->materias[0].aprobada = 1;
+    e10->materias[1].firstTest = 6.5;
+    e10->materias[1].secondTest = 7.5;
+    e10->materias[1].finalTest = 5.5;
+    e10->materias[1].aprobada = 1;
+    append(&lista, e10);
 }
 
 void cargarMaterias(Materia materias[])
@@ -317,6 +317,7 @@ HANDLE cargarSetWindowsAPI()
     saved_attributes = consoleInfo.wAttributes;
     return hConsole; // Retorna el handle del console
 }
+
 
 
 //void cargarEstudiantesPruebaMasivo(int cantidad)

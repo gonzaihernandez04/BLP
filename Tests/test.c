@@ -85,11 +85,16 @@ void testFindByNombre(){
 
 
 void testModificarMateria(){
-    cargarMaterias();
+    Materia *materias = NULL;
+    cantidadMaterias = 9; // Defino la cantidad de materias
+   materias = malloc(cantidadMaterias * sizeof(Materia));
+
+    cargarMaterias(materias);
     char nombreMateria[55] = "AyP1";
     char nombreMateriaModificado[55] = "Algoritmos_Programacion_1";
-    modificarMateria(nombreMateria,nombreMateriaModificado);
-    assert(strcmp(materias[2]->nombreMateria, nombreMateriaModificado) == 0);
+    modificarMateria(nombreMateria,nombreMateriaModificado,materias);
+    assert(strcmp(materias[2].nombreMateria, nombreMateriaModificado) == 0);
+    free(materias); // Limpio memoria general
 }
 
 void testEliminarEstudiante(){
@@ -114,12 +119,14 @@ void testEliminarEstudiante(){
 
 void testBuscarRangoEdad(){
     doubleLinkedList listaEncontrados = {NULL, NULL, 0};
-    cargarEstudiantesPrueba();
-    cargarMaterias();
+       materias = malloc(cantidadMaterias * sizeof(Materia));
+
+    cargarEstudiantesPrueba(materias);
+    cargarMaterias(materias);
     int edadMin = 20;
     int edadMax = 30;
     findByRange(edadMin, edadMax, &listaEncontrados);
-    assert(listaEncontrados.size == 4); // Verifica que se hayan encontrado estudiantes en el rango de edad
+    assert(listaEncontrados.size == 9); // Verifica que se hayan encontrado estudiantes en el rango de edad
 
 }
 

@@ -564,12 +564,9 @@ void printMaterias(Materia materias[])
     SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
-clearMaterias(Materia materias[])
+clearMaterias(Materia *materias[])
 {
-    for (int i = 0; i < CANT_MATERIAS; i++)
-    {
-        free(&materias[i]); // Libera la memoria para cada materia
-    }
+   free(materias);
 }
 
 // Funcion para mostrar materias de un alumno
