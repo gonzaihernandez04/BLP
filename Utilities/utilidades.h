@@ -113,14 +113,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     agregarMateria(e1, materias[0]); // Algebra1
     agregarMateria(e1, materias[1]); // Algebra2
-    e1->materias[0].firstTest = 7.5;
-    e1->materias[0].secondTest = 8.0;
-    e1->materias[0].aprobada = 1;
+    e1->materias[0].firstTest = 0;
+    e1->materias[0].secondTest = 0;
+    e1->materias[0].aprobada = 0;
 
-    e1->materias[1].firstTest = 6.0;
-    e1->materias[1].secondTest = 7.0;
-    e1->materias[1].finalTest = 4;
-    e1->materias[1].aprobada = 1;
+    e1->materias[1].firstTest = 0;
+    e1->materias[1].secondTest = 0;
+    e1->materias[1].finalTest = 0;
+    e1->materias[1].aprobada = 0;
     append(&lista, e1);
 
     // // Estudiante 2
@@ -133,14 +133,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e2, materias[2]); // AyP1
     // agregarMateria(e2, materias[3]); // AyP2
-    // e2->materias[0].firstTest = 8.5;
-    // e2->materias[0].secondTest = 9.0;
-    // e2->materias[0].aprobada = 1;
+    // e2->materias[0].firstTest = 0;
+    // e2->materias[0].secondTest = 0;
+    // e2->materias[0].aprobada = 0;
 
-    // e2->materias[1].firstTest = 7.0;
-    // e2->materias[1].secondTest = 8.0;
-    // e2->materias[1].finalTest = 8.0;
-    // e2->materias[1].aprobada = 1;
+    // e2->materias[1].firstTest = 0;
+    // e2->materias[1].secondTest = 0;
+    // e2->materias[1].finalTest = 0;
+    // e2->materias[1].aprobada = 0;
     // append(&lista, e2);
 
     // // Estudiante 3
@@ -153,14 +153,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e3, materias[4]); // AyP3
     // agregarMateria(e3, materias[5]); // Base-Datos
-    // e3->materias[0].firstTest = 6.5;
-    // e3->materias[0].secondTest = 8.0;
-    // e3->materias[0].aprobada = 1;
+    // e3->materias[0].firstTest = 0;
+    // e3->materias[0].secondTest = 0;
+    // e3->materias[0].aprobada = 0;
 
-    // e3->materias[1].firstTest = 7.0;
-    // e3->materias[1].secondTest = 9.0;
-    // e3->materias[1].finalTest = 9.0;
-    // e3->materias[1].aprobada = 1;
+    // e3->materias[1].firstTest = 0;
+    // e3->materias[1].secondTest = 0;
+    // e3->materias[1].finalTest = 0;
+    // e3->materias[1].aprobada = 0;
     // append(&lista, e3);
 
     // // Estudiante 4
@@ -173,14 +173,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e4, materias[6]); // Historia
     // agregarMateria(e4, materias[7]); // Matematica Discreta
-    // e4->materias[0].firstTest = 9.0;
-    // e4->materias[0].secondTest = 9.5;
-    // e4->materias[0].aprobada = 1;
+    // e4->materias[0].firstTest = 0;
+    // e4->materias[0].secondTest = 0;
+    // e4->materias[0].aprobada = 0;
 
-    // e4->materias[1].firstTest = 8.0;
-    // e4->materias[1].secondTest = 8.5;
-    // e4->materias[1].finalTest = 9.0;
-    // e4->materias[1].aprobada = 1;
+    // e4->materias[1].firstTest = 0;
+    // e4->materias[1].secondTest = 0;
+    // e4->materias[1].finalTest = 0;
+    // e4->materias[1].aprobada = 0;
     // append(&lista, e4);
     
     // // Estudiante 5
@@ -193,13 +193,13 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e5, materias[6]); // Historia
     // agregarMateria(e5, materias[7]); // Matematica Discreta
-    // e5->materias[0].firstTest = 7.0;
-    // e5->materias[0].secondTest = 4.0;
-    // e5->materias[0].aprobada = 1;
+    // e5->materias[0].firstTest = 0;
+    // e5->materias[0].secondTest = 0;
+    // e5->materias[0].aprobada = 0;
 
-    // e5->materias[1].firstTest = 6.0;
-    // e5->materias[1].secondTest = 7.0;
-    // e5->materias[1].finalTest = 3;
+    // e5->materias[1].firstTest = 0;
+    // e5->materias[1].secondTest = 0;
+    // e5->materias[1].finalTest = 0;
     // e5->materias[1].aprobada = 0;
     // append(&lista, e5);
 
@@ -213,14 +213,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e6, materias[3]); // AyP2
     // agregarMateria(e6, materias[2]); // AyP1
-    // e6->materias[0].firstTest = 4.5;
-    // e6->materias[0].secondTest = 6.0;
-    // e6->materias[0].aprobada = 1;
+    // e6->materias[0].firstTest = 0;
+    // e6->materias[0].secondTest = 0;
+    // e6->materias[0].aprobada = 0;
 
-    // e6->materias[1].firstTest = 6.0;
-    // e6->materias[1].secondTest = 7.0;
-    // e6->materias[1].finalTest = 5;
-    // e6->materias[1].aprobada = 1;
+    // e6->materias[1].firstTest = 0;
+    // e6->materias[1].secondTest = 0;
+    // e6->materias[1].finalTest = 0;
+    // e6->materias[1].aprobada = 0;
     // append(&lista, e6);
 
     // // Estudiante 7
@@ -233,14 +233,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e7, materias[4]); // AyP3
     // agregarMateria(e7, materias[1]); // Algebra2
-    // e7->materias[0].firstTest = 2.0;
-    // e7->materias[0].secondTest = 2.0;
+    // e7->materias[0].firstTest = 0;
+    // e7->materias[0].secondTest = 0;
     // e7->materias[0].aprobada = 0;
 
-    // e7->materias[1].firstTest = 6.0;
-    // e7->materias[1].secondTest = 7.0;
-    // e7->materias[1].finalTest = 8;
-    // e7->materias[1].aprobada = 1;
+    // e7->materias[1].firstTest = 0;
+    // e7->materias[1].secondTest = 0;
+    // e7->materias[1].finalTest = 0;
+    // e7->materias[1].aprobada = 0;
     // append(&lista, e7);
 
     // // Estudiante 8
@@ -253,14 +253,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e8, materias[0]); // Algebra1
     // agregarMateria(e8, materias[4]); // AyP3
-    // e8->materias[0].firstTest = 7.0;
-    // e8->materias[0].secondTest = 4.0;
-    // e8->materias[0].aprobada = 1;
+    // e8->materias[0].firstTest = 0;
+    // e8->materias[0].secondTest = 0;
+    // e8->materias[0].aprobada = 0;
 
-    // e8->materias[1].firstTest = 6.0;
-    // e8->materias[1].secondTest = 7.0;
-    // e8->materias[1].finalTest = 9.0;
-    // e8->materias[1].aprobada = 1;
+    // e8->materias[1].firstTest = 0;
+    // e8->materias[1].secondTest = 0;
+    // e8->materias[1].finalTest = 0;
+    // e8->materias[1].aprobada = 0;
     // append(&lista, e8);
 
     // // Estudiante 9
@@ -273,14 +273,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e9, materias[5]); // Base-Datos
     // agregarMateria(e9, materias[7]); // Matematica Discreta
-    // e9->materias[0].firstTest = 7.5;
-    // e9->materias[0].secondTest = 8.0;
-    // e9->materias[0].aprobada = 1;
+    // e9->materias[0].firstTest = 0;
+    // e9->materias[0].secondTest = 0;
+    // e9->materias[0].aprobada = 0;
 
-    // e9->materias[1].firstTest = 6.0;
-    // e9->materias[1].secondTest = 7.0;
-    // e9->materias[1].finalTest = 3;
-    // e9->materias[1].aprobada = 1;
+    // e9->materias[1].firstTest = 0;
+    // e9->materias[1].secondTest = 0;
+    // e9->materias[1].finalTest = 0;
+    // e9->materias[1].aprobada = 0;
     // append(&lista, e9);
 
     // //estudiante 10
@@ -293,14 +293,14 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // agregarMateria(e10, materias[0]); // Algebra1
     // agregarMateria(e10, materias[1]); // Algebra2
-    // e10->materias[0].firstTest = 7.0;
-    // e10->materias[0].secondTest = 8.5;
-    // e10->materias[0].aprobada = 1;
+    // e10->materias[0].firstTest = 0;
+    // e10->materias[0].secondTest = 0;
+    // e10->materias[0].aprobada = 0;
 
-    // e10->materias[1].firstTest = 6.5;
-    // e10->materias[1].secondTest = 7.5;
-    // e10->materias[1].finalTest = 5.5;
-    // e10->materias[1].aprobada = 1;
+    // e10->materias[1].firstTest = 0;
+    // e10->materias[1].secondTest = 0;
+    // e10->materias[1].finalTest = 0;
+    // e10->materias[1].aprobada = 0;
     // append(&lista, e10);
 }
 
