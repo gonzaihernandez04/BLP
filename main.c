@@ -149,7 +149,7 @@ int main()
                     }
                 }
                 else
-                { // TODO ESTO SE CAMBIO
+                { 
 
                     if (lista.size == 0)
                     {
@@ -158,7 +158,7 @@ int main()
                         SetConsoleTextAttribute(hConsole, saved_attributes);
                         return;
                     }
-                    doubleLinkedList *listaEncontradosEdad;
+                    doubleLinkedList listaEncontradosEdad;
 
                     int edadMin, edadMax;
                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
