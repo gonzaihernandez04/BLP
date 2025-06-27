@@ -126,22 +126,22 @@ int main()
                     printf("Ingrese el nombre del estudiante: ");
                     scanf("%s", nombre); // No uso &, porque estudiante ya es un puntero al primer elemento
 
-                    doubleLinkedList *listaEncontradosNombre = {0};
+                    doubleLinkedList listaEncontradosNombre = {0}; // Inicializa la lista vacía
                     findEstudiante(nombre, apellido, &listaEncontradosNombre, &lista);
-                    printf("%d",listaEncontradosNombre->size);
-                    if (listaEncontradosNombre->size > 0)
+                    printf("%d", listaEncontradosNombre.size);
+                    if (listaEncontradosNombre.size > 0)
                     {
-                        nodeDL *node = listaEncontradosNombre->head; // Usas la variable global 'lista'
+                        nodeDL *node = listaEncontradosNombre.head;
                         int i = 0;
-                        while (i < listaEncontradosNombre->size)
+                        while (i < listaEncontradosNombre.size)
                         {
                             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                             printf("\n-Estudiante encontrado: Nombre: %s, Apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->apellido, node->estudiante->dni, node->estudiante->legajo);
                             SetConsoleTextAttribute(hConsole, saved_attributes);
                             node = node->next;
                             i++;
-                        }                            
-                    }       
+                        }
+                    }
                     else
                     {
                         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
