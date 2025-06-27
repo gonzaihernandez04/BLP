@@ -2,6 +2,7 @@
 
 #include "../doubleLinkedList.h"
 
+//Test para la funcion de cargar estudiantes
 void testCargarEstudiante()
 {
     doubleLinkedList lista = {NULL, NULL, 0};
@@ -22,6 +23,7 @@ void testCargarEstudiante()
 
 }
 
+//Test para encontrar estudiante mediante su DNI
 void testFindByDNI()
 {
     doubleLinkedList lista = {NULL, NULL, 0};
@@ -53,7 +55,8 @@ void testFindByDNI()
 
     
 }
-// Buscar por nombre
+
+// Test para buscar por nombre del alumno
 void testFindByNombre(){
     doubleLinkedList lista = {NULL, NULL, 0};
     Estudiante *estudiante1 = malloc(sizeof(Estudiante));
@@ -83,7 +86,7 @@ void testFindByNombre(){
     clear(&lista); // Limpio memoria general
 }
 
-
+//Test para funcion modificar materia
 void testModificarMateria(){
     Materia *materias = NULL;
     cantidadMaterias = 9; // Defino la cantidad de materias
@@ -97,6 +100,7 @@ void testModificarMateria(){
     free(materias); // Limpio memoria general
 }
 
+//Test para funcion de eliminar estudiante 
 void testEliminarEstudiante(){
      doubleLinkedList lista = {NULL, NULL, 0};
     Estudiante *estudiante1 = malloc(sizeof(Estudiante));
@@ -117,6 +121,7 @@ void testEliminarEstudiante(){
     free(estudiante2);// Limpio memoria general
 }
 
+//Test para buscar alumnos en un rango de edad
 void testBuscarRangoEdad(){
     doubleLinkedList listaEncontrados = {NULL, NULL, 0};
        materias = malloc(cantidadMaterias * sizeof(Materia));

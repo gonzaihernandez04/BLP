@@ -13,6 +13,7 @@ typedef struct Materia
 typedef struct Estudiante
 {
     char nombre[45];
+    char apellido [45];
     char nacimiento[10];
     int dni;
     int legajo;

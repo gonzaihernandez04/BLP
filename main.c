@@ -94,7 +94,7 @@ int main()
 
                 printf("\nEliminar estudiantes\n");
                 printf("--------------------\n");
-                 SetConsoleTextAttribute(hConsole, saved_attributes);
+                SetConsoleTextAttribute(hConsole, saved_attributes);
                 int dni;
                 printf("Ingrese el DNI del estudiante: ");
                 scanf("%d", &dni); // No uso &, porque estudiante ya es un puntero al primer elemento
@@ -113,25 +113,35 @@ int main()
                 SetConsoleTextAttribute(hConsole, saved_attributes);
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                 printf("---------------------\n");
-                printf("\nDesea buscar por:\n 1- NOMBRE\n 2- RANGO DE EDAD\n");
+                printf("\nDesea buscar por:\n 1- NOMBRE y APELLIDO\n 2- RANGO DE EDAD\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
                 eleccion = getch() - '0';
-
                 if (eleccion == 1)
                 {
-                    char estudiante[55];
+                    char nombre[55];
+                    char apellido[55];
                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                    printf("Ingrese el apellido del estudiante: ");
+                    scanf("%s", apellido); // No uso &, porque estudiante ya es un puntero al primer elemento
                     printf("Ingrese el nombre del estudiante: ");
-                    scanf("%s", estudiante); // No uso &, porque estudiante ya es un puntero al primer elemento
+                    scanf("%s", nombre); // No uso &, porque estudiante ya es un puntero al primer elemento
 
-                    doubleLinkedList *listaEncontradosNombre;
-                    nodeDL *alumno = findEstudiante(estudiante, &lista);
-                    if (alumno != NULL)
+                    doubleLinkedList *listaEncontradosNombre = {0};
+                    findEstudiante(nombre, apellido, &listaEncontradosNombre, &lista);
+                    printf("%d",listaEncontradosNombre->size);
+                    if (listaEncontradosNombre->size > 0)
                     {
-                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-                        printf("\n-Estudiante encontrado: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
-                        append(&listaEncontradosNombre, alumno->estudiante); // Agrego el estudiante encontrado a la lista de encontrados
-                    }
+                        nodeDL *node = listaEncontradosNombre->head; // Usas la variable global 'lista'
+                        int i = 0;
+                        while (i < listaEncontradosNombre->size)
+                        {
+                            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                            printf("\n-Estudiante encontrado: Nombre: %s, Apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->apellido, node->estudiante->dni, node->estudiante->legajo);
+                            SetConsoleTextAttribute(hConsole, saved_attributes);
+                            node = node->next;
+                            i++;
+                        }                            
+                    }       
                     else
                     {
                         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
@@ -157,7 +167,6 @@ int main()
                     printf("-Ingrese la edad maxima: ");
                     scanf("%d", &edadMax);
 
-
                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                     printf("\nListado de alumnos encontrados entre %d y %d anios:\n", edadMin, edadMax);
                     printf("\n----------------------------------------------------------------------------------\n");
@@ -165,7 +174,6 @@ int main()
 
                     findByRange(edadMin, edadMax, &listaEncontradosEdad);
                     clear(&listaEncontradosEdad);
-
                 }
             }
 
@@ -174,7 +182,7 @@ int main()
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
                 printf("\nLISTA DE ESTUDIANTES\n");
-                
+
                 printf("-------------------------\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
                 printList(&lista);
@@ -234,7 +242,6 @@ int main()
                 char nuevoNombre[55];
                 scanf("%s", nuevoNombre);
                 modificarMateria(nombreMateria, nuevoNombre, materias);
-
             }
             if (eleccion == 2)
             {
@@ -278,16 +285,16 @@ int main()
             clearMaterias(materias); // Limpia las materias de memoria al salir del programaaa
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\nMuchas gracias por usar este programa! Lo esperamos pronto.\n");
-            
+
             flag = 1;
             break;
 
         default:
-        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf("\n-Opcion no encontrada, por favor ingrese otro valor.\n\n");
             break;
         }
-    SetConsoleTextAttribute(hConsole, saved_attributes);
+        SetConsoleTextAttribute(hConsole, saved_attributes);
     }
     return 0;
 }
