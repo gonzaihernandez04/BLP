@@ -4,7 +4,7 @@
 
 int main()
 {
-    materias = malloc(cantidadMaterias * sizeof(Materia));
+    materias = malloc(cantidadMaterias * sizeof(Materia)); // guardo arreglo de structs. Debo usar . y no flecha
 
     // Carga la materia de todas las carreras
     cargarMaterias(materias);
@@ -141,6 +141,8 @@ int main()
                             node = node->next;
                             i++;
                         }
+
+                        clear(&listaEncontradosNombre);
                     }
                     else
                     {
@@ -225,8 +227,10 @@ int main()
             printf(" 2- Imprimir Lista de Materias\n");
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf(" 3- Agregar Materia\n");
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED| FOREGROUND_INTENSITY);
+            printf(" 4- Eliminar Materia\n");
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-            printf(" 4- Salir\n");
+            printf(" 5- Salir\n");
             SetConsoleTextAttribute(hConsole, saved_attributes);
             eleccion = getch() - '0';
 
@@ -272,7 +276,17 @@ int main()
                 printf("\nMATERIA AGREGADA CON EXITO\n");
             }
 
-            if (eleccion == 4)
+            if(eleccion == 4){
+                printf("\nEliminar Materia\n");
+                printf("----------------\n");
+                char nombreMateria[55];
+                printf("\nIngrese el nombre de la materia a eliminar(Sin espacios): ");
+                scanf("%s", nombreMateria);
+                eliminarMateriaAlumno(nombreMateria); // Elimina la materia de los alumnos
+
+            }
+
+            if (eleccion == 5)
             {
                 opc = 0; // Vuelve al menu principal
             }

@@ -508,45 +508,7 @@ void agregarMateria(Estudiante *estudiante, Materia materia)
     }
 }
 
-// Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
-void eliminarMateria(Estudiante *estudiante, char materia[55])
-{
-    HANDLE hConsole = cargarSetWindowsAPI();
-    if (estudiante == NULL)
-    {
-        printf("Error: puntero estudiante es NULL.\n");
-        return;
-    }
 
-    int indice = -1;
-    for (int i = 0; i < estudiante->cantMaterias; i++) // Recorre la cantidad de materias anotadas del alumno
-    {
-        if (strcmp(estudiante->materias[i].nombreMateria, materia) == 0)
-        {
-            indice = i; // Guarda el indice de la materia
-            break;
-        }
-    }
-    if (indice != -1)
-    {
-        for (int i = indice; i < estudiante->cantMaterias; i++)
-        {
-            estudiante->materias[i] = estudiante->materias[i + 1]; // Sobreescribe con la siguiente
-        }
-        estudiante->cantMaterias--;
-        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-        printf("\n-Materia eliminada con exito.\n");
-        SetConsoleTextAttribute(hConsole, saved_attributes);
-        return;
-    }
-    else
-    {
-        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-        printf("\n-Materia no encontrada.\n");
-        SetConsoleTextAttribute(hConsole, saved_attributes);
-        return;
-    }
-}
 
 // Funcion para mostrar Materias del plan de estudio
 void printMaterias(Materia materias[])
@@ -870,6 +832,7 @@ void printPromedios(doubleLinkedList *lista)
 
 doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEdad)
 {
+
     HANDLE hConsole = cargarSetWindowsAPI();
     int encontrados = 0;
     nodeDL *node = lista.head; // Usas la variable global 'lista'
@@ -903,3 +866,93 @@ doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaE
 
     return listaEncontradosEdad;
 }
+
+
+
+
+// Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
+void eliminarMateria(Estudiante *estudiante, char materia[55])
+{
+    HANDLE hConsole = cargarSetWindowsAPI();
+    if (estudiante == NULL)
+    {
+        printf("Error: puntero estudiante es NULL.\n");
+        return;
+    }
+
+    int indice = -1;
+    for (int i = 0; i < estudiante->cantMaterias; i++) // Recorre la cantidad de materias anotadas del alumno
+    {
+        if (strcmp(estudiante->materias[i].nombreMateria, materia) == 0)
+        {
+            indice = i; // Guarda el indice de la materia
+            break;
+        }
+    }
+    if (indice != -1)
+    {
+        for (int i = indice; i < estudiante->cantMaterias; i++)
+        {
+            estudiante->materias[i] = estudiante->materias[i + 1]; // Sobreescribe con la siguiente
+            
+
+        }
+        
+        estudiante->cantMaterias--;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE |  FOREGROUND_INTENSITY);
+        printf("\n-Materia eliminada con exito para todos los alumnos.\n", estudiante->nombre);
+        SetConsoleTextAttribute(hConsole, saved_attributes);
+        return;
+    }
+    else
+    {
+        SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+        printf("\n-Materia no encontrada.\n");
+        SetConsoleTextAttribute(hConsole, saved_attributes);
+        return;
+    }
+}
+
+// ELIMINAR MATERIA PARA ALUMNO: NUEVO
+
+void eliminarMateriaAlumno(char nombreMateria[55])
+{
+    HANDLE hConsole = cargarSetWindowsAPI();
+    nodeDL *nodoEstudiante = lista.head;
+    if (nodoEstudiante == NULL) return;
+   int i =0;
+    while (i != lista.size)
+    {
+        if (strcmp(nodoEstudiante->estudiante->materias[i].nombreMateria, nombreMateria) == 0)
+        {
+                  eliminarMateria(nodoEstudiante->estudiante, nombreMateria); // Elimino la materia para todos los alumnos
+
+        }
+        nodoEstudiante = nodoEstudiante->next;
+        i++;
+    }
+
+    eliminarMateriaPlan(nombreMateria, materias); // Elimino la materia del plan de estudio
+
+
+}
+
+// ELIMINAR MATERIA EN PLAN
+
+void eliminarMateriaPlan(char nombreMateria[55], Materia materias[])
+{
+    HANDLE hConsole = cargarSetWindowsAPI();
+    int indice = findMateria(nombreMateria, cantidadMaterias, materias);
+    if (indice != -1)
+    {
+       for(int i=indice; i<cantidadMaterias-1; i++)
+        {
+            materias[i] = materias[i + 1]; // Sobreescribe con la siguiente
+        }
+        cantidadMaterias--;
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+        printf("\n-Materia eliminada del plan de estudio con exito.\n");
+    }
+ 
+    SetConsoleTextAttribute(hConsole, saved_attributes);
+}   
