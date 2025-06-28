@@ -326,7 +326,7 @@ void cargarEstudiantesPrueba(Materia materias[])
      append(&lista, e11);
 }
 
-void cargarMaterias(Materia materias[])
+void cargarMaterias(Materia materias[]) // Recibo Materia materias[] que es equivalente a Materia *materias
 {
     for (int i = 0; i < CANT_MATERIAS; i++)
     {

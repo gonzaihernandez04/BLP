@@ -161,7 +161,7 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
 ////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////// FUNCIONES PARA ESTUDIANTE ///////////////////////
-void findEstudiante(char nombre[55], char apellido[55], doubleLinkedList *listaEncontrados, doubleLinkedList *lista)
+doubleLinkedList *findEstudiante(char nombre[55], char apellido[55], doubleLinkedList *listaEncontrados, doubleLinkedList *lista)
 {
     nodeDL *node = lista->head;
     if (lista->size > 0)
@@ -466,10 +466,10 @@ int findMateria(char nombreMateria[55], int cantMaterias, Materia materias[])
         // Copia de nombre materia del array de puntero para no modificar la original
         strcpy(mayusNamePuntero, materias[i].nombreMateria);
         upperCase(mayusNamePuntero); // Convierte a mayúsculas el nombre de la materia del plan
-
         if (strcmp(mayusNamePuntero, nombreMateriaMayus) == 0)
         {
             return i; // Devuelve el índice si la encuentra
+
         }
     }
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
