@@ -155,7 +155,6 @@ int main()
 
                     doubleLinkedList listaEncontradosNombre = {0}; // Inicializa la lista vacía
                     findEstudiante(nombre, apellido, &listaEncontradosNombre, &lista);
-                    printf("%d", listaEncontradosNombre.size);
                     if (listaEncontradosNombre.size > 0)
                     {
                         nodeDL *node = listaEncontradosNombre.head;
@@ -168,7 +167,23 @@ int main()
                             node = node->next;
                             i++;
                         }
-
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                        printf("\n1- Seleccionar estudiante(Ingrese el legajo dentro de los estudiantes mostrados)\n");
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                        printf("\n2- Volver al menu principal\n");
+                        int opcion;
+                        opc = getch() - '0';
+                        if (opc == 1)
+                        {
+                            seleccionarEstudiante(&lista);
+                        }
+                        else
+                        {
+                            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                            printf("\n-Volviendo al menu principal...\n");
+                            SetConsoleTextAttribute(hConsole, saved_attributes);
+                            continue;
+                        }
                         clear(&listaEncontradosNombre); // Limpio la lista de estudiantes encontrados
                     }
                     else
@@ -186,7 +201,7 @@ int main()
                         printf("\n-No hay estudiantes cargados.\n");
                         SetConsoleTextAttribute(hConsole, saved_attributes);
                     }
-                    doubleLinkedList listaEncontradosEdad;
+                    doubleLinkedList listaEncontradosEdad = {0};
 
                     int edadMin, edadMax;
                     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
@@ -201,6 +216,28 @@ int main()
                     SetConsoleTextAttribute(hConsole, saved_attributes);
 
                     findByRange(edadMin, edadMax, &listaEncontradosEdad);
+
+                    if (listaEncontradosEdad.size > 0)
+                    {
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                        printf("\n1- Seleccionar estudiante(Ingrese el legajo dentro de los estudiantes mostrados)\n");
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                        printf("\n2- Volver al menu principal\n");
+                        int opc;
+                        opc = getch() - '0';
+                        if (opc == 1)
+                        {
+                            seleccionarEstudiante(&lista);
+                        }
+                        else
+                        {
+                            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                            printf("\n-Volviendo al menu principal...\n");
+                            SetConsoleTextAttribute(hConsole, saved_attributes);
+                            continue;
+                        }
+                    }
+
                     clear(&listaEncontradosEdad);
                 }
             }
@@ -227,7 +264,7 @@ int main()
                 if (alumno != NULL)
                 {
                     printf("\nUsted va a afectar al siguiente estudiante: Nombre: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
-                    seleccionarEstudiante(alumno, &lista);
+                    seleccionarEstudiante(&lista);
                 }
                 SetConsoleTextAttribute(hConsole, saved_attributes);
             }
@@ -264,6 +301,8 @@ int main()
             {
                 char nombreMateria[55];
                 printMaterias(materias);
+
+                
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                 printf("\n-Ingrese el nombre de la materia a modificar(Sin espacios): ");
                 scanf("%s", nombreMateria);
@@ -276,6 +315,7 @@ int main()
             if (eleccion == 2)
             {
                 printMaterias(materias);
+                
             }
             if (eleccion == 3)
             {
@@ -285,7 +325,7 @@ int main()
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
                 printf("\n1- Cargar Materia individualemente");
-                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE| FOREGROUND_INTENSITY);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
                 printf("\n2- Cargar Materia masivamente\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
@@ -293,7 +333,7 @@ int main()
                 if (opc == 1)
                 {
                     char nombreMateriaNueva[55];
-                   
+
                     SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                     printf("\nIngrese el nombre de la nueva materia(Sin espacios): ");
                     scanf("%s", nombreMateriaNueva);
@@ -318,10 +358,8 @@ int main()
                     {
                         printf("\n-Cantidad invalida. Debe ser mayor a 0.\n");
                         continue;
-
                     }
                     cargarMateriasMasivo(cant);
-
                 }
             }
 

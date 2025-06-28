@@ -1,7 +1,7 @@
 # 💻 Trabajo Práctico Final - Programación Bajo Nivel
 
 Bienvenido al repositorio del **Trabajo Práctico Final** de Programación Bajo Nivel.  
-Aquí encontrarás la implementación de un **sistema de estudiantes** en C, junto con todas las funciones necesarias para manipularla.
+Aquí encontrarás la implementación de un **Sistema de estudiantes y materias** en C, junto con todas las funciones necesarias para manipularla.
 
 ---
 ## 👨‍💻 Integrantes
@@ -39,9 +39,10 @@ Grabar un video de máximo 10 minutos (puede ser menos) mostrando el funcionamie
 ### Puntos extras realizados:
 
   ➤ Calcular Promedios  
-  ➤ Test Unitarios
-  ➤ Archivo de configuración general donde se especifican las variables del sistema
-  ➤ Paginado
-  ➤ Mejora de interfaz
-  ➤ Carga masiva de estudiantes y materias.
-  Aclaración de su limite: La carga de materias masivas soporta alrededor de 680 materias inclusive, y estudiantes masivos soporta alrededor de 490.000 estudiantes (se probo con 500.000 pero falla aunque los valores intermedios no se probaron).
+  ➤ Test Unitarios  
+  ➤ Archivo de configuración general donde se especifican las variables del sistema  
+  ➤ Paginado  
+  ➤ Seleccionar estudiantes de un listado reducido  
+  ➤ Mejora de interfaz  
+  ➤ Carga masiva de estudiantes y materias.  
+  Aclaración de su limite: La carga de materias masivas soporta alrededor de 680 materias inclusive, y estudiantes masivos soporta alrededor de 490.000 estudiantes (se probo con 500.000 pero falla aunque los valores intermedios no se probaron).  

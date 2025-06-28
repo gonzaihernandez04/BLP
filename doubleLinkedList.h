@@ -99,7 +99,6 @@ void printList(doubleLinkedList *lista)
     }
 }
 
-
 // Limpiar la lista
 void clear(doubleLinkedList *lista)
 {
@@ -220,10 +219,22 @@ nodeDL *findByLegajo(int legajo, doubleLinkedList *lista)
     return NULL;
 }
 
-void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
+void seleccionarEstudiante(doubleLinkedList *lista)
 {
     int opc = 0;
     int flag = 0;
+
+    int legajo;
+    HANDLE hConsole = cargarSetWindowsAPI();
+    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+    printf("-Ingrese el legajo del estudiante: ");
+    scanf("%d", &legajo); // No uso &, porque estudiante ya es un puntero al primer elemento
+    nodeDL *alumno = findByLegajo(legajo, &lista);
+
+    if (alumno != NULL)
+    {
+        printf("\nUsted va a afectar al siguiente estudiante: Nombre: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
+    }
 
     while (flag == 0)
     {
@@ -257,7 +268,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("-Ingrese el nombre de la materia: ");
             scanf("%s", nombreMateria);
-            anotarseMateria(nodoEstudiante, nombreMateria, CANT_MATERIAS, materias);
+            anotarseMateria(alumno, nombreMateria, CANT_MATERIAS, materias);
             SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
@@ -270,7 +281,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("-Ingrese el nombre de la materia:");
             scanf("%s", nombre);
-            eliminarMateria(nodoEstudiante->estudiante, nombre);
+            eliminarMateria(alumno->estudiante, nombre);
             SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
@@ -283,7 +294,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("-Ingrese el nombre de la materia:");
             scanf("%s", nombre);
-            rendirMateria(nodoEstudiante, nombre);
+            rendirMateria(alumno, nombre);
             SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
@@ -292,7 +303,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\nModificar alumno\n");
             printf("----------------------\n");
-            modificarAlumno(nodoEstudiante);
+            modificarAlumno(alumno);
             SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
@@ -302,7 +313,7 @@ void seleccionarEstudiante(nodeDL *nodoEstudiante, doubleLinkedList *lista)
             SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
             printf("\nMaterias anotadas\n");
             printf("----------------------\n");
-            mostrarMaterias(nodoEstudiante);
+            mostrarMaterias(alumno);
             SetConsoleTextAttribute(hConsole, saved_attributes);
             break;
         }
@@ -469,7 +480,6 @@ int findMateria(char nombreMateria[55], int cantMaterias, Materia materias[])
         if (strcmp(mayusNamePuntero, nombreMateriaMayus) == 0)
         {
             return i; // Devuelve el índice si la encuentra
-
         }
     }
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
@@ -534,17 +544,16 @@ void printMaterias(Materia materias[])
     printf("Pagina %d\n", pagina);
     for (int i = 0; i < cantidadMaterias; i++)
     {
-                printf("%d. %s\n", i + 1, materias[i].nombreMateria);
+        printf("%d. %s\n", i + 1, materias[i].nombreMateria);
         contadorMaterias++;
-        if(contadorMaterias % determinarModuloMateria(cantidadMaterias) == 0){
+        if (contadorMaterias % determinarModuloMateria(cantidadMaterias) == 0)
+        {
             printf("\nPresione cualquier tecla para continuar...\n");
             getch();
             pagina++;
             printf("\nPagina %d\n", pagina);
             contadorMaterias = 0; // Reinicia el contador de materias
-
         }
-       
     }
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\n-------------------------------\n");
@@ -853,7 +862,7 @@ void printPromedios(doubleLinkedList *lista)
     }
 }
 
-doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEdad)
+void findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEdad)
 {
 
     HANDLE hConsole = cargarSetWindowsAPI();
@@ -869,8 +878,8 @@ doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaE
         {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
-            SetConsoleTextAttribute(hConsole, saved_attributes);
             encontrados++;
+             SetConsoleTextAttribute(hConsole, saved_attributes);
             append(listaEncontradosEdad, node->estudiante);
         }
 
@@ -884,10 +893,8 @@ doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaE
     {
         printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
         SetConsoleTextAttribute(hConsole, saved_attributes);
-        return NULL;
     }
-
-    return listaEncontradosEdad;
+;
 }
 
 // Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
@@ -973,11 +980,14 @@ void eliminarMateriaPlan(char nombreMateria[55], Materia materias[])
     SetConsoleTextAttribute(hConsole, saved_attributes);
 }
 
-
-int determinarModuloMateria(cantidadMaterias){
-    if(cantidadMaterias % 2 == 0){
+int determinarModuloMateria(cantidadMaterias)
+{
+    if (cantidadMaterias % 2 == 0)
+    {
         return cantidadMaterias / 2; // Si es par, retorna la mitad
-    } else {
+    }
+    else
+    {
         return (cantidadMaterias / 2) + 1; // Si es impar, retorna la mitad + 1
     }
 }
