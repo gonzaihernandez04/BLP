@@ -64,21 +64,32 @@ void append(doubleLinkedList *lista, Estudiante *estudiante)
 // Imprimir la lista
 void printList(doubleLinkedList *lista)
 {
+    int contPaginado = 0;
+    int pagina = 1;
+    int continuar = 1;
     nodeDL *node = lista->head;
     if (node != NULL)
     {
+        printf("\nPAGINA %d\n", pagina);
 
-        while (node != NULL)
+        while (node != NULL) // Mientras el nodo no sea nulo y continuar sea 1
         {
-            if (node->next != NULL)
-            {
-                printf("Nombre y apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo);
-            }
-            else
-            {
-                printf("Nombre y apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo);
-            }
 
+            if (node != NULL)
+            {
+                printf("Nombre y apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo);
+
+                contPaginado++;
+
+                if (contPaginado % determinarModulo(lista) == 0) // Determino la cantidad segun tamaño de la lista
+                {
+                    printf("\nPresione cualquier tecla para continuar...\n");
+                    getch();
+                    contPaginado = 0; // Reinicia el contador de paginado
+                    pagina++;
+                    printf("\nPAGINA %d\n", pagina);
+                }
+            }
             node = node->next;
         }
     }
@@ -87,6 +98,7 @@ void printList(doubleLinkedList *lista)
         printf("Lista vacia. \n");
     }
 }
+
 
 // Limpiar la lista
 void clear(doubleLinkedList *lista)
@@ -149,8 +161,8 @@ void deleteNode(Estudiante *estudiante, doubleLinkedList *lista)
 ////////////////////////////////////////////////////////////////////////////////////
 
 //////////////////// FUNCIONES PARA ESTUDIANTE ///////////////////////
-void findEstudiante(char nombre[55], char apellido[55], doubleLinkedList *listaEncontrados , doubleLinkedList *lista)
-{    
+void findEstudiante(char nombre[55], char apellido[55], doubleLinkedList *listaEncontrados, doubleLinkedList *lista)
+{
     nodeDL *node = lista->head;
     if (lista->size > 0)
     {
@@ -158,7 +170,7 @@ void findEstudiante(char nombre[55], char apellido[55], doubleLinkedList *listaE
         {
             if ((strcmp(node->estudiante->nombre, nombre) == 0) && (strcmp(node->estudiante->apellido, apellido) == 0))
             {
-                append(listaEncontrados,node->estudiante);
+                append(listaEncontrados, node->estudiante);
             }
             node = node->next;
         }
@@ -508,20 +520,31 @@ void agregarMateria(Estudiante *estudiante, Materia materia)
     }
 }
 
-
-
 // Funcion para mostrar Materias del plan de estudio
 void printMaterias(Materia materias[])
 {
+    int pagina = 1;
+    int contadorMaterias = 0;
     HANDLE hConsole = cargarSetWindowsAPI();
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\nMaterias del plan de estudio:\n");
     printf("\n-------------------------------\n");
     SetConsoleTextAttribute(hConsole, saved_attributes);
 
+    printf("Pagina %d\n", pagina);
     for (int i = 0; i < cantidadMaterias; i++)
     {
-        printf("%d. %s\n", i + 1, materias[i].nombreMateria);
+                printf("%d. %s\n", i + 1, materias[i].nombreMateria);
+        contadorMaterias++;
+        if(contadorMaterias % determinarModuloMateria(cantidadMaterias) == 0){
+            printf("\nPresione cualquier tecla para continuar...\n");
+            getch();
+            pagina++;
+            printf("\nPagina %d\n", pagina);
+            contadorMaterias = 0; // Reinicia el contador de materias
+
+        }
+       
     }
     SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("\n-------------------------------\n");
@@ -867,9 +890,6 @@ doubleLinkedList *findByRange(int edadMin, int edadMax, doubleLinkedList *listaE
     return listaEncontradosEdad;
 }
 
-
-
-
 // Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
 void eliminarMateria(Estudiante *estudiante, char materia[55])
 {
@@ -894,12 +914,10 @@ void eliminarMateria(Estudiante *estudiante, char materia[55])
         for (int i = indice; i < estudiante->cantMaterias; i++)
         {
             estudiante->materias[i] = estudiante->materias[i + 1]; // Sobreescribe con la siguiente
-            
-
         }
-        
+
         estudiante->cantMaterias--;
-        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE |  FOREGROUND_INTENSITY);
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         printf("\n-Materia eliminada con exito para todos los alumnos.\n", estudiante->nombre);
         SetConsoleTextAttribute(hConsole, saved_attributes);
         return;
@@ -919,22 +937,20 @@ void eliminarMateriaAlumno(char nombreMateria[55])
 {
     HANDLE hConsole = cargarSetWindowsAPI();
     nodeDL *nodoEstudiante = lista.head;
-    if (nodoEstudiante == NULL) return;
-   int i =0;
+    if (nodoEstudiante == NULL)
+        return;
+    int i = 0;
     while (i != lista.size)
     {
         if (strcmp(nodoEstudiante->estudiante->materias[i].nombreMateria, nombreMateria) == 0)
         {
-                  eliminarMateria(nodoEstudiante->estudiante, nombreMateria); // Elimino la materia para todos los alumnos
-
+            eliminarMateria(nodoEstudiante->estudiante, nombreMateria); // Elimino la materia para todos los alumnos
         }
         nodoEstudiante = nodoEstudiante->next;
         i++;
     }
 
     eliminarMateriaPlan(nombreMateria, materias); // Elimino la materia del plan de estudio
-
-
 }
 
 // ELIMINAR MATERIA EN PLAN
@@ -945,7 +961,7 @@ void eliminarMateriaPlan(char nombreMateria[55], Materia materias[])
     int indice = findMateria(nombreMateria, cantidadMaterias, materias);
     if (indice != -1)
     {
-       for(int i=indice; i<cantidadMaterias-1; i++)
+        for (int i = indice; i < cantidadMaterias - 1; i++)
         {
             materias[i] = materias[i + 1]; // Sobreescribe con la siguiente
         }
@@ -953,6 +969,28 @@ void eliminarMateriaPlan(char nombreMateria[55], Materia materias[])
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
         printf("\n-Materia eliminada del plan de estudio con exito.\n");
     }
- 
+
     SetConsoleTextAttribute(hConsole, saved_attributes);
-}   
+}
+
+
+int determinarModuloMateria(cantidadMaterias){
+    if(cantidadMaterias % 2 == 0){
+        return cantidadMaterias / 2; // Si es par, retorna la mitad
+    } else {
+        return (cantidadMaterias / 2) + 1; // Si es impar, retorna la mitad + 1
+    }
+}
+
+int determinarModulo(doubleLinkedList *lista)
+{
+
+    if (lista->size % 2 == 0) // Si el tamaño de la lista es par
+    {
+        return lista->size / 2; // Retorna la mitad del tamaño
+    }
+    else
+    {
+        return (lista->size + 1) / 2; // Retorna la mitad redondeada hacia arriba en caso de impar. Ej Lista tam = 11 = 12 / 2 = 6
+    }
+}

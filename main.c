@@ -142,7 +142,7 @@ int main()
                             i++;
                         }
 
-                        clear(&listaEncontradosNombre);
+                        clear(&listaEncontradosNombre); // Limpio la lista de estudiantes encontrados
                     }
                     else
                     {
@@ -158,7 +158,7 @@ int main()
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
                         printf("\n-No hay estudiantes cargados.\n");
                         SetConsoleTextAttribute(hConsole, saved_attributes);
-                        return;
+                   
                     }
                     doubleLinkedList listaEncontradosEdad;
 
