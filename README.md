@@ -41,3 +41,5 @@ Grabar un video de máximo 10 minutos (puede ser menos) mostrando el funcionamie
   ➤ Calcular Promedios  
   ➤ Test Unitarios
   ➤ Archivo de configuración general donde se especifican las variables del sistema
+  ➤ Paginado
+  ➤ Mejora de interfaz
