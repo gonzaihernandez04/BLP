@@ -358,7 +358,9 @@ void cargarEstudiantesPruebaMasivo(int cantidad)
     for (int i = 0; i < cantidad; i++)
     {
         Estudiante *e = malloc(sizeof(Estudiante));
-        sprintf(e->nombre, "Estudiante%d", i + 1);
+        sprintf(e->nombre, "Estudiante");
+        sprintf(e->apellido, "%d", i + 1);
+
         sprintf(e->nacimiento, "01/01/199%d", (i % 10) + 1); // años 1991-2000
         e->dni = 10000000 + i;
         e->legajo = 2000 + i;
@@ -371,19 +373,23 @@ void cargarEstudiantesPruebaMasivo(int cantidad)
             e->materias[j].firstTest = 6 + (i % 5);
             e->materias[j].secondTest = 7 + (i % 3);
             e->materias[j].aprobada = 1;
+
         }
         append(&lista, e);
     }
+    printList(&lista); // Imprime la lista de estudiantes cargados
 }
 
-void cargarMateriasMasivo()
+void cargarMateriasMasivo(int cantidad)
 {
-    for (int i = 0; i < CANT_MATERIAS; i++)
+    for (int i = cantidadMaterias; i < cantidad; i++)
     {
         sprintf(materias[i].nombreMateria, "Materia%d", i + 1);
         materias[i].inscripto = 0;
         materias[i].aprobada = 0;
         materias[i].firstTest = 0;
         materias[i].secondTest = 0;
+        cantidadMaterias++;
     }
+    printMaterias(materias); // Imprime las materias cargadas
 }

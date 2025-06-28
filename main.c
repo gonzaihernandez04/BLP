@@ -10,6 +10,7 @@ int main()
     cargarMaterias(materias);
     cargarEstudiantesPrueba(materias); // Carga estudiantes de prueba
     inicializarFuncionRand();          // Inicializa la semilla para rand()
+
     HANDLE hConsole = cargarSetWindowsAPI();
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
 
@@ -82,11 +83,37 @@ int main()
 
             if (eleccion == 1)
             {
+                int opc = 0;
                 SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
                 printf("\nCargar Estudiante");
                 printf("\n-----------------\n");
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+
+                printf("1- Cargar individualmente\n");
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+
+                printf("2- Cargar masivamente\n");
                 SetConsoleTextAttribute(hConsole, saved_attributes);
-                cargarEstudiante();
+
+                opc = getch() - '0';
+                if (opc == 1)
+                {
+                    cargarEstudiante();
+                }
+                else
+                {
+                    printf("Ingrese un numero de estudiantes a cargar: ");
+                    int cantidad;
+                    scanf("%d", &cantidad);
+                    if (cantidad <= 0)
+                    {
+                        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                        printf("\n-Cantidad invalida. Debe ser mayor a 0.\n");
+                        SetConsoleTextAttribute(hConsole, saved_attributes);
+                        continue;
+                    }
+                    cargarEstudiantesPruebaMasivo(cantidad);
+                }
             }
             if (eleccion == 2)
             {
@@ -151,14 +178,13 @@ int main()
                     }
                 }
                 else
-                { 
+                {
 
                     if (lista.size == 0)
                     {
                         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
                         printf("\n-No hay estudiantes cargados.\n");
                         SetConsoleTextAttribute(hConsole, saved_attributes);
-                   
                     }
                     doubleLinkedList listaEncontradosEdad;
 
@@ -227,7 +253,7 @@ int main()
             printf(" 2- Imprimir Lista de Materias\n");
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf(" 3- Agregar Materia\n");
-            SetConsoleTextAttribute(hConsole, FOREGROUND_RED| FOREGROUND_INTENSITY);
+            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
             printf(" 4- Eliminar Materia\n");
             SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf(" 5- Salir\n");
@@ -256,34 +282,57 @@ int main()
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                 printf("\nAgregar Materia\n");
                 printf("----------------\n");
-                char nombreMateriaNueva[55];
-                int indiceMateria;
-                int opcMateria;
-                Materia materiaObtenida;
-                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-                printf("\nIngrese el nombre de la nueva materia(Sin espacios): ");
-                scanf("%s", nombreMateriaNueva);
-                materias = realloc(materias, (cantidadMaterias + 1) * sizeof(Materia));
-                strcpy(materias[cantidadMaterias].nombreMateria, nombreMateriaNueva);
+                SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
-                materias[cantidadMaterias].inscripto = 0;
-                materias[cantidadMaterias].aprobada = 0;
-                materias[cantidadMaterias].firstTest = 0;
-                materias[cantidadMaterias].secondTest = 0;
-                materias[cantidadMaterias].finalTest = 0;
-                cantidadMaterias++;
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                printf("\nMATERIA AGREGADA CON EXITO\n");
+                printf("\n1- Cargar Materia individualemente");
+                SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE| FOREGROUND_INTENSITY);
+
+                printf("\n2- Cargar Materia masivamente\n");
+                SetConsoleTextAttribute(hConsole, saved_attributes);
+                opc = getch() - '0';
+                if (opc == 1)
+                {
+                    char nombreMateriaNueva[55];
+                   
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+                    printf("\nIngrese el nombre de la nueva materia(Sin espacios): ");
+                    scanf("%s", nombreMateriaNueva);
+                    materias = realloc(materias, (cantidadMaterias + 1) * sizeof(Materia));
+                    strcpy(materias[cantidadMaterias].nombreMateria, nombreMateriaNueva);
+
+                    materias[cantidadMaterias].inscripto = 0;
+                    materias[cantidadMaterias].aprobada = 0;
+                    materias[cantidadMaterias].firstTest = 0;
+                    materias[cantidadMaterias].secondTest = 0;
+                    materias[cantidadMaterias].finalTest = 0;
+                    cantidadMaterias++;
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                    printf("\nMATERIA AGREGADA CON EXITO\n");
+                }
+                else
+                {
+                    int cant = 0;
+                    printf("Ingrese una cantidad de materias a cargar: ");
+                    scanf("%d", &cant);
+                    if (cant <= 0)
+                    {
+                        printf("\n-Cantidad invalida. Debe ser mayor a 0.\n");
+                        continue;
+
+                    }
+                    cargarMateriasMasivo(cant);
+
+                }
             }
 
-            if(eleccion == 4){
+            if (eleccion == 4)
+            {
                 printf("\nEliminar Materia\n");
                 printf("----------------\n");
                 char nombreMateria[55];
                 printf("\nIngrese el nombre de la materia a eliminar(Sin espacios): ");
                 scanf("%s", nombreMateria);
                 eliminarMateriaAlumno(nombreMateria); // Elimina la materia de los alumnos
-
             }
 
             if (eleccion == 5)

@@ -77,7 +77,7 @@ void printList(doubleLinkedList *lista)
 
             if (node != NULL)
             {
-                printf("Nombre y apellido: %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo);
+                printf("Nombre y apellido: %s %s, DNI: %d, Legajo: %d\n", node->estudiante->nombre, node->estudiante->apellido, node->estudiante->dni, node->estudiante->legajo);
 
                 contPaginado++;
 
