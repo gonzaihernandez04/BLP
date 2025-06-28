@@ -72,7 +72,7 @@ void printList(doubleLinkedList *lista)
     {
         printf("\nPAGINA %d\n", pagina);
 
-        while (node != NULL) // Mientras el nodo no sea nulo y continuar sea 1
+        while (node != NULL && continuar == 1) // Mientras el nodo no sea nulo y continuar sea 1
         {
 
             if (node != NULL)
@@ -81,7 +81,7 @@ void printList(doubleLinkedList *lista)
 
                 contPaginado++;
 
-                if (contPaginado % determinarModulo(lista) == 0) // Determino la cantidad segun tamaño de la lista
+                if (contPaginado % determinarModulo(lista) == 0 && node->next != NULL ) // Determino la cantidad segun tamaño de la lista
                 {
                     printf("\nPresione cualquier tecla para continuar...\n");
                     getch();
@@ -89,8 +89,10 @@ void printList(doubleLinkedList *lista)
                     pagina++;
                     printf("\nPAGINA %d\n", pagina);
                 }
+              
             }
             node = node->next;
+            
         }
     }
     else
@@ -229,11 +231,10 @@ void seleccionarEstudiante(doubleLinkedList *lista)
     SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
     printf("-Ingrese el legajo del estudiante: ");
     scanf("%d", &legajo); // No uso &, porque estudiante ya es un puntero al primer elemento
-    nodeDL *alumno = findByLegajo(legajo, &lista);
-
+    nodeDL *alumno = findByLegajo(legajo, lista);
     if (alumno != NULL)
     {
-        printf("\nUsted va a afectar al siguiente estudiante: Nombre: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
+        printf("\nUsted va a afectar al siguiente estudiante: Nombre y apellido: %s %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->apellido, alumno->estudiante->dni, alumno->estudiante->legajo);
     }
 
     while (flag == 0)
@@ -358,7 +359,15 @@ void modificarAlumno(nodeDL *alumno)
             printf("\nIngrese el nuevo nombre: ");
             SetConsoleTextAttribute(hConsole, saved_attributes);
             scanf("%s", &nuevoNombre);
+
+            char nuevoApellido[55];
+            SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+            printf("\nIngrese el nuevo apellido: ");
+            SetConsoleTextAttribute(hConsole, saved_attributes);
+            scanf("%s", &nuevoApellido);
             strcpy(alumno->estudiante->nombre, nuevoNombre);
+
+            strcpy(alumno->estudiante->apellido, nuevoApellido);
             break;
         }
         case 2:
@@ -446,7 +455,7 @@ void cargarEstudiante()
     scanf("%d", &estudiante->legajo);
     nodeDL *alumno2 = findByLegajo(estudiante->legajo, &lista);
 
-    if (alumno != NULL)
+    if (alumno2 != NULL)
     {
 
         printf("Ya existe un estudiante con el mismo Legajo.\n");
@@ -546,7 +555,7 @@ void printMaterias(Materia materias[])
     {
         printf("%d. %s\n", i + 1, materias[i].nombreMateria);
         contadorMaterias++;
-        if (contadorMaterias % determinarModuloMateria(cantidadMaterias) == 0)
+        if (contadorMaterias % determinarModuloMateria(cantidadMaterias) == 0 && i < cantidadMaterias - 1) 
         {
             printf("\nPresione cualquier tecla para continuar...\n");
             getch();
@@ -572,15 +581,15 @@ void mostrarMaterias(nodeDL *nodoEstudiante)
     {
         if (i == 0)
         {
-            printf("\n[%s]->", nodoEstudiante->estudiante->materias[i].nombreMateria);
+            printf("\n%s[%s]->",nodoEstudiante->estudiante->materias[i].aprobada ? "(Aprobada)" : "(En Curso)", nodoEstudiante->estudiante->materias[i].nombreMateria);
         }
         else if (i > 0 && i < nodoEstudiante->estudiante->cantMaterias - 1)
         {
-            printf("[%s]->", nodoEstudiante->estudiante->materias[i].nombreMateria);
+            printf("%s[%s]->",nodoEstudiante->estudiante->materias[i].aprobada ? "(Aprobada)" : "(En Curso)", nodoEstudiante->estudiante->materias[i].nombreMateria);
         }
         else
         {
-            printf("[%s]\n", nodoEstudiante->estudiante->materias[i].nombreMateria);
+            printf("%s[%s]\n",nodoEstudiante->estudiante->materias[i].aprobada ? "(Aprobada)" : "(En Curso)", nodoEstudiante->estudiante->materias[i].nombreMateria);
         }
     }
 }
@@ -615,7 +624,7 @@ void anotarseMateria(nodeDL *nodoEstudiante, char nombreMateria[55], int cantMat
 
         agregarMateria(nodoEstudiante->estudiante, materias[encontrado]);
         SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-        printf("\n-Materia agregada con éxito.\n");
+        printf("\n-Materia agregada con exito.\n");
     }
     else
     {
@@ -698,36 +707,46 @@ void rendirFinal(nodeDL *nodoEstudiante, char materia[55])
 
     if (indice != -1)
     {
-        float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
-        float primerParcial = nodoEstudiante->estudiante->materias[indice].firstTest;
-        float segundoParcial = nodoEstudiante->estudiante->materias[indice].secondTest;
-
-        // FUNCION PROMEDIO
-        float promedio = (primerParcial + segundoParcial) / 2; // Promedio de primer y segundo parcial
-
-        if (promedio < 4)
+        if (nodoEstudiante->estudiante->materias[indice].aprobada == 0)
         {
-            SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-            printf("\n-No tenes aprobada la cursada: %.1f\n", valor);
-            return;
-        }
-        else
-        {
-            if (valor < 4)
+
+            float valor = ((float)rand() / RAND_MAX) * 9.0f + 1.0f; // Genera un valor float aleatorio de 1 a 10
+            float primerParcial = nodoEstudiante->estudiante->materias[indice].firstTest;
+            float segundoParcial = nodoEstudiante->estudiante->materias[indice].secondTest;
+
+            // FUNCION PROMEDIO
+            float promedio = (primerParcial + segundoParcial) / 2; // Promedio de primer y segundo parcial
+
+            if (promedio < 4)
             {
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-                printf("\n-Final desaprobado con: %.1f\n", valor);
+                printf("\n-No tenes aprobada la cursada.");
                 return;
             }
             else
             {
+                if (valor < 4)
+                {
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
+                    printf("\n-Final desaprobado con: %.1f\n", valor);
+                    return;
+                }
+                else
+                {
 
-                nodoEstudiante->estudiante->materias[indice].finalTest = valor; // Asigna el valor al final
-                nodoEstudiante->estudiante->materias[indice].aprobada = 1;      // Marca la materia como aprobada
-                SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
-                printf("\n-Felicidades aprobaste, tu nota es: %.1f\n", valor);
-                return;
+                    nodoEstudiante->estudiante->materias[indice].finalTest = valor; // Asigna el valor al final
+                    nodoEstudiante->estudiante->materias[indice].aprobada = 1;      // Marca la materia como aprobada
+                    SetConsoleTextAttribute(hConsole, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+                    printf("\n-Felicidades aprobaste, tu nota es: %.1f\n", valor);
+                    
+                    return;
+                }
             }
+        }
+        else
+        {
+            float final = nodoEstudiante->estudiante->materias[indice].finalTest;
+            printf("Esta materia %s ya esta aprobada con %.1f\n", nodoEstudiante->estudiante->materias[indice].nombreMateria, final);
         }
     }
     else
@@ -783,7 +802,7 @@ void rendirMateria(nodeDL *nodoEstudiante, char materia[55])
         case 3:
         {
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-            printf("\nEvaluación Final\n");
+            printf("\nEvaluacion Final\n");
             printf("------------------\n");
             rendirFinal(nodoEstudiante, materia);
             flag = 1;
@@ -879,7 +898,7 @@ void findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEda
             SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
             printf("\n-Estudiante encontrado: Nombre: %s, DNI: %d, Legajo: %d, Edad: %d\n", node->estudiante->nombre, node->estudiante->dni, node->estudiante->legajo, edad);
             encontrados++;
-             SetConsoleTextAttribute(hConsole, saved_attributes);
+            SetConsoleTextAttribute(hConsole, saved_attributes);
             append(listaEncontradosEdad, node->estudiante);
         }
 
@@ -893,8 +912,7 @@ void findByRange(int edadMin, int edadMax, doubleLinkedList *listaEncontradosEda
     {
         printf("\n-No se encontraron estudiantes en el rango de edad especificado.\n");
         SetConsoleTextAttribute(hConsole, saved_attributes);
-    }
-;
+    };
 }
 
 // Funcion para eliminar materia de un estudiante ingresando un alumno tipo Estudiante | nombre de la materia
@@ -925,7 +943,7 @@ void eliminarMateria(Estudiante *estudiante, char materia[55])
 
         estudiante->cantMaterias--;
         SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-        printf("\n-Materia eliminada con exito para todos los alumnos.\n", estudiante->nombre);
+        printf("\n-Materia eliminada para el alumno con exito.\n", estudiante->nombre);
         SetConsoleTextAttribute(hConsole, saved_attributes);
         return;
     }

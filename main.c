@@ -171,7 +171,7 @@ int main()
                         printf("\n1- Seleccionar estudiante(Ingrese el legajo dentro de los estudiantes mostrados)\n");
                         SetConsoleTextAttribute(hConsole, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
                         printf("\n2- Volver al menu principal\n");
-                        int opcion;
+                        int opc;
                         opc = getch() - '0';
                         if (opc == 1)
                         {
@@ -255,17 +255,11 @@ int main()
 
             if (eleccion == 5)
             {
-                int legajo;
                 SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY);
-                printf("-Ingrese el legajo del estudiante: ");
-                scanf("%d", &legajo); // No uso &, porque estudiante ya es un puntero al primer elemento
-                nodeDL *alumno = findByLegajo(legajo, &lista);
+               
 
-                if (alumno != NULL)
-                {
-                    printf("\nUsted va a afectar al siguiente estudiante: Nombre: %s, DNI: %d, Legajo: %d\n", alumno->estudiante->nombre, alumno->estudiante->dni, alumno->estudiante->legajo);
-                    seleccionarEstudiante(&lista);
-                }
+                seleccionarEstudiante(&lista);
+                
                 SetConsoleTextAttribute(hConsole, saved_attributes);
             }
 

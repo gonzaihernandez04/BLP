@@ -4,9 +4,9 @@ typedef struct Materia
     char nombreMateria[55];
     int inscripto;
     int aprobada; // Indica si aprobo la materia
-    int firstTest;
-    int secondTest;
-    int finalTest; // Indica si aprobo el final
+    float firstTest;
+    float secondTest;
+    float finalTest; // Indica si aprobo el final
 
 } Materia;
 

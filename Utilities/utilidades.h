@@ -125,7 +125,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
     // Estudiante 2
      Estudiante *e2 = malloc(sizeof(Estudiante));
-     strcpy(e2->nombre, "Bruno Lopez");
+     strcpy(e2->nombre, "Bruno");
+     strcpy(e2->apellido, "Lopez");
      strcpy(e2->nacimiento, "10/10/2000");
      e2->dni = 22222222;
      e2->legajo = 1002;
@@ -145,7 +146,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      // Estudiante 3
      Estudiante *e3 = malloc(sizeof(Estudiante));
-     strcpy(e3->nombre, "Carla Martinez");
+     strcpy(e3->nombre, "Carla");
+     strcpy(e3->apellido, "Martinez");
      strcpy(e3->nacimiento, "22/03/1998");
      e3->dni = 33333333;
      e3->legajo = 1003;
@@ -165,7 +167,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      // Estudiante 4
      Estudiante *e4 = malloc(sizeof(Estudiante));
-     strcpy(e4->nombre, "Diego Fernández");
+     strcpy(e4->nombre, "Diego");
+     strcpy(e4->apellido, "Fernández");
      strcpy(e4->nacimiento, "30/09/1997");
      e4->dni = 44444444;
      e4->legajo = 1004;
@@ -185,7 +188,8 @@ void cargarEstudiantesPrueba(Materia materias[])
     
      // Estudiante 5
       Estudiante *e5 = malloc(sizeof(Estudiante));
-     strcpy(e5->nombre, "Juan Perez");
+     strcpy(e5->nombre, "Juan");
+     strcpy(e5->apellido, "Perez");
      strcpy(e5->nacimiento, "15/08/2000");
      e5->dni = 55555555;
      e5->legajo = 1005;
@@ -205,7 +209,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      // Estudiante 6
       Estudiante *e6 = malloc(sizeof(Estudiante));
-     strcpy(e6->nombre, "Jose Hernandez");
+     strcpy(e6->nombre, "Jose");
+     strcpy(e6->apellido, "Hernandez");
      strcpy(e6->nacimiento, "06/06/1999");
      e6->dni = 66666666;
      e6->legajo = 1006;
@@ -225,7 +230,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      // Estudiante 7
       Estudiante *e7 = malloc(sizeof(Estudiante));
-     strcpy(e7->nombre, "Florencia Cruz");
+     strcpy(e7->nombre, "Florencia");
+     strcpy(e7->apellido, "Cruz");
      strcpy(e7->nacimiento, "05/01/2004");
      e7->dni = 7777777;
      e7->legajo = 1007;
@@ -245,7 +251,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      // Estudiante 8
       Estudiante *e8 = malloc(sizeof(Estudiante));
-     strcpy(e8->nombre, "Cristina Wayne");
+     strcpy(e8->nombre, "Cristina");
+     strcpy(e8->apellido, "Wayne");
      strcpy(e8->nacimiento, "15/08/2001");
      e8->dni = 88888888;
      e8->legajo = 1008;
@@ -265,7 +272,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      // Estudiante 9
       Estudiante *e9 = malloc(sizeof(Estudiante));
-     strcpy(e9->nombre, "Federico Ferro");
+     strcpy(e9->nombre, "Federico");
+     strcpy(e9->apellido, "Ferro");
      strcpy(e9->nacimiento, "01/02/2003");
      e9->dni = 99999999;
      e9->legajo = 1009;
@@ -285,7 +293,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      //estudiante 10
       Estudiante *e10 = malloc(sizeof(Estudiante));
-     strcpy(e10->nombre, "Tobias Kent");
+     strcpy(e10->nombre, "Tobias");
+     strcpy(e10->apellido, "Kent");
      strcpy(e10->nacimiento, "12/09/1990");
      e10->dni = 10101010;
      e10->legajo = 10010;
@@ -307,7 +316,8 @@ void cargarEstudiantesPrueba(Materia materias[])
 
      //estudiante 11
       Estudiante *e11 = malloc(sizeof(Estudiante));
-     strcpy(e11->nombre, "Federico Lacrosse");
+     strcpy(e11->nombre, "Federico");
+     strcpy(e11->apellido, "Lacrosse");
      strcpy(e11->nacimiento, "12/10/1999");
      e11->dni = 13623789;
      e11->legajo = 10015;
